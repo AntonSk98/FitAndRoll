@@ -1,7 +1,5 @@
 package courses
 
-import "time"
-
 type CourseRequest struct {
 	Name        string                 `json:"name" validate:"required"`
 	Description string                 `json:"description"`
@@ -9,6 +7,6 @@ type CourseRequest struct {
 }
 
 type ScheduleEntryRequest struct {
-	Day  time.Weekday `json:"day" validate:"required"`
-	Time time.Time    `json:"time" validate:"required"`
+	Day  string `json:"day" validate:"required"`
+	Time string `json:"time" validate:"required"`
 }

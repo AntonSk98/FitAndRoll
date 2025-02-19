@@ -42,11 +42,11 @@ export namespace common {
 export namespace courses {
 	
 	export class ScheduleEntry {
-	    ID: number;
-	    Day: number;
+	    id: number;
+	    day: number;
 	    // Go type: time
-	    Time: any;
-	    CourseID: number;
+	    time: any;
+	    course_id: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScheduleEntry(source);
@@ -54,10 +54,10 @@ export namespace courses {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.ID = source["ID"];
-	        this.Day = source["Day"];
-	        this.Time = this.convertValues(source["Time"], null);
-	        this.CourseID = source["CourseID"];
+	        this.id = source["id"];
+	        this.day = source["day"];
+	        this.time = this.convertValues(source["time"], null);
+	        this.course_id = source["course_id"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -79,11 +79,11 @@ export namespace courses {
 		}
 	}
 	export class Course {
-	    ID: number;
-	    Name: string;
-	    Description: string;
-	    Schedules: ScheduleEntry[];
-	    Archived: boolean;
+	    id: number;
+	    name: string;
+	    description: string;
+	    schedules: ScheduleEntry[];
+	    archived: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Course(source);
@@ -91,11 +91,11 @@ export namespace courses {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.ID = source["ID"];
-	        this.Name = source["Name"];
-	        this.Description = source["Description"];
-	        this.Schedules = this.convertValues(source["Schedules"], ScheduleEntry);
-	        this.Archived = source["Archived"];
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.description = source["description"];
+	        this.schedules = this.convertValues(source["schedules"], ScheduleEntry);
+	        this.archived = source["archived"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -117,9 +117,8 @@ export namespace courses {
 		}
 	}
 	export class ScheduleEntryRequest {
-	    day: number;
-	    // Go type: time
-	    time: any;
+	    day: string;
+	    time: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new ScheduleEntryRequest(source);
@@ -128,26 +127,8 @@ export namespace courses {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.day = source["day"];
-	        this.time = this.convertValues(source["time"], null);
+	        this.time = source["time"];
 	    }
-	
-		convertValues(a: any, classs: any, asMap: boolean = false): any {
-		    if (!a) {
-		        return a;
-		    }
-		    if (a.slice && a.map) {
-		        return (a as any[]).map(elem => this.convertValues(elem, classs));
-		    } else if ("object" === typeof a) {
-		        if (asMap) {
-		            for (const key of Object.keys(a)) {
-		                a[key] = new classs(a[key]);
-		            }
-		            return a;
-		        }
-		        return new classs(a);
-		    }
-		    return a;
-		}
 	}
 	export class CourseRequest {
 	    name: string;

@@ -11,7 +11,8 @@ export const addToast = (toast) => {
 
     const defaults = {
         id,
-        type: 'info'
+        type: 'info',
+        message: 'Unexpected error occurred...'
     }
 
     const toastWithDefaults = { ...defaults, ...toast }

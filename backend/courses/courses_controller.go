@@ -19,25 +19,34 @@ func NewCoursesController(dbManager *config.DatabaseManager) *CourseController {
 	return &CourseController{dbManager: dbManager}
 }
 
-func (controller *CourseController) FindCourses(page int, size int) (*common.Page[Course], error) {
+func (controller *CourseController) FindCourses(filter FindCourseParams, pageParams common.PageParams) (*common.Page[CourseDto], error) {
+	var coursesDto []CourseDto
 	var courses []Course
 	var total int64
 
-	result := controller.dbManager.Paginate(page, size).Preload("Schedules").Where("archived = ?", false).Select("id, name").Find(&courses)
+	baseQuery := controller.dbManager.DB.Preload("Schedules").Where("archived = ?", false)
 
-	if result.Error != nil {
-		return nil, fmt.Errorf("error fetching courses: %v", result.Error)
+	if filter.Name != "" {
+		baseQuery = baseQuery.Where("LOWER(name) LIKE LOWER(?)", "%"+filter.Name+"%")
 	}
 
-	if err := controller.dbManager.DB.Model(&Course{}).Where("archived = ?", false).Count(&total).Error; err != nil {
+	if err := baseQuery.Model(&Course{}).Count(&total).Error; err != nil {
 		return nil, fmt.Errorf("error to count the total number of courses: %v", err)
 	}
 
-	return &common.Page[Course]{
-		Data:  courses,
+	if err := baseQuery.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).Find(&courses).Error; err != nil {
+		return nil, fmt.Errorf("error fetching courses: %v", err)
+	}
+
+	for _, course := range courses {
+		coursesDto = append(coursesDto, *NewCourseDto(course))
+	}
+
+	return &common.Page[CourseDto]{
+		Data:  coursesDto,
 		Total: int(total),
-		Page:  page,
-		Size:  size,
+		Page:  pageParams.Page,
+		Size:  pageParams.Size,
 	}, nil
 }
 

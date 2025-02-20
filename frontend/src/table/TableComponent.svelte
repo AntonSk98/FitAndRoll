@@ -1,9 +1,11 @@
 <script>
     import Modal from "../common/Modal.svelte";
     import PaginationComponent from "../../pagination/PaginationComponent.svelte";
+    import { space } from "svelte/internal";
 
     export let tableHeader;
     export let total;
+
     export let columns = [];
     export let rows = [];
     export let actions = [];
@@ -43,12 +45,12 @@
     function onFilter(key, value) {
         if (!value) {
             delete filter[key];
-            onPaginationFilterChanged(filter, paginationRef.resetPagination());
+            onPaginationFilterChanged(filter, paginationRef?.resetPagination());
             return;
         }
         filter[key] = value;
 
-        onPaginationFilterChanged(filter, paginationRef.resetPagination());
+        onPaginationFilterChanged(filter, paginationRef?.resetPagination());
     }
 </script>
 
@@ -69,60 +71,58 @@
             {/each}
         </div>
     </div>
-    {#if total === 0}
-        <div>No data in table...</div>
-    {:else}
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        {#each columns as column}
-                            {#if column.filterbar}
-                                <th>
-                                    <div class="searchable-column">
-                                        <span>{column.header}</span>
-                                        <div class="search-wrapper">
-                                            <!-- Search Icon -->
-                                            <div class="search-icon">
-                                                <svg
-                                                    aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 20 20"
-                                                >
-                                                    <path
-                                                        stroke="currentColor"
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="3"
-                                                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <input
-                                                type="search"
-                                                id="search"
-                                                class="search-input"
-                                                placeholder="Search"
-                                                on:input={(event) =>
-                                                    onFilter(
-                                                        column.key,
-                                                        event?.target?.value,
-                                                    )}
-                                            />
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    {#each columns as column}
+                        {#if column.filterbar}
+                            <th>
+                                <div class="searchable-column">
+                                    <span>{column.header}</span>
+                                    <div class="search-wrapper">
+                                        <!-- Search Icon -->
+                                        <div class="search-icon">
+                                            <svg
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 20 20"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="3"
+                                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                                />
+                                            </svg>
                                         </div>
+                                        <input
+                                            type="search"
+                                            id="search"
+                                            class="search-input"
+                                            placeholder="Search"
+                                            on:input={(event) =>
+                                                onFilter(
+                                                    column.key,
+                                                    event?.target?.value,
+                                                )}
+                                        />
                                     </div>
-                                </th>
-                            {:else}
-                                <th>{column.header}</th>
-                            {/if}
-                        {/each}
-                        {#if actions && actions.length}
-                            <th>Actions</th>
+                                </div>
+                            </th>
+                        {:else}
+                            <th>{column.header}</th>
                         {/if}
-                    </tr>
-                </thead>
-                <tbody>
+                    {/each}
+                    {#if actions && actions.length}
+                        <th>Actions</th>
+                    {/if}
+                </tr>
+            </thead>
+            <tbody>
+                {#if rows}
                     {#each rows as row, index}
                         <tr>
                             {#each Object.keys(row) as rowKey}
@@ -165,9 +165,13 @@
                             {/if}
                         </tr>
                     {/each}
-                </tbody>
-            </table>
-        </div>
+                {:else}
+                    <div class="no-data">No data...</div>
+                {/if}
+            </tbody>
+        </table>
+    </div>
+    {#if total > 0}
         <PaginationComponent
             {total}
             onPaginationChanged={(pagination) => onPagination(pagination)}
@@ -330,5 +334,12 @@
 
     .searchable-column .search-input::placeholder {
         letter-spacing: 0.05em;
+    }
+
+    .no-data {
+        margin: 0.7rem 2rem;
+        font-weight: bold;
+        font-size: 1rem;
+        letter-spacing: 0.1rem;
     }
 </style>

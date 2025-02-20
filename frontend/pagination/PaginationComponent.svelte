@@ -3,11 +3,11 @@
     export let onPaginationChanged = (currentPagination) => {};
 
     export let pageSizeOptions = [5, 10, 25];
-    export let pagination = {
+    $: pagination = {
         currentPage: 1,
         pageSize: pageSizeOptions[0],
         totalItems: total,
-    }
+    };
 
     $: isFirstPage = pagination.currentPage === 1;
     $: isLastPage =
@@ -40,7 +40,7 @@
 
     export function resetPagination() {
         pagination.currentPage = 1;
-        return pagination
+        return pagination;
     }
 </script>
 
@@ -67,11 +67,7 @@
 
         <span class="pagination-info">
             <strong>{pagination.currentPage}</strong> of
-            <strong
-                >{Math.ceil(
-                    pagination.totalItems / pagination.pageSize,
-                )}</strong
-            >
+            <strong>{Math.ceil(pagination.totalItems / pagination.pageSize)}</strong>
         </span>
 
         <button
@@ -101,7 +97,8 @@
                 class="page-size-button {pagination.pageSize === pageSizeOption
                     ? 'active'
                     : ''}"
-                on:click={() => setPageSize(pageSizeOption)}>{pageSizeOption}</button
+                on:click={() => setPageSize(pageSizeOption)}
+                >{pageSizeOption}</button
             >
         {/each}
     </div>

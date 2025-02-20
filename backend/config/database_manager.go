@@ -30,17 +30,19 @@ func (dbManager *DatabaseManager) Migrate(dst ...interface{}) {
 	}
 }
 
-func (dbManager *DatabaseManager) Paginate(page int, size int) *gorm.DB {
-	if page <= 0 {
-		page = 1
-	}
-	if size < 0 {
-		size = 10
-	}
+func (dbManager *DatabaseManager) Paginate(page int, size int) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		if page <= 0 {
+			page = 1
+		}
+		if size < 0 {
+			size = 10
+		}
 
-	offset := (page - 1) * size
+		offset := (page - 1) * size
 
-	return dbManager.DB.Offset(offset).Limit(size)
+		return db.Offset(offset).Limit(size)
+	}
 }
 
 func (dbManager *DatabaseManager) Transactional(txFunc func(tx *gorm.DB) error) error {

@@ -10,3 +10,7 @@ type ScheduleEntryRequest struct {
 	Day  string `json:"day" validate:"required"`
 	Time string `json:"time" validate:"required"`
 }
+
+type FindCourseParams struct {
+	Name string `json:"name"`
+}

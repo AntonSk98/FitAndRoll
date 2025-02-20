@@ -6,3 +6,8 @@ type Page[T any] struct {
 	Page  int `json:"page"`
 	Size  int `json:"size"`
 }
+
+type PageParams struct {
+	Page int `json:"currentPage"`
+	Size int `json:"pageSize"`
+}

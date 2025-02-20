@@ -9,23 +9,21 @@
 
     let componentControl = new ComponentControl();
 
-    async function loadCourses(pagination) {
+    async function loadCourses(filter, pagination) {
         try {
             coursePage = await FindCourses(
-                pagination?.currentPage ?? 1,
-                pagination?.pageSize ?? 5,
+                filter,
+                pagination ?? { currentPage: 1, pageSize: 5 },
             );
+            console.log(coursePage)
         } catch (error) {
             console.error("Error loading courses:", error);
+            addToast({ type: "error" });
         }
     }
 
     function onPaginationFilterChanged(filter, pagination) {
-        console.log({
-            ...filter,
-            ...pagination,
-        });
-        loadCourses(pagination);
+        loadCourses(filter, pagination);
     }
 
     onMount(loadCourses);
@@ -49,10 +47,6 @@
     function archiveCourse(index) {
         console.log(index);
     }
-
-    function triggerToast() {
-        addToast({ message: "This is an info toast ", type: "error" });
-    }
 </script>
 
 {#if componentControl.showCourseOverview}
@@ -64,10 +58,9 @@
             {
                 key: "schedule",
                 header: "schedule",
-                filterbar: true,
             },
         ]}
-        rows={coursePage?.data.map((course) => {
+        rows={coursePage?.data?.map(course => {
             return {
                 name: course.name,
                 schedules: course?.schedules?.length
@@ -110,5 +103,3 @@
         {onPaginationFilterChanged}
     />
 {/if}
-
-<button class="ml-[400px]" on:click={triggerToast}>Show Info Toast</button>

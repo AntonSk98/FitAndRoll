@@ -1,18 +1,32 @@
 export namespace common {
 	
-	export class Page[fit_and_roll/backend/courses.Course] {
-	    data: courses.Course[];
+	export class PageParams {
+	    currentPage: number;
+	    pageSize: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new PageParams(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.currentPage = source["currentPage"];
+	        this.pageSize = source["pageSize"];
+	    }
+	}
+	export class Page[fit_and_roll/backend/courses.CourseDto] {
+	    data: courses.CourseDto[];
 	    total: number;
 	    page: number;
 	    size: number;
 	
 	    static createFrom(source: any = {}) {
-	        return new Page[fit_and_roll/backend/courses.Course](source);
+	        return new Page[fit_and_roll/backend/courses.CourseDto](source);
 	    }
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.data = this.convertValues(source["data"], courses.Course);
+	        this.data = this.convertValues(source["data"], courses.CourseDto);
 	        this.total = source["total"];
 	        this.page = source["page"];
 	        this.size = source["size"];
@@ -116,6 +130,54 @@ export namespace courses {
 		    return a;
 		}
 	}
+	export class ScheduleDto {
+	    day: string;
+	    time: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ScheduleDto(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.day = source["day"];
+	        this.time = source["time"];
+	    }
+	}
+	export class CourseDto {
+	    name: string;
+	    description: string;
+	    schedules: ScheduleDto[];
+	
+	    static createFrom(source: any = {}) {
+	        return new CourseDto(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.description = source["description"];
+	        this.schedules = this.convertValues(source["schedules"], ScheduleDto);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class ScheduleEntryRequest {
 	    day: string;
 	    time: string;
@@ -164,6 +226,19 @@ export namespace courses {
 		    return a;
 		}
 	}
+	export class FindCourseParams {
+	    name: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new FindCourseParams(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	    }
+	}
+	
 	
 
 }

@@ -1,4 +1,5 @@
 <script>
+    import { t } from "svelte-i18n";
     import { onMount } from "svelte";
     import { FindCourses } from "../../wailsjs/go/courses/CourseController.js";
     import { ComponentControl } from "./componentControl.js";
@@ -15,7 +16,7 @@
                 filter,
                 pagination ?? { currentPage: 1, pageSize: 5 },
             );
-            console.log(coursePage)
+            console.log(coursePage);
         } catch (error) {
             console.error("Error loading courses:", error);
             addToast({ type: "error" });
@@ -51,43 +52,43 @@
 
 {#if componentControl.showCourseOverview}
     <TableComponent
-        tableHeader="Course Overview"
+        tableHeader={$t("courses.table.header")}
         total={coursePage?.total ?? 0}
         columns={[
-            { key: "name", header: "course", filterbar: true },
+            { key: "name", header: $t("courses.table.columns.course"), filterbar: true },
             {
                 key: "schedule",
-                header: "schedule",
+                header: $t("courses.table.columns.schedule"),
             },
         ]}
-        rows={coursePage?.data?.map(course => {
+        rows={coursePage?.data?.map((course) => {
             return {
                 name: course.name,
                 schedules: course?.schedules?.length
                     ? course.schedules.map(
                           (schedule) => `${schedule.day} (${schedule.time})`,
                       )
-                    : "No schedules available",
+                    : $t("course.test"),
             };
         })}
         actions={[
             {
-                title: "Details",
+                title: $t("courses.table.actions.details"),
                 icon: "edit",
                 onClick: displayDetails,
             },
             {
-                title: "Participants",
+                title: $t("courses.table.actions.participants"),
                 icon: "info",
                 onClick: displayCourseParticipants,
             },
             {
-                title: "Participation History",
+                title: $t("courses.table.actions.history"),
                 icon: "calender",
                 onClick: displayParticipationHistory,
             },
             {
-                title: "Archive",
+                title: $t("courses.table.actions.archive"),
                 icon: "trash",
                 requireConfirmation: true,
                 onClick: archiveCourse,
@@ -95,7 +96,7 @@
         ]}
         headerActions={[
             {
-                title: "New Course",
+                title: $t("courses.table.actions.newCourse"),
                 icon: "plus",
                 onClick: displayCreateCourse,
             },

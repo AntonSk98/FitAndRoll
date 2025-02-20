@@ -1,7 +1,8 @@
 <script>
+    import { t } from "svelte-i18n";
+
     import Modal from "../common/Modal.svelte";
     import PaginationComponent from "../../pagination/PaginationComponent.svelte";
-    import { space } from "svelte/internal";
 
     export let tableHeader;
     export let total;
@@ -102,7 +103,7 @@
                                             type="search"
                                             id="search"
                                             class="search-input"
-                                            placeholder="Search"
+                                            placeholder={$t("common.table.filter.search")}
                                             on:input={(event) =>
                                                 onFilter(
                                                     column.key,
@@ -117,7 +118,7 @@
                         {/if}
                     {/each}
                     {#if actions && actions.length}
-                        <th>Actions</th>
+                        <th>{$t("common.table.columns.action")}</th>
                     {/if}
                 </tr>
             </thead>

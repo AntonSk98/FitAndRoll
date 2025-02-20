@@ -1,19 +1,21 @@
 <script>
+    import { t } from "svelte-i18n";
+
     export let activePage;
 </script>
 
 <nav class="mb-4">
     <ul class="flex justify-start gap-1.5 flex-wrap">
-        {#each ["COURSES", "PARTICIPANTS", "ARCHIVE"] as page}
+        {#each [$t("navigation.courses"), $t("navigation.participants"), $t("navigation.archive")] as page}
             <li>
                 <button
                     on:click={() => activePage.set(page)}
-                    class="p-3 
-                        text-md 
+                    class="p-3
+                        text-md
                         font-semibold
-                        text-gray-700 
-                        rounded-full 
-                        border-2 
+                        text-gray-700
+                        rounded-full
+                        border-2
                         border-transparent
                         transition
                         duration-300

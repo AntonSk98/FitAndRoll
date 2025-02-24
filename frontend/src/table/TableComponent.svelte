@@ -167,7 +167,7 @@
                         </tr>
                     {/each}
                 {:else}
-                    <div class="no-data">No data...</div>
+                    <div class="no-data">{$t("common.table.noData")}</div>
                 {/if}
             </tbody>
         </table>

@@ -18,6 +18,6 @@ export function NewCourse(arg1) {
   return window['go']['courses']['CourseController']['NewCourse'](arg1);
 }
 
-export function UpdateCourse(arg1, arg2) {
-  return window['go']['courses']['CourseController']['UpdateCourse'](arg1, arg2);
+export function UpdateCourse(arg1) {
+  return window['go']['courses']['CourseController']['UpdateCourse'](arg1);
 }

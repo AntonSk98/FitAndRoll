@@ -8,20 +8,18 @@
   import { isLoading } from "svelte-i18n";
   import "./lib/i18n.js";
 
-  let activePage = writable($t("navigation.courses"));
+  let activePage = writable("courses");
 </script>
 
 {#if !$isLoading}
   <div class="my-5 mx-[3rem]">
     <Navbar bind:activePage />
 
-    {#if $activePage === $t("navigation.courses")}
-      {#key $activePage}
-        <Courses />
-      {/key}
-    {:else if $activePage === $t("navigation.participants")}
+    {#if $activePage === "courses"}
+      <Courses />
+    {:else if $activePage === "participants"}
       <div>participants</div>
-    {:else if $activePage === $t("navigation.archive")}
+    {:else if $activePage === "archive"}
       <div>archive</div>
     {/if}
   </div>

@@ -8,6 +8,7 @@ type Course struct {
 	Description string          `json:"description"`
 	Schedules   []ScheduleEntry `gorm:"foreignKey:CourseID;onDelete:CASCADE" json:"schedules"`
 	Archived    bool            `gorm:"default:false" json:"archived"`
+	CreatedAt   time.Time
 }
 
 type ScheduleEntry struct {

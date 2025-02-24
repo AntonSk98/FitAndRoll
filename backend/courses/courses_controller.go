@@ -24,7 +24,7 @@ func (controller *CourseController) FindCourses(filter FindCourseParams, pagePar
 	var courses []Course
 	var total int64
 
-	baseQuery := controller.dbManager.DB.Preload("Schedules").Where("archived = ?", false)
+	baseQuery := controller.dbManager.DB.Preload("Schedules").Where("archived = ?", false).Order("created_at desc")
 
 	if filter.Name != "" {
 		baseQuery = baseQuery.Where("LOWER(name) LIKE LOWER(?)", "%"+filter.Name+"%")
@@ -50,20 +50,16 @@ func (controller *CourseController) FindCourses(filter FindCourseParams, pagePar
 	}, nil
 }
 
-func (controller *CourseController) FindCourseDetails(id uint) (*Course, error) {
-	var course Course
-	result := controller.dbManager.DB.Preload("Schedules").First(&course, id)
-
-	if result.Error != nil {
-		return nil, fmt.Errorf("failed to fetch course details. Error: %v", result.Error)
+func (controller *CourseController) FindCourseDetails(id uint) (*CourseDetailsDto, error) {
+	course, err := controller.findCourse(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch course details. Error: %v", err)
 	}
 
-	return &course, nil
+	return NewCourseDetailsDto(*course), nil
 }
 
 func (controller *CourseController) NewCourse(request CourseRequest) error {
-	fmt.Println("In new course")
-	fmt.Println(request)
 	return controller.dbManager.DB.Transaction(func(tx *gorm.DB) error {
 		course := Course{
 			Name:        request.Name,
@@ -95,9 +91,13 @@ func (controller *CourseController) NewCourse(request CourseRequest) error {
 	})
 }
 
-func (controller *CourseController) UpdateCourse(id uint, request CourseRequest) error {
+func (controller *CourseController) UpdateCourse(request UpdateCourseRequest) error {
 	return controller.dbManager.Transactional(func(tx *gorm.DB) error {
-		course, err := controller.FindCourseDetails(id)
+		if err := request.Validate(); err != nil {
+			return err
+		}
+
+		course, err := controller.findCourse(*request.ID)
 		if err != nil {
 			return err
 		}
@@ -113,6 +113,8 @@ func (controller *CourseController) UpdateCourse(id uint, request CourseRequest)
 			schedulePolicy = append(schedulePolicy, *scheduleEntry)
 		}
 
+		// Permanent Delete: Physically deletes the association records from the database.
+		// Therefore, there are 2x 'Unscoped' used
 		if err := tx.Unscoped().Model(&course).Association("Schedules").Unscoped().Replace(schedulePolicy); err != nil {
 			return err
 		}
@@ -125,7 +127,7 @@ func (controller *CourseController) UpdateCourse(id uint, request CourseRequest)
 }
 
 func (controller *CourseController) ArchiveCourse(id uint) error {
-	course, err := controller.FindCourseDetails(id)
+	course, err := controller.findCourse(id)
 	if err != nil {
 		return err
 	}
@@ -135,6 +137,17 @@ func (controller *CourseController) ArchiveCourse(id uint) error {
 		return err
 	}
 	return nil
+}
+
+func (controller *CourseController) findCourse(id uint) (*Course, error) {
+	var course Course
+	result := controller.dbManager.DB.Preload("Schedules").First(&course, id)
+
+	if result.Error != nil {
+		return nil, fmt.Errorf("failed to fetch course details. Error: %v", result.Error)
+	}
+
+	return &course, nil
 }
 
 func toScheduleEntry(schedule ScheduleEntryRequest) (*ScheduleEntry, error) {

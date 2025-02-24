@@ -6,17 +6,25 @@ export const dismissToast = (id) => {
     toasts.update((all) => all.filter((t) => t.id !== id))
 }
 
-export const addToast = (toast) => {
+export const toastSuccess = (message) => {
+    addToast({ type: "success", message: message ?? 'Success!'});
+}
+
+export const toastError = (message) => {
+    addToast({type: 'error', message: message ?? 'Unexpected error occurred...'});
+}
+
+const addToast = (toast) => {
     const id = Math.floor(Math.random() * 10000)
 
     const defaults = {
-        id,
-        type: 'info',
-        message: 'Unexpected error occurred...'
+        id
     }
 
+
     const toastWithDefaults = { ...defaults, ...toast }
+
     toasts.update((all) => [toastWithDefaults, ...all])
 
-    setTimeout(() => dismissToast(id), 50000)
+    setTimeout(() => dismissToast(id), 5000)
 }

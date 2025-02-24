@@ -8,13 +8,15 @@ export class ComponentControl {
     }
 
     showDefineNewCourseComponent() {
-        this.courseParticipantsComponent = true;
+        this.defineNewCourseComponent = true;
         this.showCourseOverview = false;
+        return this;
     }
 
     showUpdateCourseComponent() {
         this.updateCourseComponent = true;
         this.showCourseOverview = false;
+        return this;
     }
 
     showCourseParticipantComponent() {
@@ -33,7 +35,7 @@ export class ComponentControl {
         this.courseParticipantsComponent = false;
         this.courseParticipantsHistoryComponent = false;
         this.showCourseOverview = true;
-
+        return this;
     }
 
 }

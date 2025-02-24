@@ -1,14 +1,20 @@
 <script>
     import { t } from "svelte-i18n";
-    import { onMount } from "svelte";
     import { FindCourses } from "../../wailsjs/go/courses/CourseController.js";
     import { ComponentControl } from "./componentControl.js";
     import TableComponent from "../table/TableComponent.svelte";
-    import { addToast } from "../toast/toastStore.js";
+    import { toastError } from "../toast/toastStore.js";
+    import CreateUpdateCourse from "./CreateUpdateCourse.svelte";
+    import { bind } from "svelte/internal";
 
     let coursePage;
 
     let componentControl = new ComponentControl();
+    let selectedCourse;
+
+    $: if (componentControl?.showCourseOverview) {
+        loadCourses()
+    }
 
     async function loadCourses(filter, pagination) {
         try {
@@ -16,10 +22,9 @@
                 filter,
                 pagination ?? { currentPage: 1, pageSize: 5 },
             );
-            console.log(coursePage);
         } catch (error) {
             console.error("Error loading courses:", error);
-            addToast({ type: "error" });
+            toastError();
         }
     }
 
@@ -27,10 +32,9 @@
         loadCourses(filter, pagination);
     }
 
-    onMount(loadCourses);
-
     function displayDetails(index) {
-        console.log(coursePage.data[index]);
+        selectedCourse = coursePage.data[index]?.id;
+        componentControl = componentControl.showUpdateCourseComponent();
     }
 
     function displayCourseParticipants(index) {
@@ -39,10 +43,6 @@
 
     function displayParticipationHistory(index) {
         console.log(index);
-    }
-
-    function displayCreateCourse() {
-        console.log("hi");
     }
 
     function archiveCourse(index) {
@@ -55,7 +55,11 @@
         tableHeader={$t("courses.table.header")}
         total={coursePage?.total ?? 0}
         columns={[
-            { key: "name", header: $t("courses.table.columns.course"), filterbar: true },
+            {
+                key: "name",
+                header: $t("courses.table.columns.course"),
+                filterbar: true,
+            },
             {
                 key: "schedule",
                 header: $t("courses.table.columns.schedule"),
@@ -98,9 +102,19 @@
             {
                 title: $t("courses.table.actions.newCourse"),
                 icon: "plus",
-                onClick: displayCreateCourse,
+                onClick: () =>
+                    (componentControl =
+                        componentControl.showDefineNewCourseComponent()),
             },
         ]}
         {onPaginationFilterChanged}
     />
+{/if}
+
+{#if componentControl.defineNewCourseComponent}
+    <CreateUpdateCourse bind:componentControl/>
+{/if}
+
+{#if componentControl.updateCourseComponent}
+    <CreateUpdateCourse bind:componentControl courseId = {selectedCourse}/>
 {/if}

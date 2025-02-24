@@ -5,10 +5,10 @@ import {common} from '../models';
 
 export function ArchiveCourse(arg1:number):Promise<void>;
 
-export function FindCourseDetails(arg1:number):Promise<courses.Course>;
+export function FindCourseDetails(arg1:number):Promise<courses.CourseDetailsDto>;
 
 export function FindCourses(arg1:courses.FindCourseParams,arg2:common.PageParams):Promise<common.Page[fit_and_roll/backend/courses>;
 
 export function NewCourse(arg1:courses.CourseRequest):Promise<void>;
 
-export function UpdateCourse(arg1:number,arg2:courses.CourseRequest):Promise<void>;
+export function UpdateCourse(arg1:courses.UpdateCourseRequest):Promise<void>;

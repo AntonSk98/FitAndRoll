@@ -1,12 +1,18 @@
 <script>
     import { t } from "svelte-i18n";
 
+    const pageSection = {
+        'courses': $t("navigation.courses"),
+        'participants': $t("navigation.participants"),
+        'archive': $t("navigation.archive")
+    }
+
     export let activePage;
 </script>
 
 <nav class="mb-4">
     <ul class="flex justify-start gap-1.5 flex-wrap">
-        {#each [$t("navigation.courses"), $t("navigation.participants"), $t("navigation.archive")] as page}
+        {#each ['courses', 'participants', 'archive'] as page}
             <li>
                 <button
                     on:click={() => activePage.set(page)}
@@ -24,7 +30,7 @@
                         ? 'bg-[var(--primary-color-dark)] text-white shadow-xl shadow-[var(--primary-color-dark)]'
                         : ''}"
                 >
-                    {page}
+                    {pageSection[page]}
                 </button>
             </li>
         {/each}

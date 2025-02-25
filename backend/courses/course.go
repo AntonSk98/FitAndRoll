@@ -1,14 +1,18 @@
 package courses
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Course struct {
 	ID          uint            `gorm:"primaryKey" json:"id"`
 	Name        string          `json:"name"`
 	Description string          `json:"description"`
 	Schedules   []ScheduleEntry `gorm:"foreignKey:CourseID;onDelete:CASCADE" json:"schedules"`
-	Archived    bool            `gorm:"default:false" json:"archived"`
 	CreatedAt   time.Time
+	Deleted     gorm.DeletedAt
 }
 
 type ScheduleEntry struct {

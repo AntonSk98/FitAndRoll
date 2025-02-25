@@ -1,12 +1,10 @@
 package courses
 
 import (
+	"fit_and_roll/backend/common"
 	"fit_and_roll/backend/config"
-	"fit_and_roll/backend/mappers"
 	"fmt"
 	"log"
-
-	"fit_and_roll/backend/common"
 
 	"gorm.io/gorm"
 )
@@ -24,7 +22,7 @@ func (controller *CourseController) FindCourses(filter FindCourseParams, pagePar
 	var courses []Course
 	var total int64
 
-	baseQuery := controller.dbManager.DB.Preload("Schedules").Where("archived = ?", false).Order("created_at desc")
+	baseQuery := controller.dbManager.DB.Preload("Schedules").Order("created_at desc")
 
 	if filter.Name != "" {
 		baseQuery = baseQuery.Where("LOWER(name) LIKE LOWER(?)", "%"+filter.Name+"%")
@@ -64,7 +62,6 @@ func (controller *CourseController) NewCourse(request CourseRequest) error {
 		course := Course{
 			Name:        request.Name,
 			Description: request.Description,
-			Archived:    false,
 		}
 
 		result := tx.Create(&course)
@@ -77,7 +74,7 @@ func (controller *CourseController) NewCourse(request CourseRequest) error {
 		var schedulePolicy []ScheduleEntry
 
 		for _, schedule := range request.Schedules {
-			scheduleEntry, err := toScheduleEntry(schedule)
+			scheduleEntry, err := schedule.Map()
 			if err != nil {
 				return err
 			}
@@ -106,7 +103,7 @@ func (controller *CourseController) UpdateCourse(request UpdateCourseRequest) er
 
 		var schedulePolicy []ScheduleEntry
 		for _, schedule := range request.Schedules {
-			scheduleEntry, err := toScheduleEntry(schedule)
+			scheduleEntry, err := schedule.Map()
 			if err != nil {
 				return err
 			}
@@ -132,8 +129,7 @@ func (controller *CourseController) ArchiveCourse(id uint) error {
 		return err
 	}
 
-	course.Archived = true
-	if err := controller.dbManager.DB.Save(&course).Error; err != nil {
+	if err := controller.dbManager.DB.Delete(&course).Error; err != nil {
 		return err
 	}
 	return nil
@@ -148,22 +144,4 @@ func (controller *CourseController) findCourse(id uint) (*Course, error) {
 	}
 
 	return &course, nil
-}
-
-func toScheduleEntry(schedule ScheduleEntryRequest) (*ScheduleEntry, error) {
-	mappedDay, dayErr := mappers.ToWeekDay(schedule.Day)
-
-	if dayErr != nil {
-		return nil, dayErr
-	}
-
-	mappedTime, timeErr := mappers.ToTimeOnly(schedule.Time)
-	if timeErr != nil {
-		return nil, timeErr
-	}
-
-	return &ScheduleEntry{
-		Day:  mappedDay,
-		Time: mappedTime,
-	}, nil
 }

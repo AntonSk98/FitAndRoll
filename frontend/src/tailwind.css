@@ -533,6 +533,9 @@
   .static {
     position: static;
   }
+  .m-1 {
+    margin: calc(var(--spacing) * 1);
+  }
   .mx-\[3rem\] {
     margin-inline: 3rem;
   }

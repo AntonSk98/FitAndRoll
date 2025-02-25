@@ -1,11 +1,10 @@
 <script>
     import { t } from "svelte-i18n";
-    import { FindCourses } from "../../wailsjs/go/courses/CourseController.js";
+    import { FindCourses, ArchiveCourse } from "../../wailsjs/go/courses/CourseController.js";
     import { ComponentControl } from "./componentControl.js";
     import TableComponent from "../table/TableComponent.svelte";
-    import { toastError } from "../toast/toastStore.js";
+    import { toastError, toastSuccess } from "../toast/toastStore.js";
     import CreateUpdateCourse from "./CreateUpdateCourse.svelte";
-    import { bind } from "svelte/internal";
 
     let coursePage;
 
@@ -46,7 +45,15 @@
     }
 
     function archiveCourse(index) {
-        console.log(index);
+        ArchiveCourse(coursePage.data[index]?.id)
+        .then(() => {
+            toastSuccess('Course was successfully archived');
+            loadCourses()
+        })
+        .catch(err => {
+            console.error('Error while archiving a course: ', err);
+            toastError()
+        })
     }
 </script>
 

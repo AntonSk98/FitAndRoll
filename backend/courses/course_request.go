@@ -1,6 +1,9 @@
 package courses
 
-import "fmt"
+import (
+	"fit_and_roll/backend/mappers"
+	"fmt"
+)
 
 type UpdateCourseRequest struct {
 	CourseRequest
@@ -40,4 +43,22 @@ func (request *UpdateCourseRequest) Validate() error {
 		return fmt.Errorf("id is a required parameter for updating a course")
 	}
 	return nil
+}
+
+func (scheduleEntryRequest *ScheduleEntryRequest) Map() (*ScheduleEntry, error) {
+	mappedDay, dayErr := mappers.ToWeekDay(scheduleEntryRequest.Day)
+
+	if dayErr != nil {
+		return nil, dayErr
+	}
+
+	mappedTime, timeErr := mappers.ToTimeOnly(scheduleEntryRequest.Time)
+	if timeErr != nil {
+		return nil, timeErr
+	}
+
+	return &ScheduleEntry{
+		Day:  mappedDay,
+		Time: mappedTime,
+	}, nil
 }

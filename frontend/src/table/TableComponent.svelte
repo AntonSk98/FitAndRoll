@@ -2,7 +2,7 @@
     import { t } from "svelte-i18n";
 
     import Modal from "../common/Modal.svelte";
-    import PaginationComponent from "../../pagination/PaginationComponent.svelte";
+    import PaginationComponent from "../common/PaginationComponent.svelte";
 
     export let tableHeader;
     export let total;

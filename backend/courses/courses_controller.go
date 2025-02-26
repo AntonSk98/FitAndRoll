@@ -58,7 +58,7 @@ func (controller *CourseController) FindCourseDetails(id uint) (*CourseDetailsDt
 }
 
 func (controller *CourseController) NewCourse(request CourseRequest) error {
-	return controller.dbManager.DB.Transaction(func(tx *gorm.DB) error {
+	return controller.dbManager.Transactional(func(tx *gorm.DB) error {
 		course := Course{
 			Name:        request.Name,
 			Description: request.Description,
@@ -124,14 +124,10 @@ func (controller *CourseController) UpdateCourse(request UpdateCourseRequest) er
 }
 
 func (controller *CourseController) ArchiveCourse(id uint) error {
-	course, err := controller.findCourse(id)
-	if err != nil {
+	if err := controller.dbManager.DB.Delete(&Course{}, id).Error; err != nil {
 		return err
 	}
 
-	if err := controller.dbManager.DB.Delete(&course).Error; err != nil {
-		return err
-	}
 	return nil
 }
 

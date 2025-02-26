@@ -4,6 +4,7 @@ import (
 	"embed"
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/courses"
+	"fit_and_roll/backend/participants"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -22,6 +23,7 @@ func main() {
 
 	app := NewApp()
 	coursesController := courses.NewCoursesController(dbManager)
+	participantsController := participants.NewParticipantsController(dbManager)
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -36,6 +38,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 			coursesController,
+			participantsController,
 		},
 	})
 

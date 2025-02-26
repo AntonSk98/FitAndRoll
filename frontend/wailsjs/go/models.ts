@@ -50,6 +50,42 @@ export namespace common {
 		    return a;
 		}
 	}
+	export class Page[fit_and_roll/backend/participants.ParticipantDto] {
+	    data: participants.ParticipantDto[];
+	    total: number;
+	    page: number;
+	    size: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new Page[fit_and_roll/backend/participants.ParticipantDto](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.data = this.convertValues(source["data"], participants.ParticipantDto);
+	        this.total = source["total"];
+	        this.page = source["page"];
+	        this.size = source["size"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 
 }
 
@@ -238,6 +274,63 @@ export namespace courses {
 		    }
 		    return a;
 		}
+	}
+
+}
+
+export namespace participants {
+	
+	export class FindParticipantsParams {
+	    name: string;
+	    surname: string;
+	    group: string;
+	    withActiveCard: boolean;
+	
+	    static createFrom(source: any = {}) {
+	        return new FindParticipantsParams(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.surname = source["surname"];
+	        this.group = source["group"];
+	        this.withActiveCard = source["withActiveCard"];
+	    }
+	}
+	export class ParticipantCommand {
+	    id?: number;
+	    name: string;
+	    surname: string;
+	    group: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ParticipantCommand(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.surname = source["surname"];
+	        this.group = source["group"];
+	    }
+	}
+	export class ParticipantDto {
+	    name: string;
+	    surname: string;
+	    group: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ParticipantDto(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.surname = source["surname"];
+	        this.group = source["group"];
+	    }
 	}
 
 }

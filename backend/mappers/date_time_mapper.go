@@ -63,3 +63,7 @@ func ToWeekDay(dayStr string) (time.Weekday, error) {
 	}
 	return day, nil
 }
+
+func ToDateString(dateTime time.Time) string {
+	return dateTime.Format(time.DateOnly)
+}

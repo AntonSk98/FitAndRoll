@@ -19,6 +19,8 @@ func main() {
 	dbManager.Migrate(
 		&courses.Course{},
 		&courses.ScheduleEntry{},
+		&participants.Participant{},
+		&participants.MemberCard{},
 	)
 
 	app := NewApp()

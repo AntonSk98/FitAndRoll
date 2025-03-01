@@ -10,9 +10,10 @@ import (
 const capacityLimit = 10
 
 type MemberCard struct {
-	Capacity  uint `json:"capacity"`
-	CreatedAt time.Time
-	Deleted   gorm.DeletedAt
+	Capacity      uint `json:"capacity"`
+	CreatedAt     time.Time
+	Deleted       gorm.DeletedAt
+	ParticipantID uint
 }
 
 func NewMemberCard() *MemberCard {

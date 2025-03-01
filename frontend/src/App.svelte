@@ -7,6 +7,7 @@
   import Toasts from "./toast/Toasts.svelte";
   import { isLoading } from "svelte-i18n";
   import "./lib/i18n.js";
+    import Participants from "./participants/Participants.svelte";
 
   let activePage = writable("courses");
 </script>
@@ -18,7 +19,7 @@
     {#if $activePage === "courses"}
       <Courses />
     {:else if $activePage === "participants"}
-      <div>participants</div>
+      <Participants/>
     {:else if $activePage === "archive"}
       <div>archive</div>
     {/if}

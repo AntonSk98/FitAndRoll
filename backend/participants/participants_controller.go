@@ -32,18 +32,20 @@ func (controller *ParticipantsController) FindParticipants(filter FindParticipan
 		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("LOWER(group) LIKE LOWER(?)", "%"+filter.Group+"%")
 	}
 
-	if filter.WithActiveCard == true {
+	if filter.WithActiveCard {
 		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.InnerJoins("MemberCards", "member_cards.deleted IS NULL")
 	}
 
 	var total int64
 
-	if err := findAllParticipantsTemplateQuery.Count(&total).Error; err != nil {
+	if err := findAllParticipantsTemplateQuery.Model(&Participant{}).Count(&total).Error; err != nil {
 		return nil, fmt.Errorf("error counting the total number of participants. Error: %v", err)
 	}
 
+	fmt.Println(total)
+
 	var participants []Participant
-	if err := findAllParticipantsTemplateQuery.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).Order("group desc").Find(&participants).Error; err != nil {
+	if err := findAllParticipantsTemplateQuery.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).Order("`group` desc").Find(&participants).Error; err != nil {
 		return nil, fmt.Errorf("error fetching participants: %v", err)
 	}
 

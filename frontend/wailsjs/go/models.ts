@@ -317,6 +317,7 @@ export namespace participants {
 	    }
 	}
 	export class ParticipantDto {
+	    id?: number;
 	    name: string;
 	    surname: string;
 	    group: string;
@@ -327,6 +328,7 @@ export namespace participants {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
 	        this.name = source["name"];
 	        this.surname = source["surname"];
 	        this.group = source["group"];

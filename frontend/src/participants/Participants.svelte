@@ -1,8 +1,9 @@
 <script>
     import TableComponent from "../table/TableComponent.svelte";
-    import { FindParticipants } from "../../wailsjs/go/participants/ParticipantsController.js";
+    import { FindParticipants, ArchiveParticipant } from "../../wailsjs/go/participants/ParticipantsController.js";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { onMount } from "svelte";
+    import ParticipantForm from "./ParticipantForm.svelte";
 
     const PARTICIPANTS_OVERVIEW = "participants_overview";
     const ADD_NEW_PARTICIPANT = "new_participant";
@@ -12,7 +13,11 @@
     let componentRender = PARTICIPANTS_OVERVIEW;
 
     let participantsPage;
-    let findParticipantsParams;
+    let selectedParticipant;
+
+    $: if (componentRender === PARTICIPANTS_OVERVIEW) {
+        findParticipants();
+    }
 
     function findParticipants(filter, pagination) {
         FindParticipants(filter, pagination ?? { currentPage: 1, pageSize: 5 })
@@ -24,7 +29,12 @@
     }
 
     function displayDetails(index) {
-        console.log(index);
+        selectedParticipant = participantsPage.data[index]?.id;
+        if (!selectedParticipant) {
+            console.error(`Recevied participant page ${participantsPage}. Selected element with index ${index}. But the selected pariticpant id is ${selectedParticipant}`);
+            toastError();
+            return;
+        }
         componentRender = UPDATE_PARTICIPANT;
     }
 
@@ -36,15 +46,26 @@
         componentRender = MEMBER_CARD_OVERVIEW;
     }
 
-    function archiveCourse(index) {
-        console.log(index);
+    function archiveParticipant(index) {
+        selectedParticipant = participantsPage.data[index]?.id;
+        if (!selectedParticipant) {
+            console.error('Unabled to archive the participant...');
+            toastError();
+        }
+        ArchiveParticipant(selectedParticipant)
+        .then(() => {
+            toastSuccess();
+            findParticipants();
+        })
+        .catch(error => {
+            console.error(error.message);
+            toastError();
+        });
     }
 
     function onPaginationFilterChanged(filter, pagination) {
         findParticipants(filter, pagination);
     }
-
-    onMount(() => findParticipants());
 </script>
 
 {#if componentRender === PARTICIPANTS_OVERVIEW}
@@ -56,7 +77,7 @@
                 key: "withActiveCard",
                 label: "With active member cards",
                 type: "checkbox",
-            }
+            },
         ]}
         columns={[
             {
@@ -97,7 +118,7 @@
                 title: "trash",
                 icon: "trash",
                 requireConfirmation: true,
-                onClick: archiveCourse,
+                onClick: archiveParticipant,
             },
         ]}
         headerActions={[
@@ -110,8 +131,17 @@
         {onPaginationFilterChanged}
     />
 {/if}
-{#if componentRender === ADD_NEW_PARTICIPANT}{/if}
+{#if componentRender === ADD_NEW_PARTICIPANT}
+    <ParticipantForm
+        backToOverview={() => (componentRender = PARTICIPANTS_OVERVIEW)}
+    />
+{/if}
 
-{#if componentRender === UPDATE_PARTICIPANT}{/if}
+{#if componentRender === UPDATE_PARTICIPANT}
+    <ParticipantForm
+        participantId = {selectedParticipant}
+        backToOverview={() => (componentRender = PARTICIPANTS_OVERVIEW)}
+    />
+{/if}
 
 {#if componentRender === MEMBER_CARD_OVERVIEW}{/if}

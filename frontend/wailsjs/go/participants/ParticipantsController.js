@@ -10,6 +10,10 @@ export function CreateUpdateParticipant(arg1) {
   return window['go']['participants']['ParticipantsController']['CreateUpdateParticipant'](arg1);
 }
 
+export function FindParticipantDetails(arg1) {
+  return window['go']['participants']['ParticipantsController']['FindParticipantDetails'](arg1);
+}
+
 export function FindParticipants(arg1, arg2) {
   return window['go']['participants']['ParticipantsController']['FindParticipants'](arg1, arg2);
 }

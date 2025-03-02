@@ -29,7 +29,7 @@ func (controller *ParticipantsController) FindParticipants(filter FindParticipan
 	}
 
 	if filter.Group != "" {
-		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("LOWER(group) LIKE LOWER(?)", "%"+filter.Group+"%")
+		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("LOWER(`group`) LIKE LOWER(?)", "%"+filter.Group+"%")
 	}
 
 	if filter.WithActiveCard {
@@ -41,8 +41,6 @@ func (controller *ParticipantsController) FindParticipants(filter FindParticipan
 	if err := findAllParticipantsTemplateQuery.Model(&Participant{}).Count(&total).Error; err != nil {
 		return nil, fmt.Errorf("error counting the total number of participants. Error: %v", err)
 	}
-
-	fmt.Println(total)
 
 	var participants []Participant
 	if err := findAllParticipantsTemplateQuery.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).Order("`group` desc").Find(&participants).Error; err != nil {
@@ -60,7 +58,14 @@ func (controller *ParticipantsController) FindParticipants(filter FindParticipan
 		Page:  pageParams.Page,
 		Size:  pageParams.Size,
 	}, nil
+}
 
+func (controller *ParticipantsController) FindParticipantDetails(id uint) (*ParticipantDto, error) {
+	var participant Participant
+	if err := controller.dbManager.DB.First(&participant, id).Error; err != nil {
+		return nil, err
+	}
+	return NewParticipantDto(participant), nil
 }
 
 func (controller *ParticipantsController) CreateUpdateParticipant(command ParticipantCommand) error {

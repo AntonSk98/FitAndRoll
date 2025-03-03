@@ -298,6 +298,24 @@ export namespace participants {
 	        this.withActiveCard = source["withActiveCard"];
 	    }
 	}
+	export class MemberCardInfo {
+	    id: number;
+	    capacity: number;
+	    issuedAt: string;
+	    expiredAt: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new MemberCardInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.capacity = source["capacity"];
+	        this.issuedAt = source["issuedAt"];
+	        this.expiredAt = source["expiredAt"];
+	    }
+	}
 	export class ParticipantCommand {
 	    id?: number;
 	    name: string;

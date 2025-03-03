@@ -1,8 +1,8 @@
 package participants
 
 import (
-	"fit_and_roll/backend/common"
 	"fit_and_roll/backend/config"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -15,19 +15,13 @@ func NewMemberCardController(dbManager *config.DatabaseManager) *MemberCardContr
 	return &MemberCardController{dbManager: dbManager}
 }
 
-func (controller *MemberCardController) FindAllMemberCards(participantId uint, pageParams common.PageParams) (*common.Page[MemberCardInfo], error) {
-	var total int64
+func (controller *MemberCardController) FindAllMemberCards(participantId uint) ([]MemberCardInfo, error) {
 	var participantMemberCards []MemberCard
 	var participantMemberCardInfos []MemberCardInfo
 
-	baseQuery := controller.dbManager.DB.Where("participant_id = ?", participantId)
-
-	if err := baseQuery.Count(&total).Error; err != nil {
-		return nil, err
-	}
+	baseQuery := controller.dbManager.DB.Model(&MemberCard{}).Where("participant_id = ?", participantId)
 
 	if err := baseQuery.
-		Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).
 		Order("created_at desc").
 		Find(&participantMemberCards).Error; err != nil {
 		return nil, err
@@ -37,12 +31,7 @@ func (controller *MemberCardController) FindAllMemberCards(participantId uint, p
 		participantMemberCardInfos = append(participantMemberCardInfos, *NewMemberCardInfo(memparticipantMemberCard))
 	}
 
-	return &common.Page[MemberCardInfo]{
-		Data:  participantMemberCardInfos,
-		Total: int(total),
-		Page:  pageParams.Page,
-		Size:  pageParams.Size,
-	}, nil
+	return participantMemberCardInfos, nil
 }
 
 func (controller *MemberCardController) IssueNewMemberCard(participantId uint) error {
@@ -52,9 +41,9 @@ func (controller *MemberCardController) IssueNewMemberCard(participantId uint) e
 			return err
 		}
 
-		memberCard := NewMemberCard()
+		memberCard := NewMemberCard(participantPointer.ID)
 
-		if err := tx.Model(participantPointer).Association("MemberCards").Append(&memberCard); err != nil {
+		if err := tx.Create(&memberCard).Error; err != nil {
 			return err
 		}
 
@@ -63,10 +52,16 @@ func (controller *MemberCardController) IssueNewMemberCard(participantId uint) e
 }
 
 func (controller *MemberCardController) UndoIssueNewMemberCard(participantId uint, memberCardId uint) error {
-	if err := controller.dbManager.DB.
+	result := controller.dbManager.DB.
 		Unscoped().
 		Where("id = ? AND participant_id = ?", memberCardId, participantId).
-		Delete(&MemberCard{}).Error; err != nil {
+		Delete(&MemberCard{})
+
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("could not remove the member card. Either participant or member card do not exist")
+	}
+
+	if err := result.Error; err != nil {
 		return err
 	}
 

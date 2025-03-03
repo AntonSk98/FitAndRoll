@@ -10,14 +10,15 @@ import (
 const capacityLimit = 10
 
 type MemberCard struct {
-	Capacity      uint `json:"capacity"`
+	ID            uint `gorm:"primaryKey"`
+	Capacity      uint
 	CreatedAt     time.Time
 	Deleted       gorm.DeletedAt
 	ParticipantID uint
 }
 
-func NewMemberCard() *MemberCard {
-	return &MemberCard{Capacity: capacityLimit}
+func NewMemberCard(participant uint) *MemberCard {
+	return &MemberCard{Capacity: capacityLimit, ParticipantID: participant}
 }
 
 func (memberCard *MemberCard) visitCourse() bool {

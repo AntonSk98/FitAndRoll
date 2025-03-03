@@ -13,6 +13,7 @@
     export let actions = [];
     export let headerActions = [];
     export let onPaginationFilterChanged = (filter, pagination) => {};
+    export let onRowClicked = null;
 
     let filter = {};
     let paginationRef;
@@ -78,7 +79,9 @@
         {#each mainFilters as mainFilter}
             <div class="flex flex-col">
                 {#if mainFilter.type === "checkbox"}
-                    <div class="flex items-center gap-2 text-gray-400 italic font-semibold tracking-wide">
+                    <div
+                        class="flex items-center gap-2 text-gray-400 italic font-semibold tracking-wide"
+                    >
                         <label
                             class="hover:text-primary-color-dark transition-colors duration-300 delay-100"
                         >
@@ -89,7 +92,7 @@
                             class="w-5 h-5 border-gray-400 cursor-pointer transition-all duration-300"
                             on:input={(event) =>
                                 onFilter(
-                                    mainFilter.key, 
+                                    mainFilter.key,
                                     event?.target?.checked,
                                 )}
                         />
@@ -153,7 +156,10 @@
             <tbody>
                 {#if rows}
                     {#each rows as row, index}
-                        <tr>
+                        <tr
+                            class={onRowClicked ? "!cursor-pointer" : ""}
+                            on:click={() => onRowClicked?.(index)}
+                        >
                             {#each Object.keys(row) as rowKey}
                                 {#if Array.isArray(row[rowKey])}
                                     <td>
@@ -222,7 +228,7 @@
     }
 
     .table-outer-container {
-        max-width: 1536px;
+        max-width: var(--container-max-width);
         margin: 2rem auto;
     }
 

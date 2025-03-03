@@ -1,0 +1,244 @@
+<script>
+    import Modal from "../common/Modal.svelte";
+    import TableComponent from "../table/TableComponent.svelte";
+    import { toastError, toastSuccess } from "../toast/toastStore";
+    import {
+        FindAllMemberCards,
+        IssueNewMemberCard,
+        UndoIssueNewMemberCard,
+    } from "../../wailsjs/go/participants/MemberCardController";
+
+    export let member;
+    export let onBackButtonClicked;
+
+    let displayMemberCardParticipationHistory = false;
+    let displayNewCardConfirmationDialog = false;
+
+    let memberCards = [];
+
+    let memberCardParticipationHistory = [];
+    let selectedMemberCardId;
+
+    $: if (
+        !displayMemberCardParticipationHistory &&
+        !displayNewCardConfirmationDialog
+    ) {
+        findAllMemberCards()
+    }
+
+    function findAllMemberCards() {
+        FindAllMemberCards(member.id).then((cards) => (memberCards = cards || [])).catch(error => {
+            console.error(error);
+            toastError();
+        });
+    }
+
+    function deleteEmptyMemberCard() {
+        UndoIssueNewMemberCard(member.id, selectedMemberCardId).then(() => {
+            findAllMemberCards();
+            displayMemberCardParticipationHistory = false;
+        }).catch(error => {
+            console.error(error);
+            toastError();
+        });
+    }
+
+    function onMemberCardClicked(index) {
+        selectedMemberCardId = memberCards[index]?.id;
+        displayMemberCardParticipationHistory = true;
+    }
+
+    function issueNewMemberCard() {
+        IssueNewMemberCard(member.id).then(() => {
+            displayNewCardConfirmationDialog = false;
+            findAllMemberCards()
+        }).catch(error => {
+            console.error(error);
+            toastError();
+        })
+    }
+</script>
+
+<div class="member-card-header">
+    <div class="flex justify-between items-center gap-3">
+        <span class="holder">{member.name} {member.surname}</span>
+        <button class="back" on:click={onBackButtonClicked}>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                />
+            </svg>
+        </button>
+    </div>
+    <button
+        class="primary"
+        on:click={() => (displayNewCardConfirmationDialog = true)}
+        >New Card</button
+    >
+</div>
+
+{#if displayNewCardConfirmationDialog}
+    <Modal
+        onModalConfirmed={issueNewMemberCard}
+        onModalCanceled={() => (displayNewCardConfirmationDialog = false)}
+    >
+        <div slot="body">
+            <div>
+                A new member card is about to be issued to
+                <b>{member.name} {member.surname}</b>.
+            </div>
+            <div>Please confirm.</div>
+        </div>
+        <div slot="confirm">Issue new card</div>
+        <div slot="cancel">Cancel</div>
+    </Modal>
+{/if}
+
+{#if displayMemberCardParticipationHistory}
+    <Modal
+        onModalConfirmed={() => {
+            if (memberCardParticipationHistory?.length > 0) {
+                displayMemberCardParticipationHistory = false;
+                return;
+            }
+            deleteEmptyMemberCard();
+        }}
+        onModalCanceled={!memberCardParticipationHistory ||
+        memberCardParticipationHistory?.length === 0
+            ? () => (displayMemberCardParticipationHistory = false)
+            : null}
+    >
+        <svg
+            slot="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+        </svg>
+
+        <div slot="body" class="text-left">
+            {#if memberCardParticipationHistory?.length > 0}
+                <div class="member-card-overview-header">History</div>
+                <ul class="px-3 py-2">
+                    {#each memberCardParticipationHistory as memberCardParticipationEntry}
+                        <li>
+                            {memberCardParticipationEntry.name} | {memberCardParticipationEntry.date}
+                        </li>
+                    {/each}
+                </ul>
+            {:else}
+                <div class="font-bold">Unused member card</div>
+                <div>
+                    Since this card has not been used yet you can remove this
+                    member card
+                </div>
+            {/if}
+        </div>
+        <div slot="confirm">
+            {#if memberCardParticipationHistory?.length > 0}
+                OK
+            {:else}
+                Remove member card
+            {/if}
+        </div>
+        <div slot="cancel">Close</div>
+    </Modal>
+{/if}
+
+<TableComponent
+    tableHeader={"Member card history"}
+    total="0"
+    onRowClicked={onMemberCardClicked}
+    columns={[
+        {
+            key: "index",
+            header: "card",
+        },
+        {
+            key: "issued",
+            header: "issued",
+        },
+        {
+            key: "expired",
+            header: "expired",
+        },
+    ]}
+    rows={memberCards.map((card, index) => {
+        return {
+            index: `#${index}`,
+            issued: card.issuedAt,
+            expired: card.expiredAt || 'X'
+        }
+    })}
+/>
+
+<style>
+    .member-card-header {
+        max-width: var(--container-max-width);
+        margin: 0 auto;
+    }
+
+    .holder {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #9ca3af;
+        cursor: default;
+        letter-spacing: 0.2rem;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    .primary {
+        font-weight: bold;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        padding: 0.5rem 6rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+    }
+
+    .primary:hover {
+        background-color: var(--primary-color-dark);
+        transform: scale(1.05);
+        box-shadow: 0px 4px 10px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Secondary Button (Back) - Gray */
+    .back {
+        transition: all 0.3s ease-in-out;
+        background-color: var(--primary-color);
+        padding: 0.8rem;
+        border-radius: 1rem;
+        color: white;
+    }
+
+    .back:hover {
+        background-color: #9ca3af; /* Medium gray */
+        transform: scale(1.08);
+    }
+
+    .member-card-overview-header {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+    }
+</style>

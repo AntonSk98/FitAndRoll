@@ -1,9 +1,12 @@
 <script>
     import TableComponent from "../table/TableComponent.svelte";
-    import { FindParticipants, ArchiveParticipant } from "../../wailsjs/go/participants/ParticipantsController.js";
+    import {
+        FindParticipants,
+        ArchiveParticipant,
+    } from "../../wailsjs/go/participants/ParticipantsController.js";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { onMount } from "svelte";
     import ParticipantForm from "./ParticipantForm.svelte";
+    import MemberCard from "./MemberCard.svelte";
 
     const PARTICIPANTS_OVERVIEW = "participants_overview";
     const ADD_NEW_PARTICIPANT = "new_participant";
@@ -29,12 +32,7 @@
     }
 
     function displayDetails(index) {
-        selectedParticipant = participantsPage.data[index]?.id;
-        if (!selectedParticipant) {
-            console.error(`Recevied participant page ${participantsPage}. Selected element with index ${index}. But the selected pariticpant id is ${selectedParticipant}`);
-            toastError();
-            return;
-        }
+        selectedParticipant = toSelectedUser(index);
         componentRender = UPDATE_PARTICIPANT;
     }
 
@@ -43,28 +41,38 @@
     }
 
     function displayMemberCardOverview(index) {
+        selectedParticipant = toSelectedUser(index);
         componentRender = MEMBER_CARD_OVERVIEW;
     }
 
     function archiveParticipant(index) {
-        selectedParticipant = participantsPage.data[index]?.id;
-        if (!selectedParticipant) {
-            console.error('Unabled to archive the participant...');
-            toastError();
-        }
-        ArchiveParticipant(selectedParticipant)
-        .then(() => {
-            toastSuccess();
-            findParticipants();
-        })
-        .catch(error => {
-            console.error(error.message);
-            toastError();
-        });
+        selectedParticipant = toSelectedUser(index);
+        ArchiveParticipant(selectedParticipant?.id)
+            .then(() => {
+                toastSuccess();
+                findParticipants();
+            })
+            .catch((error) => {
+                console.error(error.message);
+                toastError();
+            });
     }
 
     function onPaginationFilterChanged(filter, pagination) {
         findParticipants(filter, pagination);
+    }
+
+    function toSelectedUser(index) {
+        const participant = participantsPage.data[index];
+        if (!participant) {
+            toastError();
+            throw new Error(
+                `Invalid participant: No participant found at index ${index}`,
+            );
+            return;
+        }
+
+        return participant;
     }
 </script>
 
@@ -112,7 +120,7 @@
             {
                 title: "card",
                 icon: "card",
-                onclick: displayMemberCardOverview,
+                onClick: displayMemberCardOverview,
             },
             {
                 title: "trash",
@@ -139,9 +147,18 @@
 
 {#if componentRender === UPDATE_PARTICIPANT}
     <ParticipantForm
-        participantId = {selectedParticipant}
+        participantId={selectedParticipant?.id}
         backToOverview={() => (componentRender = PARTICIPANTS_OVERVIEW)}
     />
 {/if}
 
-{#if componentRender === MEMBER_CARD_OVERVIEW}{/if}
+{#if componentRender === MEMBER_CARD_OVERVIEW}
+    <MemberCard
+        member={{
+            id: selectedParticipant.id,
+            name: selectedParticipant.name,
+            surname: selectedParticipant.surname,
+        }}
+        onBackButtonClicked={() => (componentRender = PARTICIPANTS_OVERVIEW)}
+    />
+{/if}

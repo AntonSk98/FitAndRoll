@@ -22,6 +22,7 @@ export class ComponentControl {
     showCourseParticipantComponent() {
         this.courseParticipantsComponent = true;
         this.showCourseOverview = false;
+        return this;
     }
 
     showcourseParticipantsHistoryComponent() {

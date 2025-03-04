@@ -1,10 +1,14 @@
 <script>
     import { t } from "svelte-i18n";
-    import { FindCourses, ArchiveCourse } from "../../wailsjs/go/courses/CourseController.js";
+    import {
+        FindCourses,
+        ArchiveCourse,
+    } from "../../wailsjs/go/courses/CourseController.js";
     import { ComponentControl } from "./componentControl.js";
     import TableComponent from "../table/TableComponent.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import CreateUpdateCourse from "./CreateUpdateCourse.svelte";
+    import CourseParticipant from "./CourseParticipant.svelte";
 
     let coursePage;
 
@@ -12,7 +16,7 @@
     let selectedCourse;
 
     $: if (componentControl?.showCourseOverview) {
-        loadCourses()
+        loadCourses();
     }
 
     async function loadCourses(filter, pagination) {
@@ -32,12 +36,13 @@
     }
 
     function displayDetails(index) {
-        selectedCourse = coursePage.data[index]?.id;
+        selectedCourse = toSelectedCourse(index);
         componentControl = componentControl.showUpdateCourseComponent();
     }
 
     function displayCourseParticipants(index) {
-        console.log(index);
+        selectedCourse = toSelectedCourse(index);
+        componentControl = componentControl.showCourseParticipantComponent();
     }
 
     function displayParticipationHistory(index) {
@@ -46,14 +51,18 @@
 
     function archiveCourse(index) {
         ArchiveCourse(coursePage.data[index]?.id)
-        .then(() => {
-            toastSuccess('Course was successfully archived');
-            loadCourses()
-        })
-        .catch(err => {
-            console.error('Error while archiving a course: ', err);
-            toastError()
-        })
+            .then(() => {
+                toastSuccess("Course was successfully archived");
+                loadCourses();
+            })
+            .catch((err) => {
+                console.error("Error while archiving a course: ", err);
+                toastError();
+            });
+    }
+
+    function toSelectedCourse(index) {
+        return coursePage.data[index];
     }
 </script>
 
@@ -119,9 +128,13 @@
 {/if}
 
 {#if componentControl.defineNewCourseComponent}
-    <CreateUpdateCourse bind:componentControl/>
+    <CreateUpdateCourse bind:componentControl />
 {/if}
 
 {#if componentControl.updateCourseComponent}
-    <CreateUpdateCourse bind:componentControl courseId = {selectedCourse}/>
+    <CreateUpdateCourse bind:componentControl courseId={selectedCourse?.id} />
+{/if}
+
+{#if componentControl.courseParticipantsComponent}
+    <CourseParticipant {selectedCourse} returnToCourseOverview = {() => componentControl = componentControl.resetComponentControl()}/>
 {/if}

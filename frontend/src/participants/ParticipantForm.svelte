@@ -72,12 +72,11 @@
     }
 
     function findParticipantDetails(id) {
-        console.log(id);
         FindParticipantDetails(id)
             .then(details => participant = details)
             .then(() => initForm())
             .catch(error => {
-                console.log(`Error while fetching participant details. Error ${error.message}`)
+                console.error(`Error while fetching participant details. Error ${error.message}`)
                 toastError();
             });
     }
@@ -89,7 +88,7 @@
             backToOverview();
         })
         .catch(err => {
-            console.log('Error while registering a customer', err);
+            console.error('Error while registering a customer', err);
             toastError();
         })
     }

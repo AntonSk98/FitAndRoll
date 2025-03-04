@@ -17,7 +17,6 @@ func NewParticipantsController(dbManager *config.DatabaseManager) *ParticipantsC
 }
 
 func (controller *ParticipantsController) FindParticipants(filter FindParticipantsParams, pageParams common.PageParams) (*common.Page[ParticipantDto], error) {
-
 	findAllParticipantsTemplateQuery := controller.dbManager.DB
 
 	if filter.Name != "" {
@@ -33,7 +32,11 @@ func (controller *ParticipantsController) FindParticipants(filter FindParticipan
 	}
 
 	if filter.WithActiveCard {
-		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.InnerJoins("MemberCards", "member_cards.deleted IS NULL")
+		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("participants.id IN (?)",
+			controller.dbManager.DB.Model(&MemberCard{}).
+				Select("participant_id").
+				Where("deleted IS NULL"),
+		)
 	}
 
 	var total int64

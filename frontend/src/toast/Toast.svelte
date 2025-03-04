@@ -18,12 +18,6 @@
 </div>
 
 <style>
-    :root {
-        --primary-color: #10B981;
-        --primary-color-light: #6EE7B7;
-        --primary-color-dark: #047857;
-    }
-
     .notification {
         display: flex;
         align-items: center;
@@ -64,10 +58,5 @@
 
     .error {
         background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
-    }
-
-    .info {
-        background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color) 100%);
-        color: #065F46;
     }
 </style>

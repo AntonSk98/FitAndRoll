@@ -4,7 +4,7 @@
     import Modal from "../common/Modal.svelte";
     import PaginationComponent from "../common/PaginationComponent.svelte";
 
-    export let tableHeader;
+    export let tableHeader = null;
     export let total;
 
     export let mainFilters = [];
@@ -40,6 +40,9 @@
         trash: `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>`,
         plus: `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>`,
         card: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" /></svg>`,
+        checkCircle: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`,
+        exclamationCircle: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>`,
+        xCircle: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`,
     };
 
     function onPagination(newPagination) {
@@ -60,7 +63,9 @@
 
 <div class="table-outer-container">
     <div class="flex flex-wrap gap-3.5 items-baseline">
-        <h1 class="table-header">{tableHeader}</h1>
+        {#if tableHeader}
+            <h1 class="table-header">{tableHeader}</h1>
+        {/if}
         <div>
             {#each headerActions as headerAction}
                 <button
@@ -80,16 +85,14 @@
             <div class="flex flex-col">
                 {#if mainFilter.type === "checkbox"}
                     <div
-                        class="flex items-center gap-2 text-gray-400 italic font-semibold tracking-wide"
+                        class="flex items-center gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide"
                     >
-                        <label
-                            class="hover:text-primary-color-dark transition-colors duration-300 delay-100"
-                        >
+                        <label class="transition-colors duration-300 delay-100">
                             <span>{mainFilter.label}:</span>
                         </label>
                         <input
                             type="checkbox"
-                            class="w-5 h-5 border-gray-400 cursor-pointer transition-all duration-300"
+                            class="w-5 h-5 cursor-pointer transition-all duration-300"
                             on:input={(event) =>
                                 onFilter(
                                     mainFilter.key,
@@ -247,7 +250,7 @@
         color: white;
         background-color: var(--primary-color);
         border-radius: 0.375rem;
-        transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.3s ease-in-out;
     }
 
     .table-action-button:hover,
@@ -275,10 +278,9 @@
     }
 
     table {
-        /* table-layout: fixed; */
         width: 100%;
         font-size: 0.875rem;
-        color: #374151;
+        color: var(--text-color-darker);
         box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
     }
 
@@ -286,7 +288,7 @@
         font-size: 1.125rem;
         font-weight: bold;
         text-transform: uppercase;
-        background-color: #f3f4f6;
+        background-color: var(--secondary-color);
     }
 
     thead tr th {
@@ -297,12 +299,12 @@
     }
 
     tbody tr {
-        border-bottom: 1px solid #e5e7eb;
+        border-bottom: 1px solid var(--secondary-color-darker);
         cursor: default;
     }
 
     tbody tr:hover {
-        background-color: #f9fafb;
+        background-color: var(--secondary-color-light);
     }
 
     tbody tr td {
@@ -312,7 +314,7 @@
         padding-bottom: 1rem;
         text-align: center;
         font-weight: 500;
-        color: #4b5563;
+        color: var(--text-color);
         white-space: nowrap;
     }
 
@@ -351,10 +353,10 @@
         padding-top: 0.375rem;
         padding-bottom: 0.375rem;
         font-size: 0.875rem;
-        color: #374151;
-        border: 1px solid #e5e7eb;
+        color: var(--text-color-darker);
+        border: 1px solid var(--secondary-color-darker);
         border-radius: 0.5rem;
-        background-color: #f9fafb;
+        background-color: var(--secondary-color-light);
         transition:
             border-color 0.3s ease-in-out,
             box-shadow 0.2s ease-in-out;

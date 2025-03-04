@@ -136,12 +136,12 @@
     }
 
     .new-element-button:disabled {
-        background-color: #a7f3d0;
+        background-color: var(--primary-color-light);
         cursor: not-allowed;
     }
 
     .new-element-button:disabled:hover {
-        background-color: #a7f3d0;
+        background-color: var(--primary-color-light);
         cursor: not-allowed;
     }
 </style>

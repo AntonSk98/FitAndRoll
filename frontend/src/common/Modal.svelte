@@ -112,7 +112,7 @@
 
     .modal-icon {
         margin: 0 auto 16px;
-        color: #9ca3af;
+        color: var(--secondary-color-dark);
         width: 48px;
         height: 48px;
     }
@@ -121,11 +121,11 @@
         margin-bottom: 20px;
         font-size: 1rem;
         font-weight: 400;
-        color: #6b7280;
+        color: var(--text-color);
     }
 
     .modal-confirm-btn {
-        background: #10b981;
+        background: var(--primary-color);
         color: white;
         padding: 10px 20px;
         font-size: 0.875rem;
@@ -137,22 +137,22 @@
     }
 
     .modal-confirm-btn:hover {
-        background: #059669;
+        background: var(--primary-color-dark);
     }
 
     .modal-cancel-btn {
         padding: 10px 20px;
         font-size: 0.875rem;
         font-weight: 500;
-        color: #111827;
+        color: var(--text-color);
         background: white;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--secondary-color-darker);
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.4s;
     }
 
     .modal-cancel-btn:hover {
-        background-color: #e5e7eb;
+        background-color: var(--secondary-color-darker);
     }
 </style>

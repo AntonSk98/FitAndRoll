@@ -146,7 +146,7 @@
 
     .pagination-info {
         font-size: 0.875rem;
-        color: #4b5563;
+        color: var(--text-color);
         font-weight: 500;
     }
 
@@ -162,9 +162,9 @@
         font-size: 0.875rem;
         font-weight: 500;
         min-width: 2.5rem;
-        background-color: #f3f4f6;
-        color: #4b5563;
-        border: 1px solid #e5e7eb;
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        border: 1px solid var(--secondary-color-darker);
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
     }

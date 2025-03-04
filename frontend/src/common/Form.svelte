@@ -132,11 +132,6 @@
 </div>
 
 <style>
-  :root {
-    --error-color: #f87171;
-    --background-color: #f9fafb;
-  }
-
   .form-container {
     max-width: 700px;
     margin: 3rem auto;
@@ -199,8 +194,8 @@
   .btn-cancel {
     padding: 12px 28px;
     border-radius: 14px;
-    background-color: #f3f4f6;
-    color: #374151;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     border: none;
     cursor: pointer;
     transition:
@@ -209,7 +204,7 @@
   }
 
   .btn-cancel:hover {
-    background-color: #e5e7eb;
+    background-color: var(--secondary-color-darker);
     transform: translateY(-2px);
   }
 
@@ -234,7 +229,7 @@
 
   .btn-submit:disabled,
   .btn-disabled {
-    background-color: #a7f3d0;
+    background-color: var(--primary-color-light);
     cursor: not-allowed;
   }
 
@@ -243,19 +238,19 @@
     flex-direction: column;
     align-items: start;
     gap: 0.5rem;
-    background-color: var(--background-color);
+    background-color: var(--secondary-color-light);
     padding: 1rem;
     border-radius: 1rem;
   }
 
   .list-input-header {
-    color: #333;
+    color: var(--text-color);
     font-size: 1.2rem;
     font-weight: bolder;
   }
 
   .datetime-entry {
-    color: #333;
+    color: var(--text-color);
     cursor: pointer;
     transition: all 0.2s;
   }

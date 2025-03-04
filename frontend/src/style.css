@@ -3,6 +3,17 @@
     --primary-color-light: #6EE7B7;
     --primary-color-dark: #047857;
 
+
+    --secondary-color-light: #f9fafb;
+    --secondary-color: #f3f4f6;
+    --secondary-color-darker: #e5e7eb;
+    --secondary-color-dark: #9ca3af;
+
+    --text-color: #6b7280;
+    --text-color-darker: #374151;
+
+    --error-color: #f87171;
+
     --container-max-width: 1536px;
 }
 

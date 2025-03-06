@@ -2,14 +2,20 @@
     import BackButton from "../common/BackButton.svelte";
     import { FindParticipants } from "../../wailsjs/go/participants/ParticipantsController.js";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import TableComponent from "../table/TableComponent.svelte";
+    import { FindActiveMemberCards } from "../../wailsjs/go/participants/MemberCardCourseParticipationController";
+    import VisitCourseWithMemberCard from "./VisitCourseWithMemberCard.svelte";
 
     export let selectedCourse;
     export let returnToCourseOverview;
 
     let participants = [];
     let total;
+
+    let selectedParticipant;
+    let activeMemberCards = [];
+    let showOnVisitMemberCardModal;
 
     onMount(() => findParticipants());
 
@@ -26,28 +32,50 @@
     }
 
     function onPaginationFilterChanged(filter, pagination) {
-        console.log(filter);
         findParticipants(filter, pagination);
     }
 
     function visitWithMemberCard(index) {
-        console.log('member card visit!', participants[index]);
+        FindActiveMemberCards(participants[index]?.id)
+            .then((memberCards) => {
+                selectedParticipant = participants[index];
+                activeMemberCards = memberCards;
+                showOnVisitMemberCardModal = true;
+            })
+            .catch((err) => {
+                console.error(err);
+                toastError();
+            });
     }
 
     function visitAsTrial(index) {
-        console.log('trial visit!', participants[index]);
+        console.log("trial visit!", participants[index]);
     }
 
     function visitWithoutMemberCard(index) {
-        console.log('visit without member card!', participants[index]);
+        console.log("visit without member card!", participants[index]);
+    }
 
+    function onVisitMemberCardModalDestroyed() {
+        activeMemberCards = [];
+        showOnVisitMemberCardModal = false;
     }
 </script>
 
 <div class="header">
     <div>
         <div class="title">{selectedCourse.name}</div>
-        <div class="description">Here should be some description. Here should be some description. Here should be some description. Here should be some description. Here should be some description. Here should be some description. Here should be some description. Here should be some description. Here should be some description. Here should be some description.Here should be some description. Here should be some description.Here should be some description. Here should be some description.Here should be some description.Here should be some description.Here should be some description.</div>
+        <div class="description">
+            Here should be some description. Here should be some description.
+            Here should be some description. Here should be some description.
+            Here should be some description. Here should be some description.
+            Here should be some description. Here should be some description.
+            Here should be some description. Here should be some
+            description.Here should be some description. Here should be some
+            description.Here should be some description. Here should be some
+            description.Here should be some description.Here should be some
+            description.Here should be some description.
+        </div>
     </div>
     <BackButton onBackButtonClicked={returnToCourseOverview} />
 </div>
@@ -76,7 +104,6 @@
         {
             title: "attend with member card",
             icon: "checkCircle",
-            requireConfirmation: true,
             onClick: visitWithMemberCard,
         },
         {
@@ -94,6 +121,15 @@
     ]}
     {onPaginationFilterChanged}
 />
+
+{#if showOnVisitMemberCardModal}
+    <VisitCourseWithMemberCard
+        {selectedParticipant}
+        {selectedCourse}
+        {activeMemberCards}
+        onDestroy={onVisitMemberCardModalDestroyed}
+    />
+{/if}
 
 <style>
     .header {

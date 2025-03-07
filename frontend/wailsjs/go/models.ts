@@ -280,6 +280,24 @@ export namespace courses {
 
 export namespace participants {
 	
+	export class CourseAttendanceCommand {
+	    memberCard?: number;
+	    course: number;
+	    participant: number;
+	    attendanceType: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new CourseAttendanceCommand(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.memberCard = source["memberCard"];
+	        this.course = source["course"];
+	        this.participant = source["participant"];
+	        this.attendanceType = source["attendanceType"];
+	    }
+	}
 	export class FindParticipantsParams {
 	    name: string;
 	    surname: string;

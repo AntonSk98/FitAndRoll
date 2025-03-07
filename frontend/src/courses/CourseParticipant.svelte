@@ -5,7 +5,7 @@
     import { onDestroy, onMount } from "svelte";
     import TableComponent from "../table/TableComponent.svelte";
     import { FindActiveMemberCards } from "../../wailsjs/go/participants/MemberCardCourseParticipationController";
-    import VisitCourseWithMemberCard from "./VisitCourseWithMemberCard.svelte";
+    import AttendCourseModal from "./AttendCourseModal.svelte";
 
     export let selectedCourse;
     export let returnToCourseOverview;
@@ -15,7 +15,8 @@
 
     let selectedParticipant;
     let activeMemberCards = [];
-    let showOnVisitMemberCardModal;
+
+    let attendCourseType;
 
     onMount(() => findParticipants());
 
@@ -35,12 +36,12 @@
         findParticipants(filter, pagination);
     }
 
-    function visitWithMemberCard(index) {
+    function attendWithMemberCard(index) {
         FindActiveMemberCards(participants[index]?.id)
             .then((memberCards) => {
                 selectedParticipant = participants[index];
                 activeMemberCards = memberCards;
-                showOnVisitMemberCardModal = true;
+                attendCourseType = 'WITH_MEMBER_CARD';
             })
             .catch((err) => {
                 console.error(err);
@@ -48,17 +49,19 @@
             });
     }
 
-    function visitAsTrial(index) {
-        console.log("trial visit!", participants[index]);
+    function trialAttend(index) {
+        selectedParticipant = participants[index];
+        attendCourseType = 'TRIAL_ATTEND';
     }
 
-    function visitWithoutMemberCard(index) {
-        console.log("visit without member card!", participants[index]);
+    function attendWithoutMemberCard(index) {
+        selectedParticipant = participants[index];
+        attendCourseType = 'WITHOUT_MEMBER_CARD';
     }
 
-    function onVisitMemberCardModalDestroyed() {
+    function onAttendCourseModalDestroyed() {
         activeMemberCards = [];
-        showOnVisitMemberCardModal = false;
+        attendCourseType = null;
     }
 </script>
 
@@ -104,30 +107,29 @@
         {
             title: "attend with member card",
             icon: "checkCircle",
-            onClick: visitWithMemberCard,
+            onClick: attendWithMemberCard,
         },
         {
             title: "trial attend",
             icon: "exclamationCircle",
-            requireConfirmation: true,
-            onClick: visitAsTrial,
+            onClick: trialAttend,
         },
         {
             title: "attend without member card",
             icon: "xCircle",
-            requireConfirmation: true,
-            onClick: visitWithoutMemberCard,
+            onClick: attendWithoutMemberCard,
         },
     ]}
     {onPaginationFilterChanged}
 />
 
-{#if showOnVisitMemberCardModal}
-    <VisitCourseWithMemberCard
+{#if attendCourseType}
+    <AttendCourseModal
+        attendType={attendCourseType}
         {selectedParticipant}
         {selectedCourse}
         {activeMemberCards}
-        onDestroy={onVisitMemberCardModalDestroyed}
+        onDestroy={onAttendCourseModalDestroyed}
     />
 {/if}
 
@@ -135,7 +137,7 @@
     .header {
         display: flex;
         align-items: end;
-        gap: 5rem;
+        gap: 2vw;
         justify-content: space-between;
         max-width: var(--container-max-width);
         margin: 0 auto;

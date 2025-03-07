@@ -51,7 +51,7 @@
 
     function trialAttend(index) {
         selectedParticipant = participants[index];
-        attendCourseType = 'TRIAL_ATTEND';
+        attendCourseType = 'TRIAL_ATTENDANCE';
     }
 
     function attendWithoutMemberCard(index) {
@@ -125,7 +125,7 @@
 
 {#if attendCourseType}
     <AttendCourseModal
-        attendType={attendCourseType}
+        attendanceType={attendCourseType}
         {selectedParticipant}
         {selectedCourse}
         {activeMemberCards}

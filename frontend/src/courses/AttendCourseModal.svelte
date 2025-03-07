@@ -1,26 +1,32 @@
 <script>
-    import { onMount } from "svelte";
     import Modal from "../common/Modal.svelte";
+    import { toastError, toastSuccess } from "../toast/toastStore.js";
+    import { AttendCourse } from "../../wailsjs/go/participants/MemberCardCourseParticipationController";
 
-    export let attendType;
+
+    export let attendanceType;
     export let selectedParticipant;
     export let selectedCourse;
     export let activeMemberCards;
     export let onDestroy;
 
     function attendCourseWithMemberCard(memberCard) {
-        if (memberCard) {
-            console.log({
-                user: selectedParticipant?.id,
-                card: memberCard?.id,
-            });
-            return;
-        }
+        const attendCourseCommand = {
+            memberCard: memberCard?.id ?? activeMemberCards[0]?.id,
+            course: selectedCourse?.id,
+            participant: selectedParticipant?.id,
+            attendanceType: attendanceType
+        };
 
-        console.log({
-            user: selectedParticipant?.id,
-            card: activeMemberCards[0]?.id,
-        });
+        AttendCourse(attendCourseCommand).then(__ => {
+            toastSuccess();
+            onDestroy()
+        }).catch(err => {
+            console.error(err);
+            toastError();
+        })
+
+        console.log(attendCourseCommand);
     }
 
     function trialAttend() {
@@ -33,7 +39,7 @@
     function attendCourseWIthoutMemberCard() {}
 </script>
 
-{#if attendType === "WITH_MEMBER_CARD"}
+{#if attendanceType === "WITH_MEMBER_CARD"}
     <Modal
         onModalCanceled={onDestroy}
         onModalConfirmed={activeMemberCards?.length === 1
@@ -130,7 +136,7 @@
     </Modal>
 {/if}
 
-{#if attendType === "TRIAL_ATTEND"}
+{#if attendanceType === "TRIAL_ATTENDANCE"}
     <Modal onModalCanceled={onDestroy} onModalConfirmed={trialAttend}>
         <div slot="body">
             Please confirm that
@@ -147,7 +153,7 @@
     </Modal>
 {/if}
 
-{#if attendType === "WITHOUT_MEMBER_CARD"}
+{#if attendanceType === "WITHOUT_MEMBER_CARD"}
     <Modal
         onModalCanceled={onDestroy}
         onModalConfirmed={attendCourseWIthoutMemberCard}

@@ -21,6 +21,7 @@ func main() {
 		&courses.ScheduleEntry{},
 		&participants.Participant{},
 		&participants.MemberCard{},
+		&participants.CourseAttendance{},
 	)
 
 	app := NewApp()

@@ -21,13 +21,23 @@ func NewMemberCard(participant uint) *MemberCard {
 	return &MemberCard{Capacity: capacityLimit, ParticipantID: participant}
 }
 
+func (memberCard *MemberCard) isValid() bool {
+	return memberCard.Capacity > 0
+}
+
 func (memberCard *MemberCard) visitCourse() bool {
-	if memberCard.Capacity == 0 {
+	if !memberCard.isValid() {
 		fmt.Println("Participant must buy a new card!")
 		return false
 	}
 	memberCard.Capacity -= 1
-	return true
+	return memberCard.isValid()
+}
+
+func (memberCard *MemberCard) markAsUsed() {
+	if !memberCard.isValid() {
+		memberCard.Deleted = gorm.DeletedAt{Time: time.Now(), Valid: true}
+	}
 }
 
 func (memberCard *MemberCard) restoreVisit() bool {

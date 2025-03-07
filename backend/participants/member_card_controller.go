@@ -19,7 +19,7 @@ func (controller *MemberCardController) FindAllMemberCards(participantId uint) (
 	var participantMemberCards []MemberCard
 	var participantMemberCardInfos []MemberCardInfo
 
-	baseQuery := controller.dbManager.DB.Model(&MemberCard{}).Where("participant_id = ?", participantId)
+	baseQuery := controller.dbManager.DB.Model(&MemberCard{}).Unscoped().Where("participant_id = ?", participantId)
 
 	if err := baseQuery.
 		Order("created_at desc").

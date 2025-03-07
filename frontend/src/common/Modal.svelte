@@ -95,6 +95,36 @@
         max-width: 30vw;
     }
 
+    @media (max-width: 1400px) {
+        .modal-small {
+            max-width: 40vw;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .modal-small {
+            max-width: 50vw;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .modal-small {
+            max-width: 60vw;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .modal-small {
+            max-width: 70vw;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .modal-small {
+            max-width: 80vw;
+        }
+    }
+
     .modal-medium {
         max-width: 50vw;
     }

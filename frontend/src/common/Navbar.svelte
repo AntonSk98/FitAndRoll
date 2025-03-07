@@ -11,7 +11,7 @@
 </script>
 
 <nav class="mb-4">
-    <ul class="flex justify-start gap-1.5 flex-wrap">
+    <ul class="flex justify-start gap-2 flex-wrap">
         {#each ['courses', 'participants', 'archive'] as page}
             <li>
                 <button
@@ -24,8 +24,10 @@
                         border-2
                         border-transparent
                         transition
-                        duration-300
+                        duration-700
+                        hover:scale-[1.08]
                         hover:bg-[var(--primary-color-light)] hover:text-white
+                        cursor-pointer
                     {$activePage === page
                         ? 'bg-[var(--primary-color-dark)] text-white shadow-xl shadow-[var(--primary-color-dark)]'
                         : ''}"

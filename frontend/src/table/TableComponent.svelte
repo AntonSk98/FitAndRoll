@@ -59,6 +59,14 @@
 
         onPaginationFilterChanged(filter, paginationRef?.resetPagination());
     }
+
+    // Reset scroll to the left on resizing
+    window.addEventListener("resize", function () {
+        const tableContainer = document.querySelector(".table-container");
+        if (tableContainer) {
+            tableContainer.scrollLeft = 0;
+        }
+    });
 </script>
 
 <div class="table-outer-container">

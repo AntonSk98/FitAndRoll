@@ -48,3 +48,7 @@ func (memberCard *MemberCard) restoreVisit() bool {
 	memberCard.Capacity += 1
 	return true
 }
+
+func (memberCard *MemberCard) isUnused() bool {
+	return memberCard.Capacity == capacityLimit
+}

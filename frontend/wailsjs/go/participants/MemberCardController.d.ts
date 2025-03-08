@@ -6,4 +6,6 @@ export function FindAllMemberCards(arg1:number):Promise<Array<participants.Membe
 
 export function IssueNewMemberCard(arg1:number):Promise<void>;
 
+export function LoadMemberCardCourseHistory(arg1:number,arg2:number):Promise<Array<participants.MemberCardHistoryEntry>>;
+
 export function UndoIssueNewMemberCard(arg1:number,arg2:number):Promise<void>;

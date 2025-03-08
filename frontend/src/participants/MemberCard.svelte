@@ -6,6 +6,7 @@
         FindAllMemberCards,
         IssueNewMemberCard,
         UndoIssueNewMemberCard,
+        LoadMemberCardCourseHistory,
     } from "../../wailsjs/go/participants/MemberCardController";
     import BackButton from "../common/BackButton.svelte";
 
@@ -24,46 +25,60 @@
         !displayMemberCardParticipationHistory &&
         !displayNewCardConfirmationDialog
     ) {
-        findAllMemberCards()
+        findAllMemberCards();
     }
 
     function findAllMemberCards() {
-        FindAllMemberCards(member.id).then((cards) => (memberCards = cards || [])).catch(error => {
-            console.error(error);
-            toastError();
-        });
+        FindAllMemberCards(member.id)
+            .then((cards) => (memberCards = cards || []))
+            .catch((error) => {
+                console.error(error);
+                toastError();
+            });
     }
 
     function deleteEmptyMemberCard() {
-        UndoIssueNewMemberCard(member.id, selectedMemberCardId).then(() => {
-            findAllMemberCards();
-            displayMemberCardParticipationHistory = false;
-        }).catch(error => {
-            console.error(error);
-            toastError();
-        });
+        UndoIssueNewMemberCard(member.id, selectedMemberCardId)
+            .then(() => {
+                findAllMemberCards();
+                displayMemberCardParticipationHistory = false;
+            })
+            .catch((error) => {
+                console.error(error);
+                toastError();
+            });
     }
 
     function onMemberCardClicked(index) {
         selectedMemberCardId = memberCards[index]?.id;
-        displayMemberCardParticipationHistory = true;
+        LoadMemberCardCourseHistory(member.id, selectedMemberCardId)
+            .then((history) => {
+                memberCardParticipationHistory = history;
+                displayMemberCardParticipationHistory = true;
+            })
+            .catch((err) => {
+                console.error(err);
+                toastError();
+            });
     }
 
     function issueNewMemberCard() {
-        IssueNewMemberCard(member.id).then(() => {
-            displayNewCardConfirmationDialog = false;
-            findAllMemberCards()
-        }).catch(error => {
-            console.error(error);
-            toastError();
-        })
+        IssueNewMemberCard(member.id)
+            .then(() => {
+                displayNewCardConfirmationDialog = false;
+                findAllMemberCards();
+            })
+            .catch((error) => {
+                console.error(error);
+                toastError();
+            });
     }
 </script>
 
 <div class="member-card-header">
     <div class="flex justify-between items-center gap-3">
         <span class="holder">{member.name} {member.surname}</span>
-        <BackButton {onBackButtonClicked}/>
+        <BackButton {onBackButtonClicked} />
     </div>
     <button
         class="primary"
@@ -121,10 +136,24 @@
         <div slot="body" class="text-left">
             {#if memberCardParticipationHistory?.length > 0}
                 <div class="member-card-overview-header">History</div>
-                <ul class="px-3 py-2">
+                <ul class="px-3 py-2 flex flex-col gap-3">
                     {#each memberCardParticipationHistory as memberCardParticipationEntry}
-                        <li>
-                            {memberCardParticipationEntry.name} | {memberCardParticipationEntry.date}
+                        <li
+                            class="p-2 bg-[var(--secondary-color)] rounded-xl"
+                        >
+                            <span class="text-[var(--primary-color)] text-lg"
+                                >📌</span
+                            >
+                            <span class="font-medium"
+                                >{memberCardParticipationEntry.course}</span
+                            >
+                            <span
+                                class="font-bold text-xl text-[var(--primary-color)]"
+                                >|</span
+                            >
+                            <span class="text-gray-600 text-sm"
+                                >{memberCardParticipationEntry.attendedAt}</span
+                            >
                         </li>
                     {/each}
                 </ul>
@@ -169,8 +198,8 @@
         return {
             index: `#${index}`,
             issued: card.issuedAt,
-            expired: card.expiredAt || 'X'
-        }
+            expired: card.expiredAt || "X",
+        };
     })}
 />
 

@@ -4,6 +4,11 @@ import (
 	"fit_and_roll/backend/mappers"
 )
 
+type MemberCardHistoryEntry struct {
+	Course     string `json:"course"`
+	AttendedAt string `json:"attendedAt"`
+}
+
 type MemberCardInfo struct {
 	ID        uint   `json:"id"`
 	Capacity  uint   `json:"capacity"`

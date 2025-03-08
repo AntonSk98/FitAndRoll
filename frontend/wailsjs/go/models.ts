@@ -316,6 +316,20 @@ export namespace participants {
 	        this.withActiveCard = source["withActiveCard"];
 	    }
 	}
+	export class MemberCardHistoryEntry {
+	    course: string;
+	    attendedAt: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new MemberCardHistoryEntry(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.course = source["course"];
+	        this.attendedAt = source["attendedAt"];
+	    }
+	}
 	export class MemberCardInfo {
 	    id: number;
 	    capacity: number;

@@ -10,6 +10,10 @@ export function IssueNewMemberCard(arg1) {
   return window['go']['participants']['MemberCardController']['IssueNewMemberCard'](arg1);
 }
 
+export function LoadMemberCardCourseHistory(arg1, arg2) {
+  return window['go']['participants']['MemberCardController']['LoadMemberCardCourseHistory'](arg1, arg2);
+}
+
 export function UndoIssueNewMemberCard(arg1, arg2) {
   return window['go']['participants']['MemberCardController']['UndoIssueNewMemberCard'](arg1, arg2);
 }

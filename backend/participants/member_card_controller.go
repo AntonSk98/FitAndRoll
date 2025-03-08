@@ -2,7 +2,9 @@ package participants
 
 import (
 	"fit_and_roll/backend/config"
+	"fit_and_roll/backend/mappers"
 	"fmt"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -52,20 +54,56 @@ func (controller *MemberCardController) IssueNewMemberCard(participantId uint) e
 }
 
 func (controller *MemberCardController) UndoIssueNewMemberCard(participantId uint, memberCardId uint) error {
-	result := controller.dbManager.DB.
-		Unscoped().
-		Where("id = ? AND participant_id = ?", memberCardId, participantId).
-		Delete(&MemberCard{})
+	var memberCard MemberCard
 
-	if result.RowsAffected == 0 {
-		return fmt.Errorf("could not remove the member card. Either participant or member card do not exist")
+	if err := controller.dbManager.DB.Where("id = ? AND participant_id = ?", memberCardId, participantId).First(&memberCard).Error; err != nil {
+		return err
 	}
 
-	if err := result.Error; err != nil {
+	if !memberCard.isUnused() {
+		return fmt.Errorf("unable to delete the member card as it has already been used")
+	}
+
+	if err := controller.dbManager.DB.Unscoped().Delete(&memberCard).Error; err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (controller *MemberCardController) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
+
+	var courseAttendanceProjection []struct {
+		CourseName string    `gorm:"column:name"`
+		AttendedAt time.Time `gorm:"column:created_at"`
+	}
+
+	err := controller.dbManager.DB.
+		Model(&CourseAttendance{}).
+		Select("courses.name, course_attendances.created_at").
+		Joins("JOIN courses ON courses.id = course_attendances.course_id").
+		Where("course_attendances.participant_id = ? AND course_attendances.member_card_id = ?", participantId, memberCardId).
+		Order("course_attendances.created_at DESC").
+		Scan(&courseAttendanceProjection).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	var historyEntries []MemberCardHistoryEntry
+
+	for _, courseAttendanceEntry := range courseAttendanceProjection {
+		memberCardHistoryEntry := &MemberCardHistoryEntry{
+			Course:     courseAttendanceEntry.CourseName,
+			AttendedAt: mappers.ToDateString(courseAttendanceEntry.AttendedAt),
+		}
+
+		historyEntries = append(historyEntries, *memberCardHistoryEntry)
+	}
+
+	fmt.Println(historyEntries)
+
+	return historyEntries, nil
 }
 
 func requireParticipant(participantId uint, db *gorm.DB) (*Participant, error) {

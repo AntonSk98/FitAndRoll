@@ -1,6 +1,6 @@
 package courses
 
-import "fit_and_roll/backend/mappers"
+import "fit_and_roll/backend/common"
 
 type CourseDto struct {
 	ID          uint          `json:"id"`
@@ -49,7 +49,7 @@ func NewCourseDetailsDto(course Course) *CourseDetailsDto {
 
 func toScheduleDto(schedule ScheduleEntry) ScheduleDto {
 	return ScheduleDto{
-		Day:  mappers.ToWeekDayString(schedule.Day),
-		Time: mappers.ToTimeString(schedule.Time),
+		Day:  common.ToWeekDayString(schedule.Day),
+		Time: common.ToTimeString(schedule.Time),
 	}
 }

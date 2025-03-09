@@ -1,8 +1,11 @@
-package participants
+package attendancehistory
 
 import (
+	"fit_and_roll/backend/common"
 	"fit_and_roll/backend/config"
+	"fit_and_roll/backend/participants"
 	"fmt"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -15,17 +18,17 @@ func NewMemberCardCourseParticipationController(dbManager *config.DatabaseManage
 	return &MemberCardCourseParticipationController{dbManager: dbManager}
 }
 
-func (controller *MemberCardCourseParticipationController) FindActiveMemberCards(participant uint) ([]MemberCardInfo, error) {
-	var activeMemberCards []MemberCard
+func (controller *MemberCardCourseParticipationController) FindActiveMemberCards(participant uint) ([]participants.MemberCardInfo, error) {
+	var activeMemberCards []participants.MemberCard
 	result := controller.dbManager.DB.Where("participant_id = ?", participant).Find(&activeMemberCards)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 
-	var activeMemberCardInfo []MemberCardInfo
+	var activeMemberCardInfo []participants.MemberCardInfo
 
 	for _, activeMemberCard := range activeMemberCards {
-		activeMemberCardInfo = append(activeMemberCardInfo, *NewMemberCardInfo(activeMemberCard))
+		activeMemberCardInfo = append(activeMemberCardInfo, *participants.NewMemberCardInfo(activeMemberCard))
 	}
 	return activeMemberCardInfo, nil
 }
@@ -55,15 +58,15 @@ func (controller *MemberCardCourseParticipationController) AttendCourse(courseAt
 }
 
 func (controller *MemberCardCourseParticipationController) attendWithMemberCard(tx *gorm.DB, memberCardID uint) error {
-	var memberCard MemberCard
+	var memberCard participants.MemberCard
 	if err := tx.First(&memberCard, memberCardID).Error; err != nil {
 		return fmt.Errorf("could not find member card with ID %v: %w", memberCardID, err)
 	}
 
 	// Handle course visit logic based on the capacity
-	if !memberCard.visitCourse() {
+	if !memberCard.VisitCourse() {
 		// Mark card as used if it cannot be visited due to capacity
-		memberCard.markAsUsed()
+		memberCard.MarkAsUsed()
 	}
 
 	// Save updated member card state
@@ -74,6 +77,37 @@ func (controller *MemberCardCourseParticipationController) attendWithMemberCard(
 	return nil
 }
 
-// findParticipant(name or surname...) -> {name|surname|hasValidMemberCard}
-// takePartInCourse(participantId, courseId, actionType) -> CourseParticipantEntry(manyToOne to Course... manyToOne to Participant)
-// undoTakePartInCourse(participantId, courseId, actionType)
+func (controller *MemberCardCourseParticipationController) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
+
+	var courseAttendanceProjection []struct {
+		CourseName string    `gorm:"column:name"`
+		AttendedAt time.Time `gorm:"column:created_at"`
+	}
+
+	err := controller.dbManager.DB.
+		Model(&CourseAttendance{}).
+		Select("courses.name, course_attendances.created_at").
+		Joins("JOIN courses ON courses.id = course_attendances.course_id").
+		Where("course_attendances.participant_id = ? AND course_attendances.member_card_id = ?", participantId, memberCardId).
+		Order("course_attendances.created_at DESC").
+		Scan(&courseAttendanceProjection).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	var historyEntries []MemberCardHistoryEntry
+
+	for _, courseAttendanceEntry := range courseAttendanceProjection {
+		memberCardHistoryEntry := &MemberCardHistoryEntry{
+			Course:     courseAttendanceEntry.CourseName,
+			AttendedAt: common.ToDateString(courseAttendanceEntry.AttendedAt),
+		}
+
+		historyEntries = append(historyEntries, *memberCardHistoryEntry)
+	}
+
+	fmt.Println(historyEntries)
+
+	return historyEntries, nil
+}

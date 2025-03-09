@@ -25,7 +25,7 @@ func (memberCard *MemberCard) isValid() bool {
 	return memberCard.Capacity > 0
 }
 
-func (memberCard *MemberCard) visitCourse() bool {
+func (memberCard *MemberCard) VisitCourse() bool {
 	if !memberCard.isValid() {
 		fmt.Println("Participant must buy a new card!")
 		return false
@@ -34,7 +34,7 @@ func (memberCard *MemberCard) visitCourse() bool {
 	return memberCard.isValid()
 }
 
-func (memberCard *MemberCard) markAsUsed() {
+func (memberCard *MemberCard) MarkAsUsed() {
 	if !memberCard.isValid() {
 		memberCard.Deleted = gorm.DeletedAt{Time: time.Now(), Valid: true}
 	}

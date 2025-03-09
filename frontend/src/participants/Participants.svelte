@@ -1,5 +1,5 @@
 <script>
-    import TableComponent from "../table/TableComponent.svelte";
+    import TableComponent from "../common/TableComponent.svelte";
     import {
         FindParticipants,
         ArchiveParticipant,

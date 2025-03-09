@@ -1,8 +1,8 @@
 <script>
     import { t } from "svelte-i18n";
 
-    import Modal from "../common/Modal.svelte";
-    import PaginationComponent from "../common/PaginationComponent.svelte";
+    import Modal from "./Modal.svelte";
+    import PaginationComponent from "./PaginationComponent.svelte";
 
     export let tableHeader = null;
     export let total;

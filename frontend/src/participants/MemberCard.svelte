@@ -1,13 +1,16 @@
 <script>
     import Modal from "../common/Modal.svelte";
-    import TableComponent from "../table/TableComponent.svelte";
+    import TableComponent from "../common/TableComponent.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore";
     import {
         FindAllMemberCards,
         IssueNewMemberCard,
         UndoIssueNewMemberCard,
-        LoadMemberCardCourseHistory,
     } from "../../wailsjs/go/participants/MemberCardController";
+
+    import {
+        LoadMemberCardCourseHistory
+    } from "../../wailsjs/go/attendancehistory/MemberCardCourseParticipationController"
     import BackButton from "../common/BackButton.svelte";
 
     export let member;

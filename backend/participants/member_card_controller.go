@@ -2,9 +2,7 @@ package participants
 
 import (
 	"fit_and_roll/backend/config"
-	"fit_and_roll/backend/mappers"
 	"fmt"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -69,41 +67,6 @@ func (controller *MemberCardController) UndoIssueNewMemberCard(participantId uin
 	}
 
 	return nil
-}
-
-func (controller *MemberCardController) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
-
-	var courseAttendanceProjection []struct {
-		CourseName string    `gorm:"column:name"`
-		AttendedAt time.Time `gorm:"column:created_at"`
-	}
-
-	err := controller.dbManager.DB.
-		Model(&CourseAttendance{}).
-		Select("courses.name, course_attendances.created_at").
-		Joins("JOIN courses ON courses.id = course_attendances.course_id").
-		Where("course_attendances.participant_id = ? AND course_attendances.member_card_id = ?", participantId, memberCardId).
-		Order("course_attendances.created_at DESC").
-		Scan(&courseAttendanceProjection).Error
-
-	if err != nil {
-		return nil, err
-	}
-
-	var historyEntries []MemberCardHistoryEntry
-
-	for _, courseAttendanceEntry := range courseAttendanceProjection {
-		memberCardHistoryEntry := &MemberCardHistoryEntry{
-			Course:     courseAttendanceEntry.CourseName,
-			AttendedAt: mappers.ToDateString(courseAttendanceEntry.AttendedAt),
-		}
-
-		historyEntries = append(historyEntries, *memberCardHistoryEntry)
-	}
-
-	fmt.Println(historyEntries)
-
-	return historyEntries, nil
 }
 
 func requireParticipant(participantId uint, db *gorm.DB) (*Participant, error) {

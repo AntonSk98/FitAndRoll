@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	attendancehistory "fit_and_roll/backend/attendance_history"
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/courses"
 	"fit_and_roll/backend/participants"
@@ -21,14 +22,14 @@ func main() {
 		&courses.ScheduleEntry{},
 		&participants.Participant{},
 		&participants.MemberCard{},
-		&participants.CourseAttendance{},
+		&attendancehistory.CourseAttendance{},
 	)
 
 	app := NewApp()
 	coursesController := courses.NewCoursesController(dbManager)
 	participantsController := participants.NewParticipantsController(dbManager)
 	memberCardController := participants.NewMemberCardController(dbManager)
-	courseParticipationController := participants.NewMemberCardCourseParticipationController(dbManager)
+	courseParticipationController := attendancehistory.NewMemberCardCourseParticipationController(dbManager)
 
 	// Create application with options
 	err := wails.Run(&options.App{

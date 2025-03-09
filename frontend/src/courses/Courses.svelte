@@ -5,7 +5,7 @@
         ArchiveCourse,
     } from "../../wailsjs/go/courses/CourseController.js";
     import { ComponentControl } from "./componentControl.js";
-    import TableComponent from "../table/TableComponent.svelte";
+    import TableComponent from "../common/TableComponent.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import CreateUpdateCourse from "./CreateUpdateCourse.svelte";
     import CourseParticipant from "./CourseParticipant.svelte";

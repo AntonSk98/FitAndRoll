@@ -2,9 +2,9 @@
     import BackButton from "../common/BackButton.svelte";
     import { FindParticipants } from "../../wailsjs/go/participants/ParticipantsController.js";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { onDestroy, onMount } from "svelte";
-    import TableComponent from "../table/TableComponent.svelte";
-    import { FindActiveMemberCards } from "../../wailsjs/go/participants/MemberCardCourseParticipationController";
+    import { onMount } from "svelte";
+    import TableComponent from "../common/TableComponent.svelte";
+    import { FindActiveMemberCards } from "../../wailsjs/go/attendancehistory/MemberCardCourseParticipationController";
     import AttendCourseModal from "./AttendCourseModal.svelte";
 
     export let selectedCourse;

@@ -1,7 +1,7 @@
 package courses
 
 import (
-	"fit_and_roll/backend/mappers"
+	"fit_and_roll/backend/common"
 	"fmt"
 )
 
@@ -46,13 +46,13 @@ func (request *UpdateCourseRequest) Validate() error {
 }
 
 func (scheduleEntryRequest *ScheduleEntryRequest) Map() (*ScheduleEntry, error) {
-	mappedDay, dayErr := mappers.ToWeekDay(scheduleEntryRequest.Day)
+	mappedDay, dayErr := common.ToWeekDay(scheduleEntryRequest.Day)
 
 	if dayErr != nil {
 		return nil, dayErr
 	}
 
-	mappedTime, timeErr := mappers.ToTimeOnly(scheduleEntryRequest.Time)
+	mappedTime, timeErr := common.ToTimeOnly(scheduleEntryRequest.Time)
 	if timeErr != nil {
 		return nil, timeErr
 	}

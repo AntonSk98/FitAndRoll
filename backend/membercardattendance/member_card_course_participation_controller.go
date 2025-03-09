@@ -1,4 +1,4 @@
-package attendancehistory
+package membercardattendance
 
 import (
 	"fit_and_roll/backend/common"
@@ -10,15 +10,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type MemberCardCourseParticipationController struct {
+type MemberCardAttendanceController struct {
 	dbManager *config.DatabaseManager
 }
 
-func NewMemberCardCourseParticipationController(dbManager *config.DatabaseManager) *MemberCardCourseParticipationController {
-	return &MemberCardCourseParticipationController{dbManager: dbManager}
+func NewMemberCardCourseParticipationController(dbManager *config.DatabaseManager) *MemberCardAttendanceController {
+	return &MemberCardAttendanceController{dbManager: dbManager}
 }
 
-func (controller *MemberCardCourseParticipationController) FindActiveMemberCards(participant uint) ([]participants.MemberCardInfo, error) {
+func (controller *MemberCardAttendanceController) FindActiveMemberCards(participant uint) ([]participants.MemberCardInfo, error) {
 	var activeMemberCards []participants.MemberCard
 	result := controller.dbManager.DB.Where("participant_id = ?", participant).Find(&activeMemberCards)
 	if result.Error != nil {
@@ -33,7 +33,7 @@ func (controller *MemberCardCourseParticipationController) FindActiveMemberCards
 	return activeMemberCardInfo, nil
 }
 
-func (controller *MemberCardCourseParticipationController) AttendCourse(courseAttendanceCommand CourseAttendanceCommand) error {
+func (controller *MemberCardAttendanceController) AttendCourse(courseAttendanceCommand CourseAttendanceCommand) error {
 	return controller.dbManager.Transactional(func(tx *gorm.DB) error {
 		// Handle Member Card processing if it's provided
 		if courseAttendanceCommand.MemberCardID != nil {
@@ -57,7 +57,7 @@ func (controller *MemberCardCourseParticipationController) AttendCourse(courseAt
 	})
 }
 
-func (controller *MemberCardCourseParticipationController) attendWithMemberCard(tx *gorm.DB, memberCardID uint) error {
+func (controller *MemberCardAttendanceController) attendWithMemberCard(tx *gorm.DB, memberCardID uint) error {
 	var memberCard participants.MemberCard
 	if err := tx.First(&memberCard, memberCardID).Error; err != nil {
 		return fmt.Errorf("could not find member card with ID %v: %w", memberCardID, err)
@@ -77,7 +77,7 @@ func (controller *MemberCardCourseParticipationController) attendWithMemberCard(
 	return nil
 }
 
-func (controller *MemberCardCourseParticipationController) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
+func (controller *MemberCardAttendanceController) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
 
 	var courseAttendanceProjection []struct {
 		CourseName string    `gorm:"column:name"`
@@ -85,11 +85,12 @@ func (controller *MemberCardCourseParticipationController) LoadMemberCardCourseH
 	}
 
 	err := controller.dbManager.DB.
-		Model(&CourseAttendance{}).
-		Select("courses.name, course_attendances.created_at").
-		Joins("JOIN courses ON courses.id = course_attendances.course_id").
-		Where("course_attendances.participant_id = ? AND course_attendances.member_card_id = ?", participantId, memberCardId).
-		Order("course_attendances.created_at DESC").
+		Model(&MemberCardAttendance{}).
+		Select("courses.name, member_card_attendances.created_at").
+		Joins("JOIN courses ON courses.id = member_card_attendances.course_id").
+		Unscoped().
+		Where("member_card_attendances.participant_id = ? AND member_card_attendances.member_card_id = ?", participantId, memberCardId).
+		Order("member_card_attendances.created_at DESC").
 		Scan(&courseAttendanceProjection).Error
 
 	if err != nil {

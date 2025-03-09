@@ -1,4 +1,4 @@
-package attendancehistory
+package membercardattendance
 
 type CourseAttendanceCommand struct {
 	MemberCardID   *uint  `json:"memberCard,omitempty"`

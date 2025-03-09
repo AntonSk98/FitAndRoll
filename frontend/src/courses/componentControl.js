@@ -5,6 +5,7 @@ export class ComponentControl {
         this.updateCourseComponent = false;
         this.courseParticipantsComponent = false;
         this.courseParticipantsHistoryComponent = false;
+        this.allAttendanceHistoryComponent = false;
     }
 
     showDefineNewCourseComponent() {
@@ -25,9 +26,16 @@ export class ComponentControl {
         return this;
     }
 
-    showcourseParticipantsHistoryComponent() {
+    showCourseParticipantsHistoryComponent() {
         this.courseParticipantsHistoryComponent = true;
         this.showCourseOverview = false;
+        return this;
+    }
+
+    showAllAttendanceHistoryComponent() {
+        this.allAttendanceHistoryComponent = true;
+        this.showCourseOverview = false;
+        return this;
     }
 
     resetComponentControl() {

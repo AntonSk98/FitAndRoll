@@ -1,40 +1,3 @@
-export namespace attendancehistory {
-	
-	export class CourseAttendanceCommand {
-	    memberCard?: number;
-	    course: number;
-	    participant: number;
-	    attendanceType: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new CourseAttendanceCommand(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.memberCard = source["memberCard"];
-	        this.course = source["course"];
-	        this.participant = source["participant"];
-	        this.attendanceType = source["attendanceType"];
-	    }
-	}
-	export class MemberCardHistoryEntry {
-	    course: string;
-	    attendedAt: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new MemberCardHistoryEntry(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.course = source["course"];
-	        this.attendedAt = source["attendedAt"];
-	    }
-	}
-
-}
-
 export namespace common {
 	
 	export class PageParams {
@@ -122,6 +85,31 @@ export namespace common {
 		    }
 		    return a;
 		}
+	}
+
+}
+
+export namespace courseattendance {
+	
+	export class CourseAttendanceDto {
+	    fullname: string;
+	    course: string;
+	    archivedCourse: boolean;
+	    attendedAt: string;
+	    attendanceType: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new CourseAttendanceDto(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.fullname = source["fullname"];
+	        this.course = source["course"];
+	        this.archivedCourse = source["archivedCourse"];
+	        this.attendedAt = source["attendedAt"];
+	        this.attendanceType = source["attendanceType"];
+	    }
 	}
 
 }
@@ -311,6 +299,43 @@ export namespace courses {
 		    }
 		    return a;
 		}
+	}
+
+}
+
+export namespace membercardattendance {
+	
+	export class CourseAttendanceCommand {
+	    memberCard?: number;
+	    course: number;
+	    participant: number;
+	    attendanceType: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new CourseAttendanceCommand(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.memberCard = source["memberCard"];
+	        this.course = source["course"];
+	        this.participant = source["participant"];
+	        this.attendanceType = source["attendanceType"];
+	    }
+	}
+	export class MemberCardHistoryEntry {
+	    course: string;
+	    attendedAt: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new MemberCardHistoryEntry(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.course = source["course"];
+	        this.attendedAt = source["attendedAt"];
+	    }
 	}
 
 }

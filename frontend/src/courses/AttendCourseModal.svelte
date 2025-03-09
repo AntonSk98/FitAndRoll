@@ -1,7 +1,7 @@
 <script>
     import Modal from "../common/Modal.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { AttendCourse } from "../../wailsjs/go/attendancehistory/MemberCardCourseParticipationController";
+    import { AttendCourse } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceController";
 
 
     export let attendanceType;
@@ -11,6 +11,18 @@
     export let onDestroy;
 
     function attendCourseWithMemberCard(memberCard) {
+        abstractAttendCourse(memberCard);
+    }
+
+    function trialAttend() {
+        abstractAttendCourse();
+    }
+
+    function attendCourseWIthoutMemberCard() {
+        abstractAttendCourse();
+    }
+
+    function abstractAttendCourse(memberCard) {
         const attendCourseCommand = {
             memberCard: memberCard?.id ?? activeMemberCards[0]?.id,
             course: selectedCourse?.id,
@@ -25,18 +37,7 @@
             console.error(err);
             toastError();
         })
-
-        console.log(attendCourseCommand);
     }
-
-    function trialAttend() {
-        console.log({
-            user: selectedParticipant?.id,
-            course: selectedCourse?.id,
-        });
-    }
-
-    function attendCourseWIthoutMemberCard() {}
 </script>
 
 {#if attendanceType === "WITH_MEMBER_CARD"}

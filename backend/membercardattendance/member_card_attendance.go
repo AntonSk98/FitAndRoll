@@ -1,4 +1,4 @@
-package attendancehistory
+package membercardattendance
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ const (
 	WithoutMemberCard AttendanceType = "WITHOUT_MEMBER_CARD"
 )
 
-type CourseAttendance struct {
+type MemberCardAttendance struct {
 	ID             uint `gorm:"primaryKey"`
 	MemberCardID   *uint
 	CourseID       uint `gorm:"not null"`
@@ -22,13 +22,13 @@ type CourseAttendance struct {
 	AttendanceType AttendanceType `gorm:"type:varchar(20);not null"`
 }
 
-func NewCourseAttendance(courseAttendance CourseAttendanceCommand) (*CourseAttendance, error) {
+func NewCourseAttendance(courseAttendance CourseAttendanceCommand) (*MemberCardAttendance, error) {
 	mappedAttendanceType, error := mapToAttendanceType(courseAttendance.AttendanceType)
 	if error != nil {
 		return nil, error
 	}
 
-	return &CourseAttendance{
+	return &MemberCardAttendance{
 		MemberCardID:   courseAttendance.MemberCardID,
 		CourseID:       courseAttendance.CourseID,
 		ParticipantID:  courseAttendance.ParticipantID,

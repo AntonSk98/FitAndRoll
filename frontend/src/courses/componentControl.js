@@ -43,6 +43,7 @@ export class ComponentControl {
         this.updateCourseComponent = false;
         this.courseParticipantsComponent = false;
         this.courseParticipantsHistoryComponent = false;
+        this.allAttendanceHistoryComponent = false;
         this.showCourseOverview = true;
         return this;
     }

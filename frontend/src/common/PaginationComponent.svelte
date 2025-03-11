@@ -42,59 +42,63 @@
 
     export function resetPagination() {
         pagination.currentPage = 1;
+        pagination.pageSize = pageSizeOptions[0];
         return pagination;
     }
 </script>
 
 <div class="pagination-container">
-    <div>
-        <button
-            class="pagination-button"
-            disabled={isFirstPage}
-            on:click={previousPage}
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-4 h-4"
+    <div class="flex flex-col gap-1 items-start">
+        <div>
+            <button
+                class="pagination-button"
+                disabled={isFirstPage}
+                on:click={previousPage}
             >
-                <path
-                    fill-rule="evenodd"
-                    d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
-                    clip-rule="evenodd"
-                />
-            </svg>
-        </button>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-4 h-4"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </button>
 
-        <span class="pagination-info">
-            <strong>{pagination.currentPage}</strong>
-            {$t("common.pagination.of")}
-            <strong
-                >{Math.ceil(
-                    pagination.totalItems / pagination.pageSize,
-                )}</strong
-            >
-        </span>
+            <span class="pagination-info">
+                <strong>{pagination.currentPage}</strong>
+                {$t("common.pagination.of")}
+                <strong
+                    >{Math.ceil(
+                        pagination.totalItems / pagination.pageSize,
+                    )}</strong
+                >
+            </span>
 
-        <button
-            class="pagination-button"
-            disabled={isLastPage}
-            on:click={nextPage}
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-4 h-4"
+            <button
+                class="pagination-button"
+                disabled={isLastPage}
+                on:click={nextPage}
             >
-                <path
-                    fill-rule="evenodd"
-                    d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
-                    clip-rule="evenodd"
-                />
-            </svg>
-        </button>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-4 h-4"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+            </button>
+        </div>
+        <div class="text-[var(--text-color)] font-bold text-sm cursor-default">Total: {total}</div>
     </div>
 
     <div class="page-size-container">

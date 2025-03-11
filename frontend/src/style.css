@@ -13,6 +13,8 @@
     --text-color-darker: #374151;
 
     --error-color: #f87171;
+    --warning-color: #FBBF24;
+
 
     --container-max-width: 1536px;
 }

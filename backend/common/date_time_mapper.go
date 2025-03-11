@@ -67,3 +67,12 @@ func ToWeekDay(dayStr string) (time.Weekday, error) {
 func ToDateString(dateTime time.Time) string {
 	return dateTime.Format(time.DateOnly)
 }
+
+func ToDateTimeString(dateWithTimezoneString string) (string, error) {
+	dateWithTimezone, err := time.Parse(time.RFC3339Nano, dateWithTimezoneString)
+	if err != nil {
+		return "", err
+	}
+
+	return dateWithTimezone.Format("2006-01-02 15:04"), nil
+}

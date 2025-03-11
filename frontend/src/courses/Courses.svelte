@@ -4,12 +4,12 @@
         FindCourses,
         ArchiveCourse,
     } from "../../wailsjs/go/courses/CourseController.js";
-    import { FindOverallAttendanceHistory } from "../../wailsjs/go/courseattendance/CourseAttendanceController.js";
     import { ComponentControl } from "./componentControl.js";
     import TableComponent from "../common/TableComponent.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import CreateUpdateCourse from "./CreateUpdateCourse.svelte";
     import CourseParticipant from "./CourseParticipant.svelte";
+    import CourseAttendanceHistory from "./CourseAttendanceHistory.svelte";
 
     let coursePage;
 
@@ -64,10 +64,6 @@
 
     function toSelectedCourse(index) {
         return coursePage.data[index];
-    }
-
-    function loadAllAttAttendanceHistory() {
-        FindOverallAttendanceHistory().then(entries => console.log(entries))
     }
 </script>
 
@@ -156,5 +152,8 @@
 {/if}
 
 {#if componentControl.allAttendanceHistoryComponent}
-    <div on:click={loadAllAttAttendanceHistory}>Click me to test...</div>
+    <CourseAttendanceHistory
+        onComponentDestroyed={() =>
+            (componentControl = componentControl.resetComponentControl())}
+    />
 {/if}

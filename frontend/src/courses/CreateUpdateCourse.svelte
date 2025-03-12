@@ -5,7 +5,7 @@
         FindCourseDetails,
         NewCourse,
         UpdateCourse
-    } from "../../wailsjs/go/courses/CourseController.js";
+    } from "../../wailsjs/go/courses/CourseHandler.js";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { onMount } from "svelte";
     import Form from "../common/Form.svelte";

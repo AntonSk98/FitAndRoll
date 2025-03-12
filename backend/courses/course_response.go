@@ -2,6 +2,7 @@ package courses
 
 import "fit_and_roll/backend/common"
 
+// CourseDto represents the DTO for a course. It contains only the necessary fields for oveview.
 type CourseDto struct {
 	ID          uint          `json:"id"`
 	Name        string        `json:"name"`
@@ -9,15 +10,18 @@ type CourseDto struct {
 	Schedules   []ScheduleDto `json:"schedules"`
 }
 
+// CourseDetailsDto extened version of CourseDto when retrieven the details of a course.
 type CourseDetailsDto struct {
 	CourseDto
 }
 
+// ScheduleDto represents a DTO for a scheduled entry denoting when a course takes place.
 type ScheduleDto struct {
 	Day  string `json:"day"`
 	Time string `json:"time"`
 }
 
+// Creates a new Course DTO from the course entity.
 func NewCourseDto(course Course) *CourseDto {
 	var schedulesDto []ScheduleDto
 	for _, schedule := range course.Schedules {
@@ -32,6 +36,7 @@ func NewCourseDto(course Course) *CourseDto {
 	}
 }
 
+// Cretes a new Course Details DTO from the course entity.
 func NewCourseDetailsDto(course Course) *CourseDetailsDto {
 	var schedulesDto []ScheduleDto
 	for _, schedule := range course.Schedules {
@@ -40,6 +45,7 @@ func NewCourseDetailsDto(course Course) *CourseDetailsDto {
 
 	return &CourseDetailsDto{
 		CourseDto: CourseDto{
+			ID:          course.ID,
 			Name:        course.Name,
 			Description: course.Description,
 			Schedules:   schedulesDto,

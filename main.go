@@ -27,7 +27,7 @@ func main() {
 	)
 
 	app := NewApp()
-	coursesController := courses.NewCoursesController(dbManager)
+	courseHandler := courses.NewCourseHandler(dbManager)
 	participantsController := participants.NewParticipantsController(dbManager)
 	memberCardController := participants.NewMemberCardController(dbManager)
 	memberCardAttendanceController := membercardattendance.NewMemberCardCourseParticipationController(dbManager)
@@ -45,7 +45,7 @@ func main() {
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			app,
-			coursesController,
+			courseHandler,
 			participantsController,
 			memberCardController,
 			memberCardAttendanceController,

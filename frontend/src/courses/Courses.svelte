@@ -3,7 +3,7 @@
     import {
         FindCourses,
         ArchiveCourse,
-    } from "../../wailsjs/go/courses/CourseController.js";
+    } from "../../wailsjs/go/courses/CourseHandler.js";
     import { ComponentControl } from "./componentControl.js";
     import TableComponent from "../common/TableComponent.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";

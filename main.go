@@ -31,7 +31,7 @@ func main() {
 	participantsController := participants.NewParticipantsController(dbManager)
 	memberCardController := participants.NewMemberCardController(dbManager)
 	memberCardAttendanceController := membercardattendance.NewMemberCardCourseParticipationController(dbManager)
-	courseAttendanceController := courseattendance.NewCourseAttendanceController(dbManager)
+	courseAttendanceHandler := courseattendance.NewCourseAttendanceHandler(dbManager)
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -49,7 +49,7 @@ func main() {
 			participantsController,
 			memberCardController,
 			memberCardAttendanceController,
-			courseAttendanceController,
+			courseAttendanceHandler,
 		},
 	})
 

@@ -5,76 +5,65 @@ import (
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/membercardattendance"
 	"fmt"
+
+	"gorm.io/gorm"
 )
 
-type CourseAttendanceController struct {
+// CourseAttendanceHandler retrieves the attendance history of participants in courses.
+// It provides functionality to fetch either the overall participation history or history filtered by specific course identifier.
+// The handler relies on the provided database manager to query the database for relevant attendance data.
+type CourseAttendanceHandler struct {
 	dbManager *config.DatabaseManager
 }
 
-func NewCourseAttendanceController(dbManager *config.DatabaseManager) *CourseAttendanceController {
-	return &CourseAttendanceController{dbManager: dbManager}
+// NewCourseAttendanceHandler creates a new CourseAttendanceHandler.
+//
+// It initializes the handler with a database manager instance.
+//
+// Parameters:
+//   - dbManager: A pointer to the database manager instance.
+//
+// Returns:
+//   - A pointer to the CourseAttendanceHandler instance.
+func NewCourseAttendanceHandler(dbManager *config.DatabaseManager) *CourseAttendanceHandler {
+	return &CourseAttendanceHandler{dbManager: dbManager}
 }
 
-func (controller *CourseAttendanceController) FindCourseAttendanceHistory(courseAttendanceParameters CourseAttendanceParameters, pageParams common.PageParams) (*common.Page[CourseAttendanceDto], error) {
+// FindCourseAttendanceHistory retrieves the course attendance history based on the provided filters and pagination parameters.
+//
+// Parameters:
+//   - courseAttendanceParameters: Filters to apply when querying attendance records.
+//   - pageParams: Pagination parameters (page number and page size).
+//
+// Returns:
+//   - A paginated list of CourseAttendanceDto containing attendance records.
+//   - An error if the operation fails.
+func (controller *CourseAttendanceHandler) FindCourseAttendanceHistory(courseAttendanceParameters CourseAttendanceParameters, pageParams common.PageParams) (*common.Page[CourseAttendanceDto], error) {
 	var total int64
 	var results []CourseAttendanceDto
 
-	query := controller.dbManager.DB.Model(&membercardattendance.MemberCardAttendance{}).
-		Select("CONCAT(participants.name, ' ', participants.surname) as full_name, " +
-			"courses.name as course, " +
-			"member_card_attendances.created_at as attended_at, " +
-			"member_card_attendances.attendance_type as attendance_type").
-		Joins("JOIN participants ON participants.id = member_card_attendances.participant_id").
-		Joins("JOIN courses ON courses.id = member_card_attendances.course_id").
-		Unscoped()
+	// Initialize base query
+	query := controller.baseQuery()
 
-	if courseAttendanceParameters.CourseID != nil {
-		query = query.Where("courses.id = ?", *courseAttendanceParameters.CourseID)
-	}
+	// Apply filters
+	query = controller.applyFilters(query, courseAttendanceParameters)
 
-	if courseAttendanceParameters.FullNameLike != nil {
-		query = query.Where("LOWER(CONCAT(participants.name, ' ', participants.surname)) LIKE ?", "%"+*courseAttendanceParameters.FullNameLike+"%")
-	}
-
-	if courseAttendanceParameters.CourseLike != nil {
-		query = query.Where("LOWER(courses.name) LIKE ?", "%"+*courseAttendanceParameters.CourseLike+"%")
-	}
-
-	if courseAttendanceParameters.ExcludeArchivedCourses {
-		query = query.Where("courses.deleted IS NULL")
-	}
-
-	if courseAttendanceParameters.ExcludeTrialAttendanced {
-		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.TrialAttendance)
-	}
-
-	if courseAttendanceParameters.ExcludeAttendanceWithMemberCard {
-		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithMemberCard)
-	}
-
-	if courseAttendanceParameters.ExcludeAttendanceWitouthMemberCard {
-		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithoutMemberCard)
-	}
-
+	// Count total results
 	if err := query.Count(&total).Error; err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to count attendance records: %w", err)
 	}
 
-	if err := query.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).
+	// Fetch paginated results
+	if err := query.
+		Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).
 		Order("member_card_attendances.created_at DESC").
 		Scan(&results).Error; err != nil {
+		return nil, fmt.Errorf("failed to fetch attendance history: %w", err)
+	}
+
+	if err := controller.withReadableAttendedAtDate(results); err != nil {
 		return nil, err
 	}
-
-	for index := range results {
-		mappedDateTime, err := common.ToDateTimeString(results[index].AttendedAt)
-		if err != nil {
-			return nil, err
-		}
-		results[index].AttendedAt = mappedDateTime
-	}
-
-	fmt.Println(pageParams)
 
 	return &common.Page[CourseAttendanceDto]{
 		Data:  results,
@@ -82,4 +71,67 @@ func (controller *CourseAttendanceController) FindCourseAttendanceHistory(course
 		Page:  pageParams.Page,
 		Size:  pageParams.Size,
 	}, nil
+}
+
+// withReadableAttendedAtDate formats the 'AttendedAt' field in each record of the provided
+// CourseAttendanceDto slice to a more readable date format. If an error occurs while
+// formatting any date, it returns an error.
+//
+// This method modifies the 'AttendedAt' field in the original results slice to use a
+// human-readable datetime format (e.g., "2006-01-02 15:04").
+func (controller *CourseAttendanceHandler) withReadableAttendedAtDate(results []CourseAttendanceDto) error {
+	for i := range results {
+		formattedDate, err := common.ToDateTimeString(results[i].AttendedAt)
+		if err != nil {
+			return fmt.Errorf("failed to format date: %w", err)
+		}
+		results[i].AttendedAt = formattedDate
+	}
+	return nil
+}
+
+// baseQuery initializes the base query for attendance history
+func (controller *CourseAttendanceHandler) baseQuery() *gorm.DB {
+	return controller.dbManager.DB.Model(&membercardattendance.MemberCardAttendance{}).
+		Select(`
+			CONCAT(participants.name, ' ', participants.surname) AS full_name,
+			courses.name AS course,
+			member_card_attendances.created_at AS attended_at,
+			member_card_attendances.attendance_type AS attendance_type`).
+		Joins("JOIN participants ON participants.id = member_card_attendances.participant_id").
+		Joins("JOIN courses ON courses.id = member_card_attendances.course_id").
+		Unscoped()
+}
+
+// applyFilters applies filtering conditions based on provided parameters
+func (controller *CourseAttendanceHandler) applyFilters(query *gorm.DB, params CourseAttendanceParameters) *gorm.DB {
+	if params.CourseID != nil {
+		query = query.Where("courses.id = ?", *params.CourseID)
+	}
+
+	if params.FullNameLike != nil {
+		query = query.Where("LOWER(CONCAT(participants.name, ' ', participants.surname)) LIKE ?", "%"+*params.FullNameLike+"%")
+	}
+
+	if params.CourseLike != nil {
+		query = query.Where("LOWER(courses.name) LIKE ?", "%"+*params.CourseLike+"%")
+	}
+
+	if params.ExcludeArchivedCourses {
+		query = query.Where("courses.deleted IS NULL")
+	}
+
+	if params.ExcludeTrialAttendanced {
+		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.TrialAttendance)
+	}
+
+	if params.ExcludeAttendanceWithMemberCard {
+		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithMemberCard)
+	}
+
+	if params.ExcludeAttendanceWitouthMemberCard {
+		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithoutMemberCard)
+	}
+
+	return query
 }

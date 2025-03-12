@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { FindCourseAttendanceHistory } from "../../wailsjs/go/courseattendance/CourseAttendanceController.js";
+    import { FindCourseAttendanceHistory } from "../../wailsjs/go/courseattendance/CourseAttendanceHandler.js";
     import TableComponent from "../common/TableComponent.svelte";
 
     export let courseId = null;

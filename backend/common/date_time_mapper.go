@@ -35,10 +35,13 @@ var stringToWeekday = map[string]time.Weekday{
 	saturday:  time.Saturday,
 }
 
+// ToTimeString converts a time.Time value to a string in "HH:MM" format.
 func ToTimeString(input time.Time) string {
 	return input.Format("15:04")
 }
 
+// ToWeekDayString converts a time.Weekday value to its string representation.
+// If the provided weekday is invalid, it falls back to "Monday".
 func ToWeekDayString(input time.Weekday) string {
 	dayStr, ok := weekdayToString[input]
 	if !ok {
@@ -48,6 +51,8 @@ func ToWeekDayString(input time.Weekday) string {
 	return dayStr
 }
 
+// ToTimeOnly parses a string in "HH:MM" format and returns a time.Time object.
+// Returns an error if the format is invalid.
 func ToTimeOnly(input string) (time.Time, error) {
 	mappedTime, err := time.Parse("15:04", input)
 	if err != nil {
@@ -56,6 +61,8 @@ func ToTimeOnly(input string) (time.Time, error) {
 	return mappedTime, nil
 }
 
+// ToWeekDay converts a string representation of a weekday to a time.Weekday value.
+// Returns an error if the input string is not a valid weekday.
 func ToWeekDay(dayStr string) (time.Weekday, error) {
 	day, ok := stringToWeekday[dayStr]
 	if !ok {
@@ -64,10 +71,13 @@ func ToWeekDay(dayStr string) (time.Weekday, error) {
 	return day, nil
 }
 
+// ToDateString converts a time.Time value to a string in "YYYY-MM-DD" format.
 func ToDateString(dateTime time.Time) string {
 	return dateTime.Format(time.DateOnly)
 }
 
+// ToDateTimeString converts an RFC3339Nano formatted string to "YYYY-MM-DD HH:MM" format.
+// Returns an error if parsing fails.
 func ToDateTimeString(dateWithTimezoneString string) (string, error) {
 	dateWithTimezone, err := time.Parse(time.RFC3339Nano, dateWithTimezoneString)
 	if err != nil {

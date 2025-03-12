@@ -47,7 +47,8 @@
     }
 
     function displayParticipationHistory(index) {
-        console.log(index);
+        selectedCourse = toSelectedCourse(index);
+        componentControl.showCourseParticipantsHistoryComponent();
     }
 
     function archiveCourse(index) {
@@ -147,6 +148,14 @@
     <CourseParticipant
         {selectedCourse}
         returnToCourseOverview={() =>
+            (componentControl = componentControl.resetComponentControl())}
+    />
+{/if}
+
+{#if componentControl.courseParticipantsHistoryComponent}
+    <CourseAttendanceHistory
+        courseId={selectedCourse?.id}
+        onComponentDestroyed={() =>
             (componentControl = componentControl.resetComponentControl())}
     />
 {/if}

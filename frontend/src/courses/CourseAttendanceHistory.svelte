@@ -11,6 +11,37 @@
 
     onMount(() => loadCourseAttendanceHistory());
 
+    function getMainFilters() {
+        const commonFilters = [
+            {
+                key: "excludeTrialAttendance",
+                label: "Hide trial attendances",
+                type: "checkbox",
+            },
+            {
+                key: "excludeWithMemberCard",
+                label: "Hide with member card attendances",
+                type: "checkbox",
+            },
+            {
+                key: "excludeNoMemberCard",
+                label: "Hide without member card attendances",
+                type: "checkbox",
+            },
+        ];
+
+        return courseId
+            ? commonFilters
+            : [
+                  {
+                      key: "excludeArchivedCourse",
+                      label: "Hide archived courses",
+                      type: "checkbox",
+                  },
+                  ...commonFilters,
+              ];
+    }
+
     async function loadCourseAttendanceHistory(filter, pagination) {
         try {
             courseAttendanceHistoryPage = await FindCourseAttendanceHistory(
@@ -31,18 +62,18 @@
         switch (attendanceType) {
             case "WITH_MEMBER_CARD":
                 return {
-                    html: `<span class='text-[var(--primary-color)] font-bold'>with member card</span>`
+                    html: `<span class='text-[var(--primary-color)] font-bold'>with member card</span>`,
                 };
             case "TRIAL_ATTENDANCE":
-            return {
-                    html: `<span class='text-[var(--warning-color)] font-bold'>trial attendance</span>`
+                return {
+                    html: `<span class='text-[var(--warning-color)] font-bold'>trial attendance</span>`,
                 };
             case "WITHOUT_MEMBER_CARD":
-            return {
-                    html: `<span class='text-[var(--error-color)] font-bold'>without member card</span>`
+                return {
+                    html: `<span class='text-[var(--error-color)] font-bold'>without member card</span>`,
                 };
             default:
-                return '';
+                return "";
         }
     }
 </script>
@@ -50,28 +81,7 @@
 <TableComponent
     tableHeader="Course Attendance History Overview"
     total={courseAttendanceHistoryPage?.total ?? 0}
-    mainFilters={[
-        {
-            key: "excludeArchivedCourse",
-            label: "Hide archived courses",
-            type: "checkbox",
-        },
-        {
-            key: "excludeTrialAttendance",
-            label: "Hide trial attendances",
-            type: "checkbox",
-        },
-        {
-            key: "excludeWithMemberCard",
-            label: "Hide with member card attendances",
-            type: "checkbox",
-        },
-        {
-            key: "excludeNoMemberCard",
-            label: "Hide without member card attendances",
-            type: "checkbox",
-        },
-    ]}
+    mainFilters={getMainFilters()}
     columns={[
         {
             key: "fullname",
@@ -90,7 +100,7 @@
         {
             key: "attendanceType",
             header: "Attended as",
-            dynamicContent: true
+            dynamicContent: true,
         },
     ]}
     rows={courseAttendanceHistoryPage?.data?.map((entry) => {

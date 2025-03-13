@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Entity that represent a participant in the application
 type Participant struct {
 	ID          uint         `gorm:"primaryKey"`
 	Name        string       `gorm:"not null"`
@@ -16,6 +17,7 @@ type Participant struct {
 	Deleted     gorm.DeletedAt
 }
 
+// Creates a new participant instance
 func NewParticipant(command ParticipantCommand) *Participant {
 	return &Participant{
 		Name:    command.Name,
@@ -24,7 +26,8 @@ func NewParticipant(command ParticipantCommand) *Participant {
 	}
 }
 
-func (participant *Participant) update(command ParticipantCommand) {
+// Updates participant details
+func (participant *Participant) Update(command ParticipantCommand) {
 	participant.Name = command.Name
 	participant.Surname = command.Surname
 	participant.Group = command.Surname

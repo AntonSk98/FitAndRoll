@@ -3,7 +3,7 @@
     import {
         FindParticipants,
         ArchiveParticipant,
-    } from "../../wailsjs/go/participants/ParticipantsController.js";
+    } from "../../wailsjs/go/participants/ParticipantsHandler";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import ParticipantForm from "./ParticipantForm.svelte";
     import MemberCard from "./MemberCard.svelte";

@@ -9,6 +9,8 @@ import (
 
 const capacityLimit = 10
 
+// Entity that represents a member card
+// A member card is used to attend courses
 type MemberCard struct {
 	ID            uint `gorm:"primaryKey"`
 	Capacity      uint
@@ -17,36 +19,34 @@ type MemberCard struct {
 	ParticipantID uint
 }
 
+// Creates a new MemberCard instance
 func NewMemberCard(participant uint) *MemberCard {
 	return &MemberCard{Capacity: capacityLimit, ParticipantID: participant}
 }
 
+// Check is a member card is valid
+// A valid card is considered valid if there is at least one free slot that could be used to attend a course.
 func (memberCard *MemberCard) isValid() bool {
 	return memberCard.Capacity > 0
 }
 
-func (memberCard *MemberCard) VisitCourse() bool {
+// Use the member card to visit a course
+// It reduces the capacity of the card
+// If the member card is used then it will be soft deleted
+func (memberCard *MemberCard) VisitCourse() {
 	if !memberCard.isValid() {
 		fmt.Println("Participant must buy a new card!")
-		return false
 	}
 	memberCard.Capacity -= 1
-	return memberCard.isValid()
+	if !memberCard.isValid() {
+		memberCard.markAsUsed()
+	}
 }
 
-func (memberCard *MemberCard) MarkAsUsed() {
+func (memberCard *MemberCard) markAsUsed() {
 	if !memberCard.isValid() {
 		memberCard.Deleted = gorm.DeletedAt{Time: time.Now(), Valid: true}
 	}
-}
-
-func (memberCard *MemberCard) restoreVisit() bool {
-	if memberCard.Capacity == capacityLimit {
-		fmt.Println("Cannot restore a visit for that card as it has never been used!")
-		return false
-	}
-	memberCard.Capacity += 1
-	return true
 }
 
 func (memberCard *MemberCard) isUnused() bool {

@@ -7,15 +7,18 @@ import (
 	"gorm.io/gorm"
 )
 
-type MemberCardController struct {
+// Handler to manage member cards of a participant
+type MemberCardHandler struct {
 	dbManager *config.DatabaseManager
 }
 
-func NewMemberCardController(dbManager *config.DatabaseManager) *MemberCardController {
-	return &MemberCardController{dbManager: dbManager}
+// Creates a new handler of MemberCardHandler
+func NewMemberCardHandler(dbManager *config.DatabaseManager) *MemberCardHandler {
+	return &MemberCardHandler{dbManager: dbManager}
 }
 
-func (controller *MemberCardController) FindAllMemberCards(participantId uint) ([]MemberCardInfo, error) {
+// Finds all valid member cards by participant identifier.
+func (controller *MemberCardHandler) FindAllMemberCards(participantId uint) ([]MemberCardInfo, error) {
 	var participantMemberCards []MemberCard
 	var participantMemberCardInfos []MemberCardInfo
 
@@ -34,7 +37,8 @@ func (controller *MemberCardController) FindAllMemberCards(participantId uint) (
 	return participantMemberCardInfos, nil
 }
 
-func (controller *MemberCardController) IssueNewMemberCard(participantId uint) error {
+// Issues a new member card for a participant by the participant identifier
+func (controller *MemberCardHandler) IssueNewMemberCard(participantId uint) error {
 	return controller.dbManager.Transactional(func(tx *gorm.DB) error {
 		participantPointer, err := requireParticipant(participantId, tx)
 		if err != nil {
@@ -51,7 +55,8 @@ func (controller *MemberCardController) IssueNewMemberCard(participantId uint) e
 	})
 }
 
-func (controller *MemberCardController) UndoIssueNewMemberCard(participantId uint, memberCardId uint) error {
+// A participant can nullify the newly issued member card if it was not yet used to attend any course
+func (controller *MemberCardHandler) UndoIssueNewMemberCard(participantId uint, memberCardId uint) error {
 	var memberCard MemberCard
 
 	if err := controller.dbManager.DB.Where("id = ? AND participant_id = ?", memberCardId, participantId).First(&memberCard).Error; err != nil {

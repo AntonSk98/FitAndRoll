@@ -28,8 +28,8 @@ func main() {
 
 	app := NewApp()
 	courseHandler := courses.NewCourseHandler(dbManager)
-	participantsController := participants.NewParticipantsController(dbManager)
-	memberCardController := participants.NewMemberCardController(dbManager)
+	participantsHandler := participants.NewParticipantsHandler(dbManager)
+	memberCardHandler := participants.NewMemberCardHandler(dbManager)
 	memberCardAttendanceHandler := membercardattendance.NewMemberCardAttendanceHandler(dbManager)
 	courseAttendanceHandler := courseattendance.NewCourseAttendanceHandler(dbManager)
 
@@ -46,8 +46,8 @@ func main() {
 		Bind: []interface{}{
 			app,
 			courseHandler,
-			participantsController,
-			memberCardController,
+			participantsHandler,
+			memberCardHandler,
 			memberCardAttendanceHandler,
 			courseAttendanceHandler,
 		},

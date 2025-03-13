@@ -4,7 +4,7 @@
     import {
         CreateUpdateParticipant,
         FindParticipantDetails,
-    } from "../../wailsjs/go/participants/ParticipantsController.js";
+    } from "../../wailsjs/go/participants/ParticipantsHandler";
     import { onMount } from "svelte";
 
     export let participantId = null;

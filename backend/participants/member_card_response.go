@@ -4,6 +4,7 @@ import (
 	"fit_and_roll/backend/common"
 )
 
+// DTO that encapsulates member card details
 type MemberCardInfo struct {
 	ID        uint   `json:"id"`
 	Capacity  uint   `json:"capacity"`
@@ -11,6 +12,7 @@ type MemberCardInfo struct {
 	ExpiredAt string `json:"expiredAt,omitempty"`
 }
 
+// Creates a new MemberCardInfo DTO instance
 func NewMemberCardInfo(memberCard MemberCard) *MemberCardInfo {
 	memberCardInfo := &MemberCardInfo{
 		ID:       memberCard.ID,

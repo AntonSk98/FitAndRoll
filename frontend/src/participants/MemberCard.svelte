@@ -6,7 +6,7 @@
         FindAllMemberCards,
         IssueNewMemberCard,
         UndoIssueNewMemberCard,
-    } from "../../wailsjs/go/participants/MemberCardController";
+    } from "../../wailsjs/go/participants/MemberCardHandler";
 
     import {
         LoadMemberCardCourseHistory

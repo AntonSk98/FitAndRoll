@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Request with parameters to find participants
 type FindParticipantsParams struct {
 	Name           string `json:"name"`
 	Surname        string `json:"surname"`
@@ -12,6 +13,8 @@ type FindParticipantsParams struct {
 	WithActiveCard bool   `json:"withActiveCard"`
 }
 
+// Command to create or update a participant.
+// If ID is not provided it means that a participant should be created.
 type ParticipantCommand struct {
 	ID      *uint  `json:"id"`
 	Name    string `json:"name"`
@@ -19,6 +22,7 @@ type ParticipantCommand struct {
 	Group   string `json:"group"`
 }
 
+// Validates the ParticipantCommand
 func (command *ParticipantCommand) Validate() error {
 	if strings.TrimSpace(command.Name) == "" {
 		return fmt.Errorf("name cannot be empty")

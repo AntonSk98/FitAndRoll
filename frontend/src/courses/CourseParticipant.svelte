@@ -1,6 +1,6 @@
 <script>
     import BackButton from "../common/BackButton.svelte";
-    import { FindParticipants } from "../../wailsjs/go/participants/ParticipantsController.js";
+    import { FindParticipants } from "../../wailsjs/go/participants/ParticipantsHandler";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { onMount } from "svelte";
     import TableComponent from "../common/TableComponent.svelte";

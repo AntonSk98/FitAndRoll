@@ -8,36 +8,20 @@ import (
 	"gorm.io/gorm"
 )
 
-type ParticipantsController struct {
+// Provides CRUD operations to manage participants
+type ParticipantsHandler struct {
 	dbManager *config.DatabaseManager
 }
 
-func NewParticipantsController(dbManager *config.DatabaseManager) *ParticipantsController {
-	return &ParticipantsController{dbManager: dbManager}
+// Creates a new participant handler
+func NewParticipantsHandler(dbManager *config.DatabaseManager) *ParticipantsHandler {
+	return &ParticipantsHandler{dbManager: dbManager}
 }
 
-func (controller *ParticipantsController) FindParticipants(filter FindParticipantsParams, pageParams common.PageParams) (*common.Page[ParticipantDto], error) {
-	findAllParticipantsTemplateQuery := controller.dbManager.DB
-
-	if filter.Name != "" {
-		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("LOWER(name) LIKE LOWER(?)", "%"+filter.Name+"%")
-	}
-
-	if filter.Surname != "" {
-		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("LOWER(surname) LIKE LOWER(?)", "%"+filter.Surname+"%")
-	}
-
-	if filter.Group != "" {
-		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("LOWER(`group`) LIKE LOWER(?)", "%"+filter.Group+"%")
-	}
-
-	if filter.WithActiveCard {
-		findAllParticipantsTemplateQuery = findAllParticipantsTemplateQuery.Where("participants.id IN (?)",
-			controller.dbManager.DB.Model(&MemberCard{}).
-				Select("participant_id").
-				Where("deleted IS NULL"),
-		)
-	}
+// Finds Participants
+// The method supports filtering and returns the page of found participants
+func (controller *ParticipantsHandler) FindParticipants(filter FindParticipantsParams, pageParams common.PageParams) (*common.Page[ParticipantDto], error) {
+	findAllParticipantsTemplateQuery := controller.findParticipantsFilterQuery(filter)
 
 	var total int64
 
@@ -63,7 +47,8 @@ func (controller *ParticipantsController) FindParticipants(filter FindParticipan
 	}, nil
 }
 
-func (controller *ParticipantsController) FindParticipantDetails(id uint) (*ParticipantDto, error) {
+// Finds details of one participant by participant identifier.
+func (controller *ParticipantsHandler) FindParticipantDetails(id uint) (*ParticipantDto, error) {
 	var participant Participant
 	if err := controller.dbManager.DB.First(&participant, id).Error; err != nil {
 		return nil, err
@@ -71,7 +56,8 @@ func (controller *ParticipantsController) FindParticipantDetails(id uint) (*Part
 	return NewParticipantDto(participant), nil
 }
 
-func (controller *ParticipantsController) CreateUpdateParticipant(command ParticipantCommand) error {
+// Creates or updates a participant
+func (controller *ParticipantsHandler) CreateUpdateParticipant(command ParticipantCommand) error {
 	if err := command.Validate(); err != nil {
 		return err
 	}
@@ -82,9 +68,7 @@ func (controller *ParticipantsController) CreateUpdateParticipant(command Partic
 			if err := tx.First(&participant, *command.ID).Error; err != nil {
 				return fmt.Errorf("failed to fetch a participant with id %d. Error: %v", *command.ID, err)
 			}
-			participant.Name = command.Name
-			participant.Surname = command.Surname
-			participant.Group = command.Group
+			participant.Update(command)
 			if err := tx.Save(&participant).Error; err != nil {
 				return fmt.Errorf("failed to update a participant. Command: %v. Error: %v", command, err)
 			}
@@ -99,9 +83,37 @@ func (controller *ParticipantsController) CreateUpdateParticipant(command Partic
 	})
 }
 
-func (controller *ParticipantsController) ArchiveParticipant(id uint) error {
+// Archives a participant.
+// The participant will be marked as removed in the persistent storage.
+func (controller *ParticipantsHandler) ArchiveParticipant(id uint) error {
 	if err := controller.dbManager.DB.Delete(&Participant{}, id).Error; err != nil {
-		return fmt.Errorf("Failed to archive a participant. Error: %v", err)
+		return fmt.Errorf("failed to archive a participant. Error: %v", err)
 	}
 	return nil
+}
+
+func (controller *ParticipantsHandler) findParticipantsFilterQuery(filter FindParticipantsParams) *gorm.DB {
+	query := controller.dbManager.DB
+
+	if filter.Name != "" {
+		query = query.Where("LOWER(name) LIKE LOWER(?)", "%"+filter.Name+"%")
+	}
+
+	if filter.Surname != "" {
+		query = query.Where("LOWER(surname) LIKE LOWER(?)", "%"+filter.Surname+"%")
+	}
+
+	if filter.Group != "" {
+		query = query.Where("LOWER(`group`) LIKE LOWER(?)", "%"+filter.Group+"%")
+	}
+
+	if filter.WithActiveCard {
+		query = query.Where("participants.id IN (?)",
+			controller.dbManager.DB.Model(&MemberCard{}).
+				Select("participant_id").
+				Where("deleted IS NULL"),
+		)
+	}
+
+	return query
 }

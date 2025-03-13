@@ -29,5 +29,10 @@
         "courses": "Kurse",
         "participants": "Teilnehmer",
         "archive": "Archiv"
+    },
+    "pagination": {
+        "of": "von",
+        "size": "Seitengröße",
+        "total": "Gesamt"
     }
 }

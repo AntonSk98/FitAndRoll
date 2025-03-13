@@ -24,10 +24,6 @@
                 "search": "Search"
             },
             "noData": "No data..."
-        },
-        "pagination": {
-            "of": "of",
-            "size": "Page Size"
         }
     }
 }

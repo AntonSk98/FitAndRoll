@@ -71,7 +71,7 @@
 
             <span class="pagination-info">
                 <strong>{pagination.currentPage}</strong>
-                {$t("common.pagination.of")}
+                {$t("pagination.of")}
                 <strong
                     >{Math.ceil(
                         pagination.totalItems / pagination.pageSize,
@@ -98,11 +98,11 @@
                 </svg>
             </button>
         </div>
-        <div class="text-[var(--text-color)] font-bold text-sm cursor-default">Total: {total}</div>
+        <div class="text-[var(--text-color)] font-bold text-sm cursor-default">{$t("pagination.total")}: {total}</div>
     </div>
 
     <div class="page-size-container">
-        <span>{$t("common.pagination.size")}</span>
+        <span>{$t("pagination.size")}</span>
         {#each pageSizeOptions as pageSizeOption}
             <button
                 class="page-size-button {pagination.pageSize === pageSizeOption

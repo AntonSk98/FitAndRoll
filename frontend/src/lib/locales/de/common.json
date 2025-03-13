@@ -24,5 +24,10 @@
             "confirm": "Ja, ich bin sicher",
             "cancel": "Abbrechen"
         }
+    },
+    "navigation": {
+        "courses": "Kurse",
+        "participants": "Teilnehmer",
+        "archive": "Archiv"
     }
 }

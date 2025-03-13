@@ -1,9 +1,4 @@
 {
-    "navigation": {
-        "courses": "Courses",
-        "participants": "Participants",
-        "archive": "Archive"
-    },
     "courses": {
         "table": {
             "header": "Course Overview",

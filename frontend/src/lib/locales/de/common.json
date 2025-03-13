@@ -10,5 +10,12 @@
             "saturday": "Samstag",
             "sunday": "Sonntag"
         }
+    },
+    "form": {
+        "dateTimePicker": {
+            "datePrefix": "Findet statt am",
+            "timePrefix": "Um",
+            "addEntryButtonText": "Eintrag hinzufügen"
+        }
     }
 }

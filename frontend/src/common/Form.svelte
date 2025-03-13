@@ -1,11 +1,10 @@
 <script>
-  import { onMount } from "svelte";
   import DateTimePicker from "../common/DateTimePicker.svelte";
+  import { t } from "svelte-i18n";
 
   export let formConfig;
   const form = {};
   let isFormValid = false;
-
 
   $: if (formConfig) {
     formConfig.fields.forEach((field) => {
@@ -99,10 +98,10 @@
                 {/each}
               </div>
               <DateTimePicker
-                datePrefix="Takes place on"
-                timePrefix="At"
-                setOnButton="true"
-                setButtonText="Add Entry"
+                datePrefix={$t('form.dateTimePicker.datePrefix')}
+                timePrefix={$t('form.dateTimePicker.timePrefix')}
+                setOnButton={true}
+                setButtonText={$t('form.dateTimePicker.addEntryButtonText')}
                 onDateTimeSet={(dateTime) => onDateTimeSet(field, dateTime)}
               />
             {/if}

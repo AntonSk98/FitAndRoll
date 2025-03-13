@@ -17,5 +17,12 @@
             "timePrefix": "Um",
             "addEntryButtonText": "Eintrag hinzufügen"
         }
+    },
+    "modal": {
+        "body": "Bist du sicher, dass du diese Aktion ausführen möchtest?",
+        "actions": {
+            "confirm": "Ja, ich bin sicher",
+            "cancel": "Abbrechen"
+        }
     }
 }

@@ -1,6 +1,8 @@
 <script>
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
+    import { t } from "svelte-i18n";
+
 
     export let modalSize = "modal-small";
     export let onModalConfirmed = null;
@@ -39,7 +41,7 @@
                 </div>
                 <h3 class="modal-text">
                     <slot name="body">
-                        Are you sure you want to perform this action?
+                        {$t('modal.body')}
                     </slot>
                 </h3>
 
@@ -49,7 +51,7 @@
                             on:click={onModalConfirmed}
                             class="modal-confirm-btn"
                         >
-                            <slot name="confirm">Yes, I'm sure</slot>
+                            <slot name="confirm">{$t('modal.actions.confirm')}</slot>
                         </button>
                     {/if}
 
@@ -58,7 +60,7 @@
                             on:click={onModalCanceled}
                             class="modal-cancel-btn"
                         >
-                            <slot name="cancel">No, cancel</slot>
+                            <slot name="cancel">{$t('modal.actions.cancel')}</slot>
                         </button>
                     {/if}
                 </div>

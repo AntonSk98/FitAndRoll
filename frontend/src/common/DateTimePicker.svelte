@@ -1,4 +1,6 @@
 <script>
+    import { t } from "svelte-i18n";
+
     let hours;
     let minutes;
     let selectedDay;
@@ -33,12 +35,11 @@
         if (onDateTimeSet && selectedDay && hours && minutes) {
             onDateTimeSet({
                 day: selectedDay,
-                time: `${hours}:${minutes}`
+                time: `${hours}:${minutes}`,
             });
         }
     }
 </script>
-
 
 <div class="datetime-picker">
     <div class="date-picker">
@@ -46,14 +47,14 @@
             <label for="day-select">{datePrefix}:</label>
         {/if}
         <select id="day-select" bind:value={selectedDay} on:change={updateDay}>
-            <option value="" disabled selected>Select a day</option>
-            <option value="monday">Monday</option>
-            <option value="tuesday">Tuesday</option>
-            <option value="wednesday">Wednesday</option>
-            <option value="thursday">Thursday</option>
-            <option value="friday">Friday</option>
-            <option value="saturday">Saturday</option>
-            <option value="sunday">Sunday</option>
+            <option value="" disabled selected>{$t("dateTimePicker.options.none")}</option>
+            <option value="monday">{$t("dateTimePicker.options.monday")}</option>
+            <option value="tuesday">{$t("dateTimePicker.options.tuesday")}</option>
+            <option value="wednesday">{$t("dateTimePicker.options.wednesday")}</option>
+            <option value="thursday">{$t("dateTimePicker.options.thursday")}</option>
+            <option value="friday">{$t("dateTimePicker.options.friday")}</option>
+            <option value="saturday">{$t("dateTimePicker.options.saturday")}</option>
+            <option value="sunday">{$t("dateTimePicker.options.sunday")}</option>
         </select>
     </div>
 
@@ -83,7 +84,7 @@
             disabled={!(selectedDay && hours && minutes)}
             on:click={triggerDateTimeSet}
         >
-            {setButtonText || '+'}
+            {setButtonText || "+"}
         </button>
     {/if}
 </div>
@@ -97,7 +98,8 @@
         padding-left: 1rem;
     }
 
-    .date-picker, .time-picket {
+    .date-picker,
+    .time-picket {
         display: flex;
         align-items: center;
         gap: 0.5rem;

@@ -10,15 +10,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type MemberCardAttendanceController struct {
+// Provides methods to to fetch active member cards, ability to attend a course with a member card, and the history of attended course with a member card.
+type MemberCardAttendanceHandler struct {
 	dbManager *config.DatabaseManager
 }
 
-func NewMemberCardCourseParticipationController(dbManager *config.DatabaseManager) *MemberCardAttendanceController {
-	return &MemberCardAttendanceController{dbManager: dbManager}
+// Creates a new instance of the handler
+func NewMemberCardAttendanceHandler(dbManager *config.DatabaseManager) *MemberCardAttendanceHandler {
+	return &MemberCardAttendanceHandler{dbManager: dbManager}
 }
 
-func (controller *MemberCardAttendanceController) FindActiveMemberCards(participant uint) ([]participants.MemberCardInfo, error) {
+// Finds all active member cards by participant identifier.
+// A member card is considered valid if it still has a capacity that could be used to attend a course.
+func (controller *MemberCardAttendanceHandler) FindActiveMemberCards(participant uint) ([]participants.MemberCardInfo, error) {
 	var activeMemberCards []participants.MemberCard
 	result := controller.dbManager.DB.Where("participant_id = ?", participant).Find(&activeMemberCards)
 	if result.Error != nil {
@@ -33,7 +37,10 @@ func (controller *MemberCardAttendanceController) FindActiveMemberCards(particip
 	return activeMemberCardInfo, nil
 }
 
-func (controller *MemberCardAttendanceController) AttendCourse(courseAttendanceCommand CourseAttendanceCommand) error {
+// Records a participant's attendance for a course.
+// This method creates an entry that answers the question:
+//   - "Which user attended which course, and if attended using a member card, which member card was used?"
+func (controller *MemberCardAttendanceHandler) AttendCourse(courseAttendanceCommand CourseAttendanceCommand) error {
 	return controller.dbManager.Transactional(func(tx *gorm.DB) error {
 		// Handle Member Card processing if it's provided
 		if courseAttendanceCommand.MemberCardID != nil {
@@ -57,27 +64,8 @@ func (controller *MemberCardAttendanceController) AttendCourse(courseAttendanceC
 	})
 }
 
-func (controller *MemberCardAttendanceController) attendWithMemberCard(tx *gorm.DB, memberCardID uint) error {
-	var memberCard participants.MemberCard
-	if err := tx.First(&memberCard, memberCardID).Error; err != nil {
-		return fmt.Errorf("could not find member card with ID %v: %w", memberCardID, err)
-	}
-
-	// Handle course visit logic based on the capacity
-	if !memberCard.VisitCourse() {
-		// Mark card as used if it cannot be visited due to capacity
-		memberCard.MarkAsUsed()
-	}
-
-	// Save updated member card state
-	if err := tx.Save(&memberCard).Error; err != nil {
-		return fmt.Errorf("failed to save member card %v: %w", memberCard.ID, err)
-	}
-
-	return nil
-}
-
-func (controller *MemberCardAttendanceController) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
+// Loads the history of attended courses by passed member card and participant identifiers.
+func (controller *MemberCardAttendanceHandler) LoadMemberCardCourseHistory(participantId uint, memberCardId uint) ([]MemberCardHistoryEntry, error) {
 
 	var courseAttendanceProjection []struct {
 		CourseName string    `gorm:"column:name"`
@@ -108,7 +96,25 @@ func (controller *MemberCardAttendanceController) LoadMemberCardCourseHistory(pa
 		historyEntries = append(historyEntries, *memberCardHistoryEntry)
 	}
 
-	fmt.Println(historyEntries)
-
 	return historyEntries, nil
+}
+
+func (controller *MemberCardAttendanceHandler) attendWithMemberCard(tx *gorm.DB, memberCardID uint) error {
+	var memberCard participants.MemberCard
+	if err := tx.First(&memberCard, memberCardID).Error; err != nil {
+		return fmt.Errorf("could not find member card with ID %v: %w", memberCardID, err)
+	}
+
+	// Handle course visit logic based on the capacity
+	if !memberCard.VisitCourse() {
+		// Mark card as used if it cannot be visited due to capacity
+		memberCard.MarkAsUsed()
+	}
+
+	// Save updated member card state
+	if err := tx.Save(&memberCard).Error; err != nil {
+		return fmt.Errorf("failed to save member card %v: %w", memberCard.ID, err)
+	}
+
+	return nil
 }

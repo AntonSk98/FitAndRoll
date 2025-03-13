@@ -30,7 +30,7 @@ func main() {
 	courseHandler := courses.NewCourseHandler(dbManager)
 	participantsController := participants.NewParticipantsController(dbManager)
 	memberCardController := participants.NewMemberCardController(dbManager)
-	memberCardAttendanceController := membercardattendance.NewMemberCardCourseParticipationController(dbManager)
+	memberCardAttendanceHandler := membercardattendance.NewMemberCardAttendanceHandler(dbManager)
 	courseAttendanceHandler := courseattendance.NewCourseAttendanceHandler(dbManager)
 
 	// Create application with options
@@ -48,7 +48,7 @@ func main() {
 			courseHandler,
 			participantsController,
 			memberCardController,
-			memberCardAttendanceController,
+			memberCardAttendanceHandler,
 			courseAttendanceHandler,
 		},
 	})

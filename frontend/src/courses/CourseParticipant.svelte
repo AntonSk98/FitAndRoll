@@ -4,7 +4,7 @@
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { onMount } from "svelte";
     import TableComponent from "../common/TableComponent.svelte";
-    import { FindActiveMemberCards } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceController";
+    import { FindActiveMemberCards } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
     import AttendCourseModal from "./AttendCourseModal.svelte";
 
     export let selectedCourse;

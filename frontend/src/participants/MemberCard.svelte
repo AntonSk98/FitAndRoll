@@ -10,7 +10,7 @@
 
     import {
         LoadMemberCardCourseHistory
-    } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceController"
+    } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler"
     import BackButton from "../common/BackButton.svelte";
 
     export let member;

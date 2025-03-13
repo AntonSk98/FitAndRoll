@@ -1,7 +1,7 @@
 <script>
     import Modal from "../common/Modal.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { AttendCourse } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceController";
+    import { AttendCourse } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
 
 
     export let attendanceType;

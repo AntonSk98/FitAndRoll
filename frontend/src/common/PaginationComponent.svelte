@@ -168,15 +168,15 @@
         min-width: 2.5rem;
         background-color: var(--secondary-color);
         color: var(--text-color);
-        border: 1px solid var(--secondary-color-darker);
         cursor: pointer;
-        transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.5s ease-in-out, transform 0.2s ease-in-out;
     }
 
     .page-size-button:hover {
         background-color: var(--primary-color);
         color: white;
         border-color: var(--primary-color);
+        transform: scale(1.05);
     }
 
     .page-size-button.active {

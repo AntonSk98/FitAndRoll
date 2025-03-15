@@ -3,6 +3,8 @@ package common
 import (
 	"fmt"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 const (
@@ -85,4 +87,17 @@ func ToDateTimeString(dateWithTimezoneString string) (string, error) {
 	}
 
 	return dateWithTimezone.Format("2006-01-02 15:04"), nil
+}
+
+// ToDateTime converts a time.Time to "YYYY-MM-DD HH:MM" format.
+func ToDateTime(timestamp time.Time) string {
+	return timestamp.Format(time.DateTime)
+}
+
+// FormatDeletedAt converts gorm.DeletedAt to a string (formatted datetime or empty if invalid).
+func FormatDeletedAt(optionalTimestamp gorm.DeletedAt) string {
+	if optionalTimestamp.Valid {
+		return ToDateTime(optionalTimestamp.Time) // Assuming ToDateTime is already in common
+	}
+	return ""
 }

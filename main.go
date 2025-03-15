@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"embed"
+	"fit_and_roll/backend/archive"
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/courseattendance"
 	"fit_and_roll/backend/courses"
@@ -26,13 +28,12 @@ func main() {
 		&membercardattendance.MemberCardAttendance{},
 	)
 
-	app := NewApp()
 	courseHandler := courses.NewCourseHandler(dbManager)
 	participantsHandler := participants.NewParticipantsHandler(dbManager)
 	memberCardHandler := participants.NewMemberCardHandler(dbManager)
 	memberCardAttendanceHandler := membercardattendance.NewMemberCardAttendanceHandler(dbManager)
 	courseAttendanceHandler := courseattendance.NewCourseAttendanceHandler(dbManager)
-
+	exportDataHandler := archive.NewExportDataHandler(dbManager)
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "fit_and_roll",
@@ -42,14 +43,16 @@ func main() {
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.startup,
+		OnStartup: func(ctx context.Context) {
+			exportDataHandler.SetContext(ctx)
+		},
 		Bind: []interface{}{
-			app,
 			courseHandler,
 			participantsHandler,
 			memberCardHandler,
 			memberCardAttendanceHandler,
 			courseAttendanceHandler,
+			exportDataHandler,
 		},
 	})
 

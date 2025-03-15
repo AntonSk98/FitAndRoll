@@ -533,8 +533,11 @@
   .static {
     position: static;
   }
-  .m-1 {
-    margin: calc(var(--spacing) * 1);
+  .m-2 {
+    margin: calc(var(--spacing) * 2);
+  }
+  .m-3 {
+    margin: calc(var(--spacing) * 3);
   }
   .mx-\[3rem\] {
     margin-inline: 3rem;
@@ -548,6 +551,15 @@
   .my-5 {
     margin-block: calc(var(--spacing) * 5);
   }
+  .mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+  }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
+  .mt-5 {
+    margin-top: calc(var(--spacing) * 5);
+  }
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
@@ -559,9 +571,6 @@
   }
   .flex {
     display: flex;
-  }
-  .grid {
-    display: grid;
   }
   .hidden {
     display: none;
@@ -689,9 +698,6 @@
   .bg-\[var\(--secondary-color\)\] {
     background-color: var(--secondary-color);
   }
-  .p-1 {
-    padding: calc(var(--spacing) * 1);
-  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
@@ -704,6 +710,9 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
+  .pt-5 {
+    padding-top: calc(var(--spacing) * 5);
+  }
   .text-justify {
     text-align: justify;
   }
@@ -713,6 +722,14 @@
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--tw-leading, var(--text-3xl--line-height));
+  }
+  .text-4xl {
+    font-size: var(--text-4xl);
+    line-height: var(--tw-leading, var(--text-4xl--line-height));
   }
   .text-lg {
     font-size: var(--text-lg);
@@ -748,11 +765,23 @@
   .text-\[var\(--primary-color\)\] {
     color: var(--primary-color);
   }
+  .text-\[var\(--primary-color-dark\)\] {
+    color: var(--primary-color-dark);
+  }
   .text-\[var\(--secondary-color-dark\)\] {
     color: var(--secondary-color-dark);
   }
   .text-\[var\(--text-color\)\] {
     color: var(--text-color);
+  }
+  .text-\[var\(--text-color-dark\)\] {
+    color: var(--text-color-dark);
+  }
+  .text-\[var\(--text-color-darke\)\] {
+    color: var(--text-color-darke);
+  }
+  .text-\[var\(--text-color-darker\)\] {
+    color: var(--text-color-darker);
   }
   .text-\[var\(--warning-color\)\] {
     color: var(--warning-color);
@@ -765,9 +794,6 @@
   }
   .text-white {
     color: var(--color-white);
-  }
-  .lowercase {
-    text-transform: lowercase;
   }
   .uppercase {
     text-transform: uppercase;

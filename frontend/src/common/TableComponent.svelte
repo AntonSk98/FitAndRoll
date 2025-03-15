@@ -49,6 +49,7 @@
 
     function onPagination(newPagination) {
         onPaginationFilterChanged(filter, newPagination);
+        resizeTableresetTableScrollIfNeeded();
     }
 
     function onFilter(key, value) {
@@ -63,15 +64,18 @@
 
     // Reset scroll to the left on resizing
     window.addEventListener("resize", function () {
-        const tableContainer = document.querySelector(".table-container");
-        if (tableContainer) {
-            tableContainer.scrollLeft = 0;
-        }
+        resizeTableresetTableScrollIfNeeded()
     });
+
+    function resizeTableresetTableScrollIfNeeded() {
+        const tableContainer = document.querySelector(".table-container");
+        if (tableContainer && tableContainer.scrollWidth > tableContainer.clientWidth) {
+        tableContainer.scrollLeft = 0;
+    }    }
 </script>
 
 <div class="table-outer-container">
-    <div class="flex flex-wrap gap-3.5 items-baseline flex-wrap">
+    <div class="flex gap-x-3.5 items-center">
         {#if tableHeader}
             <h1 class="table-header">{tableHeader}</h1>
         {/if}

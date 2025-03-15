@@ -36,13 +36,14 @@ func main() {
 	exportDataHandler := archive.NewExportDataHandler(dbManager)
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "fit_and_roll",
-		Width:  1024,
-		Height: 768,
+		Title:     "PROTECT YOURSELF",
+		Width:     1024,
+		MinWidth:  500,
+		Height:    768,
+		MinHeight: 500,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup: func(ctx context.Context) {
 			exportDataHandler.SetContext(ctx)
 		},

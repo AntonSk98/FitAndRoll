@@ -35,6 +35,12 @@ func (controller *ExportDataHandler) SetContext(ctx context.Context) {
 func (handler *ExportDataHandler) ExportData() error {
 	exportDataPath, err := handler.selectExportPath()
 
+	fmt.Println(exportDataPath, err)
+	// Check if the user clicked "Cancel" or provided an empty path
+	if exportDataPath == "" {
+		return nil
+	}
+
 	if err != nil {
 		return err
 	}

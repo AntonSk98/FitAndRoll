@@ -127,6 +127,40 @@ export namespace common {
 
 export namespace courseattendance {
 	
+	export class AttendedRange {
+	    // Go type: time
+	    from?: any;
+	    // Go type: time
+	    to?: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new AttendedRange(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.from = this.convertValues(source["from"], null);
+	        this.to = this.convertValues(source["to"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class CourseAttendanceDto {
 	    fullname: string;
 	    course: string;
@@ -153,6 +187,7 @@ export namespace courseattendance {
 	    excludeTrialAttendance: boolean;
 	    excludeNoMemberCard: boolean;
 	    excludeWithMemberCard: boolean;
+	    attendedRange?: AttendedRange;
 	
 	    static createFrom(source: any = {}) {
 	        return new CourseAttendanceParameters(source);
@@ -167,7 +202,26 @@ export namespace courseattendance {
 	        this.excludeTrialAttendance = source["excludeTrialAttendance"];
 	        this.excludeNoMemberCard = source["excludeNoMemberCard"];
 	        this.excludeWithMemberCard = source["excludeWithMemberCard"];
+	        this.attendedRange = this.convertValues(source["attendedRange"], AttendedRange);
 	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 
 }

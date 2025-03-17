@@ -3,6 +3,7 @@
 
     import Modal from "./Modal.svelte";
     import PaginationComponent from "./PaginationComponent.svelte";
+    import DatePicker from "./DatePicker.svelte";
 
     export let tableHeader = null;
     export let total;
@@ -44,7 +45,7 @@
         exclamationCircle: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>`,
         xCircle: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>`,
         userGroup: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" /></svg>`,
-        xMark: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
+        xMark: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
     };
 
     function onPagination(newPagination) {
@@ -94,28 +95,42 @@
         </div>
     </div>
     <div class="main-filters mb-3">
-        {#each mainFilters as mainFilter}
+        <div class="flex gap-x-10 items-end justify-between flex-wrap"> 
+            <!-- Left side (Checkboxes) -->
             <div class="flex flex-col">
-                {#if mainFilter.type === "checkbox"}
-                    <div
-                        class="flex items-center gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide"
-                    >
-                        <label class="transition-colors duration-300 delay-100">
-                            <span>{mainFilter.label}:</span>
-                        </label>
-                        <input
-                            type="checkbox"
-                            class="w-5 h-5 cursor-pointer transition-all duration-300"
-                            on:input={(event) =>
-                                onFilter(
-                                    mainFilter.key,
-                                    event?.target?.checked,
-                                )}
-                        />
-                    </div>
-                {/if}
+                {#each mainFilters as mainFilter}
+                    {#if mainFilter.type === "checkbox"}
+                        <div class="flex items-center gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide">
+                            <label>
+                                <span>{mainFilter.label}:</span>
+                            </label>
+                            <input
+                                type="checkbox"
+                                class="w-5 h-5 cursor-pointer transition-all duration-300"
+                                on:input={(event) =>
+                                    onFilter(
+                                        mainFilter.key,
+                                        event?.target?.checked,
+                                    )}
+                            />
+                        </div>
+                    {/if}
+                {/each}
             </div>
-        {/each}
+        
+            <!-- Right side (Date Pickers) -->
+            <div class="flex flex-col">
+                {#each mainFilters as mainFilter}
+                    {#if mainFilter.type === "date"}
+                        <div class="flex items-end gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide">
+                            <span>{mainFilter.label}:</span>
+                            <DatePicker onDateRangePicked={date => onFilter(mainFilter.key, date)}/>
+                        </div>
+                    {/if}
+                {/each}
+            </div>
+        </div>
+        
     </div>
     <div class="table-container">
         <table>
@@ -185,8 +200,8 @@
                                             </div>
                                         {/each}
                                     </td>
-                                {:else if row[rowKey]?.['html']}
-                                    <td>{@html row[rowKey]?.['html']}</td>
+                                {:else if row[rowKey]?.["html"]}
+                                    <td>{@html row[rowKey]?.["html"]}</td>
                                 {:else}
                                     <td>{row[rowKey]}</td>
                                 {/if}

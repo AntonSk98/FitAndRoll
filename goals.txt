@@ -1,12 +1,12 @@
 🚀 Excel & Filtering Enhancements
 
-Allow filtering by date in the attendance tracking system
-
     Delete course attendance history entry directly from the course
+    deleting is possible from the global view
+    if deleting an entry with card attendance type -> the visit must be restored
 
-🛠️ System Enhancements
-
-    Extend participant component to support new filtering and statistics features
+🛠️  Components
+    Archived participants -> show archived participants and when they were archived. By clicking on them you unarchive them
+    Archived courses -> show archived courses and when they were archived. By clicking on them you unarchive them
 
 📈 Statistics & Reporting
 For Participants:

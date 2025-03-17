@@ -28,6 +28,11 @@
                 label: "Hide without member card attendances",
                 type: "checkbox",
             },
+            {
+                key: "attendedRange",
+                label: "Attended range",
+                type: "date",
+            },
         ];
 
         return courseId

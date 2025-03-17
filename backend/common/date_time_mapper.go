@@ -101,3 +101,14 @@ func FormatDeletedAt(optionalTimestamp gorm.DeletedAt) string {
 	}
 	return ""
 }
+
+func ConvertUTCToBerlin(utcTime time.Time) (time.Time, error) {
+	berlinLocation, err := time.LoadLocation("Europe/Berlin")
+	if err != nil {
+		return time.Time{}, fmt.Errorf("failed to load Europe/Berlin location: %v", err)
+	}
+
+	berlinTime := utcTime.In(berlinLocation)
+
+	return berlinTime, nil
+}

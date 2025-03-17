@@ -6,8 +6,8 @@
     let isOpenFrom = false;
     let isOpenTo = false;
 
-    let from = new Date();
-    let to = new Date();
+    let from;
+    let to;
 
     let formattedFrom = "";
     let formattedTo = "";
@@ -24,19 +24,20 @@
         if (!date) return "";
 
         const selectedDate = new Date(date.startDate);
-        selectedDate.setHours(
-            dateType === "from" ? 0 : 23,
-            dateType === "from" ? 0 : 59,
-            dateType === "from" ? 0 : 59,
-        );
+        // Store the date as ISO string
+        console.log(new Date(date.startDate))
+        const isoString = selectedDate.toISOString();
 
         if (dateType === "from") {
-            from = selectedDate;
-            formattedFrom = format(from, "yyyy/MM/dd");
+            from = isoString;
+            formattedFrom = format(selectedDate, "yyyy/MM/dd"); // Format for display
         } else {
-            to = selectedDate;
-            formattedTo = format(to, "yyyy/MM/dd");
+            to = isoString;
+            formattedTo = format(selectedDate, "yyyy/MM/dd"); // Format for display
         }
+
+        // Emit the updated date range with both dates as ISO strings
+        onDateRangePicked({ from, to });
     };
 
     const clearDate = (dateType) => {
@@ -47,13 +48,16 @@
             to = null;
             formattedTo = "";
         }
+
+        onDateRangePicked({ from, to });
     };
 </script>
 
-<div class="flex flex-col gap-y-1 w-fit">
+<div class="flex gap-1 w-fit">
     <DatePicker
         bind:isOpen={isOpenFrom}
-        bind:startDate={from}
+        startDate={from}
+        align={"right"}
         onDateChange={(date) => handleDateChange(date, "from")}
     >
         <div class="input-container">
@@ -74,7 +78,8 @@
 
     <DatePicker
         bind:isOpen={isOpenTo}
-        bind:startDate={to}
+        startDate={to}
+        align={"right"}
         enableFutureDates={true}
         onDateChange={(date) => handleDateChange(date, "to")}
     >
@@ -85,7 +90,6 @@
                 >
             {/if}
             <input
-                class="max-w-24"
                 type="text"
                 placeholder="To"
                 bind:value={formattedTo}
@@ -100,11 +104,10 @@
     .input-container {
         cursor: pointer;
         display: inline-block;
-        padding: 0.375rem;
+        padding: 0.2rem;
         font-size: 0.875rem;
-        border: 1px solid var(--secondary-color-darker);
-        border-radius: 0.5rem;
-        background-color: var(--secondary-color-light);
+        border: 2px solid var(--secondary-color-darker);
+        border-radius: 0.4rem;
         transition:
             border-color 0.3s ease-in-out,
             box-shadow 0.2s ease-in-out;
@@ -116,7 +119,8 @@
         outline: none;
         font-weight: bold;
         color: var(--text-color);
-        max-width: 5rem;
+        max-width: 5.2rem;
+        min-height: 1.5rem;
     }
 
     .clear-btn {

@@ -46,7 +46,11 @@ func (controller *CourseAttendanceHandler) FindCourseAttendanceHistory(courseAtt
 	query := controller.baseQuery()
 
 	// Apply filters
-	query = controller.applyFilters(query, courseAttendanceParameters)
+	err := controller.applyFilters(query, courseAttendanceParameters)
+
+	if err != nil {
+		return nil, err
+	}
 
 	// Count total results
 	if err := query.Count(&total).Error; err != nil {
@@ -104,34 +108,51 @@ func (controller *CourseAttendanceHandler) baseQuery() *gorm.DB {
 }
 
 // applyFilters applies filtering conditions based on provided parameters
-func (controller *CourseAttendanceHandler) applyFilters(query *gorm.DB, params CourseAttendanceParameters) *gorm.DB {
+func (controller *CourseAttendanceHandler) applyFilters(query *gorm.DB, params CourseAttendanceParameters) error {
 	if params.CourseID != nil {
-		query = query.Where("courses.id = ?", *params.CourseID)
+		query.Where("courses.id = ?", *params.CourseID)
 	}
 
 	if params.FullNameLike != nil {
-		query = query.Where("LOWER(CONCAT(participants.name, ' ', participants.surname)) LIKE ?", "%"+*params.FullNameLike+"%")
+		query.Where("LOWER(CONCAT(participants.name, ' ', participants.surname)) LIKE ?", "%"+*params.FullNameLike+"%")
 	}
 
 	if params.CourseLike != nil {
-		query = query.Where("LOWER(courses.name) LIKE ?", "%"+*params.CourseLike+"%")
+		query.Where("LOWER(courses.name) LIKE ?", "%"+*params.CourseLike+"%")
 	}
 
 	if params.ExcludeArchivedCourses {
-		query = query.Where("courses.deleted IS NULL")
+		query.Where("courses.deleted IS NULL")
 	}
 
 	if params.ExcludeTrialAttendanced {
-		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.TrialAttendance)
+		query.Where("member_card_attendances.attendance_type != ?", membercardattendance.TrialAttendance)
 	}
 
 	if params.ExcludeAttendanceWithMemberCard {
-		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithMemberCard)
+		query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithMemberCard)
 	}
 
 	if params.ExcludeAttendanceWitouthMemberCard {
-		query = query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithoutMemberCard)
+		query.Where("member_card_attendances.attendance_type != ?", membercardattendance.WithoutMemberCard)
 	}
 
-	return query
+	if params.AttendedRange != nil {
+		if params.AttendedRange.From != nil {
+			from, err := common.ConvertUTCToBerlin(*params.AttendedRange.From)
+			if err != nil {
+				return err
+			}
+			query.Where("member_card_attendances.created_at >= ?", from)
+		}
+		if params.AttendedRange.To != nil {
+			to, err := common.ConvertUTCToBerlin(*params.AttendedRange.To)
+			if err != nil {
+				return err
+			}
+			query.Where("member_card_attendances.created_at <= ?", to)
+		}
+	}
+
+	return nil
 }

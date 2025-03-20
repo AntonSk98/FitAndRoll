@@ -1,9 +1,3 @@
-🚀 Excel & Filtering Enhancements
-
-    Delete course attendance history entry directly from the course
-    deleting is possible from the global view
-    if deleting an entry with card attendance type -> the visit must be restored
-
 🛠️  Components
     Archived participants -> show archived participants and when they were archived. By clicking on them you unarchive them
     Archived courses -> show archived courses and when they were archived. By clicking on them you unarchive them
@@ -22,3 +16,5 @@ Add "Select From Period" and "Select To Period" filters
 Create a table based on 'member_card_attendances':
 
     Columns: Course | With Card Count | Probestunde Count | Without Card Count
+
+Add internatialization....

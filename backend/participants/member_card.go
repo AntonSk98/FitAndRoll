@@ -43,6 +43,23 @@ func (memberCard *MemberCard) VisitCourse() {
 	}
 }
 
+// UndoAttendance restores attendance for a member card by performing the following actions:
+// - If the member card was fully used, it will be restored.
+// - If the member card has available capacity below the defined limit, it will increment the capacity by 1.
+// - If the member card's capacity has already reached the limit, a message will be printed indicating that the capacity cannot be increased while undoing the course attendance.
+func (memberCard *MemberCard) UndoAttendance() {
+	if memberCard.Deleted.Valid {
+		memberCard.Deleted = gorm.DeletedAt{}
+	}
+
+	if memberCard.Capacity < capacityLimit {
+		memberCard.Capacity += 1
+		return
+	}
+
+	fmt.Println("Cannot increase capacity while undoing the course attendance: Member card is already full.")
+}
+
 func (memberCard *MemberCard) markAsUsed() {
 	if !memberCard.isValid() {
 		memberCard.Deleted = gorm.DeletedAt{Time: time.Now(), Valid: true}

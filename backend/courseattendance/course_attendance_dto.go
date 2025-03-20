@@ -21,6 +21,7 @@ type AttendedRange struct {
 
 // CourseAttendanceDto represents a single record in the course attendance history.
 type CourseAttendanceDto struct {
+	ID             uint   `json:"id"`
 	FullName       string `json:"fullname"`
 	Course         string `json:"course"`
 	AttendedAt     string `json:"attendedAt"`

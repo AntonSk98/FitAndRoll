@@ -17,7 +17,7 @@
     });
 </script>
 
-<div class="modal-overlay" transition:fade={{ duration: 150 }}>
+<div class="modal-overlay" transition:fade={{ duration: 50 }}>
     <div class="modal-container {modalSize}">
         <div class="modal-content">
             <div class="modal-body">

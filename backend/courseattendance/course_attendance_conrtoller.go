@@ -4,6 +4,7 @@ import (
 	"fit_and_roll/backend/common"
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/membercardattendance"
+	"fit_and_roll/backend/participants"
 	"fmt"
 
 	"gorm.io/gorm"
@@ -77,6 +78,34 @@ func (controller *CourseAttendanceHandler) FindCourseAttendanceHistory(courseAtt
 	}, nil
 }
 
+// Removes attendance from the course attendance history.
+// If a participant attended a course using a member card, the attendance is restored.
+func (handler *CourseAttendanceHandler) UndoCourseAttendance(id *uint) error {
+	if id == nil {
+		return fmt.Errorf("course attendance history entry cannot be null")
+	}
+
+	return handler.dbManager.Transactional(func(tx *gorm.DB) error {
+		var memberCardAttendance membercardattendance.MemberCardAttendance
+		if err := tx.First(&memberCardAttendance, *id).Error; err != nil {
+			return err
+		}
+
+		if memberCardAttendance.AttendanceType == membercardattendance.WithMemberCard {
+			var memberCard participants.MemberCard
+			if err := tx.Unscoped().First(&memberCard, *memberCardAttendance.MemberCardID).Error; err != nil {
+				return err
+			}
+			memberCard.UndoAttendance()
+			tx.Save(&memberCard)
+		}
+
+		tx.Unscoped().Delete(&memberCardAttendance)
+
+		return nil
+	})
+}
+
 // withReadableAttendedAtDate formats the 'AttendedAt' field in each record of the provided
 // CourseAttendanceDto slice to a more readable date format. If an error occurs while
 // formatting any date, it returns an error.
@@ -98,6 +127,7 @@ func (controller *CourseAttendanceHandler) withReadableAttendedAtDate(results []
 func (controller *CourseAttendanceHandler) baseQuery() *gorm.DB {
 	return controller.dbManager.DB.Model(&membercardattendance.MemberCardAttendance{}).
 		Select(`
+			member_card_attendances.id,
 			CONCAT(participants.name, ' ', participants.surname) AS full_name,
 			courses.name AS course,
 			member_card_attendances.created_at AS attended_at,

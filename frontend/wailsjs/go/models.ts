@@ -162,6 +162,7 @@ export namespace courseattendance {
 		}
 	}
 	export class CourseAttendanceDto {
+	    id: number;
 	    fullname: string;
 	    course: string;
 	    attendedAt: string;
@@ -173,6 +174,7 @@ export namespace courseattendance {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
 	        this.fullname = source["fullname"];
 	        this.course = source["course"];
 	        this.attendedAt = source["attendedAt"];

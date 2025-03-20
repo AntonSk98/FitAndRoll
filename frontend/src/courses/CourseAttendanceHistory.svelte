@@ -1,13 +1,19 @@
 <script>
     import { onMount } from "svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
-    import { FindCourseAttendanceHistory } from "../../wailsjs/go/courseattendance/CourseAttendanceHandler.js";
+    import {
+        FindCourseAttendanceHistory,
+        UndoCourseAttendance,
+    } from "../../wailsjs/go/courseattendance/CourseAttendanceHandler.js";
     import TableComponent from "../common/TableComponent.svelte";
+    import Modal from "../common/Modal.svelte";
 
     export let courseId = null;
     export let onComponentDestroyed;
 
     let courseAttendanceHistoryPage;
+    let showUndoParticipationConfirmationModal = false;
+    let selectedParticipationHistoryEntry;
 
     onMount(() => loadCourseAttendanceHistory());
 
@@ -63,6 +69,27 @@
         loadCourseAttendanceHistory(filter, pagination);
     }
 
+    function undoParticipation(index) {
+        if (!showUndoParticipationConfirmationModal) {
+            showUndoParticipationConfirmationModal = true;
+            selectedParticipationHistoryEntry =
+                courseAttendanceHistoryPage?.data[index];
+            return;
+        }
+
+        UndoCourseAttendance(selectedParticipationHistoryEntry?.id)
+            .then(() => {
+                toastSuccess();
+                loadCourseAttendanceHistory();
+            })
+            .catch((err) => {
+                console.error(err);
+                toastError();
+            });
+        showUndoParticipationConfirmationModal =
+            !showUndoParticipationConfirmationModal;
+    }
+
     function mapAttendanceType(attendanceType) {
         switch (attendanceType) {
             case "WITH_MEMBER_CARD":
@@ -108,9 +135,18 @@
             dynamicContent: true,
         },
     ]}
+    actions={[
+        {
+            title: "undo participation",
+            icon: "handRaised",
+            onClick: undoParticipation,
+        },
+    ]}
     rows={courseAttendanceHistoryPage?.data?.map((entry) => {
         return {
-            ...entry,
+            fullname: entry.fullname,
+            course: entry.course,
+            attendedAt: entry.attendedAt,
             attendanceType: mapAttendanceType(entry?.attendanceType),
         };
     })}
@@ -123,3 +159,37 @@
     ]}
     {onPaginationFilterChanged}
 />
+
+{#if showUndoParticipationConfirmationModal}
+    <Modal
+        onModalConfirmed={undoParticipation}
+        onModalCanceled={() => (showUndoParticipationConfirmationModal = false)}
+    >
+        <div slot="body">
+            {#if selectedParticipationHistoryEntry.attendanceType === "WITH_MEMBER_CARD"}
+                <div class="text-[var(--text-color)] text-justify">
+                    <div class="font-bold">
+                        Are you sure you want to delete this attendance entry?
+                    </div>
+                    <div>
+                        <span class="font-bold text-[var(--primary-color)]"
+                            >{selectedParticipationHistoryEntry.fullname}</span
+                        >
+                        attended
+                        <span class="font-bold text-[var(--primary-color)]"
+                            >{selectedParticipationHistoryEntry.course}</span
+                        > using a member card.
+                    </div>
+                    <div>
+                        Deleting this entry will restore one available slot to
+                        the member card.
+                    </div>
+                </div>
+            {:else}
+                <div>
+                    Are you sure you want to remove this attendance entry?
+                </div>
+            {/if}
+        </div>
+    </Modal>
+{/if}

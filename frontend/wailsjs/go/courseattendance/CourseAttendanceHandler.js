@@ -5,3 +5,7 @@
 export function FindCourseAttendanceHistory(arg1, arg2) {
   return window['go']['courseattendance']['CourseAttendanceHandler']['FindCourseAttendanceHistory'](arg1, arg2);
 }
+
+export function UndoCourseAttendance(arg1) {
+  return window['go']['courseattendance']['CourseAttendanceHandler']['UndoCourseAttendance'](arg1);
+}

@@ -1,6 +1,7 @@
 package courses
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -37,4 +38,14 @@ type ScheduleEntry struct {
 	Day      time.Weekday `json:"day"`
 	Time     time.Time    `json:"time"`
 	CourseID uint         `json:"course_id"`
+}
+
+// Unarchives an archived course
+func (course *Course) Unarchive() error {
+	if !course.Deleted.Valid {
+		return fmt.Errorf("unable to unarchive an active course")
+	}
+
+	course.Deleted = gorm.DeletedAt{}
+	return nil
 }

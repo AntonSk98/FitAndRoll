@@ -1,3 +1,36 @@
+export namespace archive {
+	
+	export class ArchivedEntryDto {
+	    id: number;
+	    name: string;
+	    archivedAt: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ArchivedEntryDto(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.archivedAt = source["archivedAt"];
+	    }
+	}
+	export class FindArchivedEntryParams {
+	    name?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new FindArchivedEntryParams(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	    }
+	}
+
+}
+
 export namespace common {
 	
 	export class PageParams {
@@ -13,6 +46,42 @@ export namespace common {
 	        this.currentPage = source["currentPage"];
 	        this.pageSize = source["pageSize"];
 	    }
+	}
+	export class Page[fit_and_roll/backend/archive.ArchivedEntryDto] {
+	    data: archive.ArchivedEntryDto[];
+	    total: number;
+	    page: number;
+	    size: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new Page[fit_and_roll/backend/archive.ArchivedEntryDto](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.data = this.convertValues(source["data"], archive.ArchivedEntryDto);
+	        this.total = source["total"];
+	        this.page = source["page"];
+	        this.size = source["size"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 	export class Page[fit_and_roll/backend/courseattendance.CourseAttendanceDto] {
 	    data: courseattendance.CourseAttendanceDto[];

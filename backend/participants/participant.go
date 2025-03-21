@@ -1,6 +1,7 @@
 package participants
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -31,4 +32,14 @@ func (participant *Participant) Update(command ParticipantCommand) {
 	participant.Name = command.Name
 	participant.Surname = command.Surname
 	participant.Group = command.Surname
+}
+
+// Unarchives an archived participant
+func (participant *Participant) Unarchive() error {
+	if !participant.Deleted.Valid {
+		return fmt.Errorf("unable to unarchive an active participant")
+	}
+
+	participant.Deleted = gorm.DeletedAt{}
+	return nil
 }

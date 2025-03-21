@@ -34,6 +34,8 @@ func main() {
 	memberCardAttendanceHandler := membercardattendance.NewMemberCardAttendanceHandler(dbManager)
 	courseAttendanceHandler := courseattendance.NewCourseAttendanceHandler(dbManager)
 	exportDataHandler := archive.NewExportDataHandler(dbManager)
+	archiveDataHandler := archive.NewArchivedDataHandler(dbManager)
+
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:     "PROTECT YOURSELF",
@@ -54,6 +56,7 @@ func main() {
 			memberCardAttendanceHandler,
 			courseAttendanceHandler,
 			exportDataHandler,
+			archiveDataHandler,
 		},
 	})
 

@@ -1,6 +1,13 @@
 <script>
     import { ExportData } from "../../wailsjs/go/archive/ExportDataHandler";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
+    import ArchivedDataComponent from "./ArchivedDataComponent.svelte";
+    import {
+        FindArchivedCourses,
+        FindArchivedParticipants,
+        UnarchiveCourse,
+        UnarchiveParticipant,
+    } from "../../wailsjs/go/archive/ArchivedDataHandler";
 
     let displayParticipantArchive = false;
     let displayCourseArchive = false;
@@ -18,43 +25,87 @@
                 toastError();
             });
     }
+
+    function archivedParticipantsSupplier(filter, pagination) {
+        return FindArchivedParticipants(filter, pagination);
+    }
+
+    function unarchiveParticipantSupplier(participantId) {
+        return UnarchiveParticipant(participantId);
+    }
+
+    function archivedCoursesSupplier(filter, pagination) {
+        return FindArchivedCourses(filter, pagination);
+    }
+
+    function unarchiveCourseSupplier(courseId) {
+        return UnarchiveCourse(courseId);
+    }
 </script>
 
-<div class="outer-archive-container">
-    <div class="archive-container">
-        <h1 class="text-4xl text-[var(--text-color)] font-bold mb-3">
-            Archive
-        </h1>
-        <div class="flex flex-col items-start gap-2">
-            <button class="archive-button">To participipant archive</button>
-            <button class="archive-button">To course archive</button>
-            <div class="flex flex-col items-start">
-                <button class="archive-button" on:click={exportExcel}
-                    >Export</button
+{#if !displayCourseArchive && !displayParticipantArchive}
+    <div class="outer-archive-container">
+        <div class="archive-container">
+            <h1 class="text-4xl text-[var(--text-color)] font-bold mb-3">
+                Archive
+            </h1>
+            <div class="flex flex-col items-start gap-2">
+                <button
+                    class="archive-button"
+                    on:click={() => (displayParticipantArchive = true)}
+                    >To participipant archive</button
                 >
-                <span class="mt-1 text-justify text-[var(--text-color)]">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6 text-[var(--primary-color-dark)] inline"
+                <button
+                    class="archive-button"
+                    on:click={() => (displayCourseArchive = true)}
+                    >To course archive</button
+                >
+                <div class="flex flex-col items-start">
+                    <button class="archive-button" on:click={exportExcel}
+                        >Export</button
                     >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
-                        />
-                    </svg>
-                    The export will generate a single Excel file containing all data,
-                    including participant and course details, member card history,
-                    and archived entries.
-                </span>
+                    <span class="mt-1 text-justify text-[var(--text-color)]">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-[var(--primary-color-dark)] inline"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                            />
+                        </svg>
+                        The export will generate a single Excel file containing all
+                        data, including participant and course details, member card
+                        history, and archived entries.
+                    </span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+{/if}
+
+{#if displayParticipantArchive}
+    <ArchivedDataComponent
+        header="Archived participants overview"
+        loadArchivedDataPromise={archivedParticipantsSupplier}
+        unarchiveEntryPromise={unarchiveParticipantSupplier}
+        onComponentDestroyed={() => resetView()}
+    />
+{/if}
+
+{#if displayCourseArchive}
+    <ArchivedDataComponent
+        header="Archived courses overview"
+        loadArchivedDataPromise={archivedCoursesSupplier}
+        unarchiveEntryPromise={unarchiveCourseSupplier}
+        onComponentDestroyed={() => resetView()}
+    />
+{/if}
 
 <style>
     .outer-archive-container {

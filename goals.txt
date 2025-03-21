@@ -1,7 +1,3 @@
-🛠️  Components
-    Archived participants -> show archived participants and when they were archived. By clicking on them you unarchive them
-    Archived courses -> show archived courses and when they were archived. By clicking on them you unarchive them
-
 📈 Statistics & Reporting
 For Participants:
 

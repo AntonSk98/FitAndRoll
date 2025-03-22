@@ -7,6 +7,7 @@
   import "./lib/i18n.js";
   import Participants from "./participants/Participants.svelte";
     import Archive from "./archive/Archive.svelte";
+    import Statistics from "./statistics/Statistics.svelte";
 
   let activePage = writable("courses");
 </script>
@@ -21,6 +22,8 @@
       <Participants />
     {:else if $activePage === "archive"}
       <Archive/>
+    {:else if $activePage === "statistics"}
+      <Statistics/>
     {/if}
   </div>
 

@@ -28,7 +28,8 @@
     "navigation": {
         "courses": "Kurse",
         "participants": "Teilnehmer",
-        "archive": "Archiv"
+        "archive": "Archiv",
+        "statistics": "Statistiken"
     },
     "pagination": {
         "of": "von",

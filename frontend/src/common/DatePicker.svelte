@@ -24,15 +24,17 @@
         if (!date) return "";
 
         const selectedDate = new Date(date.startDate);
-        // Store the date as ISO string
-        console.log(new Date(date.startDate))
-        const isoString = selectedDate.toISOString();
 
         if (dateType === "from") {
-            from = isoString;
+            from = selectedDate.toISOString();
             formattedFrom = format(selectedDate, "yyyy/MM/dd"); // Format for display
-        } else {
-            to = isoString;
+        }
+        if (dateType === "to") {
+            selectedDate.setHours(23);
+            selectedDate.setMinutes(59);
+            selectedDate.setSeconds(59);
+            selectedDate.setMilliseconds(999);
+            to = selectedDate.toISOString();
             formattedTo = format(selectedDate, "yyyy/MM/dd"); // Format for display
         }
 

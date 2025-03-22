@@ -1,16 +1,1 @@
-📈 Statistics & Reporting
-For Participants:
-
-Add "Select From Period" and "Select To Period" filters
-
-    Create a table based on 'member_card_attendances':
-        Columns: Name | Course | With Card Count | Probestunde Count | Without Card Count | Participation %
-
-For Courses:
-
-Add "Select From Period" and "Select To Period" filters
-Create a table based on 'member_card_attendances':
-
-    Columns: Course | With Card Count | Probestunde Count | Without Card Count
-
 Add internatialization....

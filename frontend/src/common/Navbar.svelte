@@ -4,7 +4,8 @@
     const pageSection = {
         'courses': $t("navigation.courses"),
         'participants': $t("navigation.participants"),
-        'archive': $t("navigation.archive")
+        'statistics': $t("navigation.statistics"),
+        'archive': $t("navigation.archive"),
     }
 
     export let activePage;
@@ -12,7 +13,7 @@
 
 <nav class="mb-4">
     <ul class="flex justify-start gap-2 flex-wrap">
-        {#each ['courses', 'participants', 'archive'] as page}
+        {#each Object.keys(pageSection) as page}
             <li>
                 <button
                     on:click={() => activePage.set(page)}

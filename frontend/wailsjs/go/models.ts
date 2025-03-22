@@ -191,19 +191,50 @@ export namespace common {
 		    return a;
 		}
 	}
-
-}
-
-export namespace courseattendance {
+	export class Page[fit_and_roll/backend/statistics.StatisticsDto] {
+	    data: statistics.StatisticsDto[];
+	    total: number;
+	    page: number;
+	    size: number;
 	
-	export class AttendedRange {
+	    static createFrom(source: any = {}) {
+	        return new Page[fit_and_roll/backend/statistics.StatisticsDto](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.data = this.convertValues(source["data"], statistics.StatisticsDto);
+	        this.total = source["total"];
+	        this.page = source["page"];
+	        this.size = source["size"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class TimeRangeFilter {
 	    // Go type: time
 	    from?: any;
 	    // Go type: time
 	    to?: any;
 	
 	    static createFrom(source: any = {}) {
-	        return new AttendedRange(source);
+	        return new TimeRangeFilter(source);
 	    }
 	
 	    constructor(source: any = {}) {
@@ -230,6 +261,11 @@ export namespace courseattendance {
 		    return a;
 		}
 	}
+
+}
+
+export namespace courseattendance {
+	
 	export class CourseAttendanceDto {
 	    id: number;
 	    fullname: string;
@@ -258,7 +294,7 @@ export namespace courseattendance {
 	    excludeTrialAttendance: boolean;
 	    excludeNoMemberCard: boolean;
 	    excludeWithMemberCard: boolean;
-	    attendedRange?: AttendedRange;
+	    attendedRange?: common.TimeRangeFilter;
 	
 	    static createFrom(source: any = {}) {
 	        return new CourseAttendanceParameters(source);
@@ -273,7 +309,7 @@ export namespace courseattendance {
 	        this.excludeTrialAttendance = source["excludeTrialAttendance"];
 	        this.excludeNoMemberCard = source["excludeNoMemberCard"];
 	        this.excludeWithMemberCard = source["excludeWithMemberCard"];
-	        this.attendedRange = this.convertValues(source["attendedRange"], AttendedRange);
+	        this.attendedRange = this.convertValues(source["attendedRange"], common.TimeRangeFilter);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -596,6 +632,61 @@ export namespace participants {
 	        this.surname = source["surname"];
 	        this.group = source["group"];
 	    }
+	}
+
+}
+
+export namespace statistics {
+	
+	export class StatisticsDto {
+	    name: string;
+	    withMemberCard: number;
+	    trialAttendance: number;
+	    withoutMemberCard: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new StatisticsDto(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.withMemberCard = source["withMemberCard"];
+	        this.trialAttendance = source["trialAttendance"];
+	        this.withoutMemberCard = source["withoutMemberCard"];
+	    }
+	}
+	export class StatisticsParams {
+	    name?: string;
+	    attendedRange?: common.TimeRangeFilter;
+	
+	    static createFrom(source: any = {}) {
+	        return new StatisticsParams(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.attendedRange = this.convertValues(source["attendedRange"], common.TimeRangeFilter);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 
 }

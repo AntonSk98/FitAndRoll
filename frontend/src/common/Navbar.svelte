@@ -1,11 +1,11 @@
 <script>
-    import { t } from "svelte-i18n";
+    import { i18n } from "./i18n";
 
     const pageSection = {
-        'courses': $t("navigation.courses"),
-        'participants': $t("navigation.participants"),
-        'statistics': $t("navigation.statistics"),
-        'archive': $t("navigation.archive"),
+        'courses': i18n("navigation.courses"),
+        'participants': i18n("navigation.participants"),
+        'statistics': i18n("navigation.statistics"),
+        'archive': i18n("navigation.archive"),
     }
 
     export let activePage;

@@ -1,4 +1,5 @@
 {
+    "close": "Schließen",
     "dateTimePicker": {
         "options": {
             "none": "Wähle einen Tag",
@@ -35,5 +36,41 @@
         "of": "von",
         "size": "Seitengröße",
         "total": "Gesamt"
+    },
+    "datePicker": {
+        "from": "von",
+        "to": "bis",
+        "months": [
+            "Januar",
+            "Februar",
+            "März",
+            "April",
+            "Mai",
+            "Juni",
+            "Juli",
+            "August",
+            "September",
+            "Oktober",
+            "November",
+            "Dezember"
+        ],
+        "days": [
+            "So",
+            "Mo",
+            "Di",
+            "Mi",
+            "Do",
+            "Fr",
+            "Sa"
+        ]
+    },
+    "table": {
+        "columns": {
+            "action": "Aktion"
+        },
+        "filter": {
+            "search": "Suchen"
+        },
+        "noData": "Keine Daten verfügbar..."
     }
 }

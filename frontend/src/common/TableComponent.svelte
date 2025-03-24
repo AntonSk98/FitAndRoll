@@ -1,5 +1,5 @@
 <script>
-    import { t } from "svelte-i18n";
+    import { i18n } from "./i18n";
 
     import Modal from "./Modal.svelte";
     import PaginationComponent from "./PaginationComponent.svelte";
@@ -165,8 +165,8 @@
                                             type="search"
                                             id="search"
                                             class="search-input"
-                                            placeholder={$t(
-                                                "common.table.filter.search",
+                                            placeholder={i18n(
+                                                "table.filter.search",
                                             )}
                                             on:input={(event) =>
                                                 onFilter(
@@ -182,7 +182,7 @@
                         {/if}
                     {/each}
                     {#if actions && actions.length}
-                        <th>{$t("common.table.columns.action")}</th>
+                        <th>{i18n("table.columns.action")}</th>
                     {/if}
                 </tr>
             </thead>
@@ -236,7 +236,7 @@
                         </tr>
                     {/each}
                 {:else}
-                    <div class="no-data">{$t("common.table.noData")}</div>
+                    <div class="no-data">{i18n("table.noData")}</div>
                 {/if}
             </tbody>
         </table>

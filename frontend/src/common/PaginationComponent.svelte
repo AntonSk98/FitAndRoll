@@ -1,5 +1,5 @@
 <script>
-    import { t } from "svelte-i18n";
+    import { i18n } from "./i18n";
 
     export let total;
     export let onPaginationChanged = (currentPagination) => {};
@@ -71,7 +71,7 @@
 
             <span class="pagination-info">
                 <strong>{pagination.currentPage}</strong>
-                {$t("pagination.of")}
+                {i18n("pagination.of")}
                 <strong
                     >{Math.ceil(
                         pagination.totalItems / pagination.pageSize,
@@ -98,11 +98,11 @@
                 </svg>
             </button>
         </div>
-        <div class="text-[var(--text-color)] font-bold text-sm cursor-default">{$t("pagination.total")}: {total}</div>
+        <div class="text-[var(--text-color)] font-bold text-sm cursor-default">{i18n("pagination.total")}: {total}</div>
     </div>
 
     <div class="page-size-container">
-        <span>{$t("pagination.size")}</span>
+        <span>{i18n("pagination.size")}</span>
         {#each pageSizeOptions as pageSizeOption}
             <button
                 class="page-size-button {pagination.pageSize === pageSizeOption

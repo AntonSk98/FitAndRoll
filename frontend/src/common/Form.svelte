@@ -1,6 +1,6 @@
 <script>
   import DateTimePicker from "../common/DateTimePicker.svelte";
-  import { t } from "svelte-i18n";
+  import { i18n } from "./i18n";
 
   export let formConfig;
   const form = {};
@@ -98,10 +98,10 @@
                 {/each}
               </div>
               <DateTimePicker
-                datePrefix={$t('form.dateTimePicker.datePrefix')}
-                timePrefix={$t('form.dateTimePicker.timePrefix')}
+                datePrefix={i18n('form.dateTimePicker.datePrefix')}
+                timePrefix={i18n('form.dateTimePicker.timePrefix')}
                 setOnButton={true}
-                setButtonText={$t('form.dateTimePicker.addEntryButtonText')}
+                setButtonText={i18n('form.dateTimePicker.addEntryButtonText')}
                 onDateTimeSet={(dateTime) => onDateTimeSet(field, dateTime)}
               />
             {/if}

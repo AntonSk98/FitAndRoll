@@ -3,6 +3,7 @@
     import TableComponent from "../common/TableComponent.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import Modal from "../common/Modal.svelte";
+    import { i18n } from "../common/i18n";
 
     export let header;
     export let loadArchivedDataPromise;
@@ -51,22 +52,22 @@
 </script>
 
 <TableComponent
-    tableHeader="Archived participants overview"
+    tableHeader={header}
     total={archivedDataPage?.total ?? 0}
     columns={[
         {
             key: "name",
-            header: "Name",
+            header: i18n("archive.table.columns.name"),
             filterbar: true,
         },
         {
             key: "archivedAt",
-            header: "Archived at",
+            header: i18n("archive.table.columns.archivedAt"),
         },
     ]}
     actions={[
         {
-                title: 'Unarchive',
+                title: i18n("archive.table.actions.unarchive"),
                 icon: "lockOpen",
                 onClick: unarchiveEntry
             },
@@ -79,7 +80,7 @@
     })}
     headerActions={[
         {
-            title: "close",
+            title: i18n("close"),
             icon: "xMark",
             onClick: () => onComponentDestroyed(),
         },
@@ -93,7 +94,7 @@
         onModalConfirmed={unarchiveEntry}
     >
     <div slot="body">
-        <div>Are you sure you would like to unarchive <span class="font-bold text-[var(--primary-color)]">{selectedArchivedEntry?.name}</span></div>
+        <div>{i18n("archive.table.actions.unarchivePrePrompt")} <span class="font-bold text-[var(--primary-color)]">{selectedArchivedEntry?.name}</span> {i18n("archive.table.actions.unarchivePostPrompt")}</div>
     </div>
 </Modal>
 {/if}

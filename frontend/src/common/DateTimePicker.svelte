@@ -1,5 +1,5 @@
 <script>
-    import { t } from "svelte-i18n";
+    import { i18n } from "./i18n";
 
     let hours;
     let minutes;
@@ -47,14 +47,14 @@
             <label for="day-select">{datePrefix}:</label>
         {/if}
         <select id="day-select" bind:value={selectedDay} on:change={updateDay}>
-            <option value="" disabled selected>{$t("dateTimePicker.options.none")}</option>
-            <option value="monday">{$t("dateTimePicker.options.monday")}</option>
-            <option value="tuesday">{$t("dateTimePicker.options.tuesday")}</option>
-            <option value="wednesday">{$t("dateTimePicker.options.wednesday")}</option>
-            <option value="thursday">{$t("dateTimePicker.options.thursday")}</option>
-            <option value="friday">{$t("dateTimePicker.options.friday")}</option>
-            <option value="saturday">{$t("dateTimePicker.options.saturday")}</option>
-            <option value="sunday">{$t("dateTimePicker.options.sunday")}</option>
+            <option value="" disabled selected>{i18n("dateTimePicker.options.none")}</option>
+            <option value="monday">{i18n("dateTimePicker.options.monday")}</option>
+            <option value="tuesday">{i18n("dateTimePicker.options.tuesday")}</option>
+            <option value="wednesday">{i18n("dateTimePicker.options.wednesday")}</option>
+            <option value="thursday">{i18n("dateTimePicker.options.thursday")}</option>
+            <option value="friday">{i18n("dateTimePicker.options.friday")}</option>
+            <option value="saturday">{i18n("dateTimePicker.options.saturday")}</option>
+            <option value="sunday">{i18n("dateTimePicker.options.sunday")}</option>
         </select>
     </div>
 

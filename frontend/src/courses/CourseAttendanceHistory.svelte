@@ -132,7 +132,6 @@
         {
             key: "attendanceType",
             header: "Attended as",
-            dynamicContent: true,
         },
     ]}
     actions={[

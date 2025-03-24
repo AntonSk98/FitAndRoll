@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
-    import { t } from "svelte-i18n";
+    import { i18n } from "./i18n";
 
 
     export let modalSize = "modal-small";
@@ -12,7 +12,7 @@
         document.documentElement.style.overflow = "hidden";
 
         return () => {
-            document.documentElement.style.overflow = ""; // Restore scrolling when unmounted
+            document.documentElement.style.overflow = "";
         };
     });
 </script>
@@ -41,7 +41,7 @@
                 </div>
                 <h3 class="modal-text">
                     <slot name="body">
-                        {$t('modal.body')}
+                        {i18n('modal.body')}
                     </slot>
                 </h3>
 
@@ -51,7 +51,7 @@
                             on:click={onModalConfirmed}
                             class="modal-confirm-btn"
                         >
-                            <slot name="confirm">{$t('modal.actions.confirm')}</slot>
+                            <slot name="confirm">{i18n('modal.actions.confirm')}</slot>
                         </button>
                     {/if}
 
@@ -60,7 +60,7 @@
                             on:click={onModalCanceled}
                             class="modal-cancel-btn"
                         >
-                            <slot name="cancel">{$t('modal.actions.cancel')}</slot>
+                            <slot name="cancel">{i18n('modal.actions.cancel')}</slot>
                         </button>
                     {/if}
                 </div>

@@ -2,6 +2,7 @@
     export let onDateRangePicked;
     import { DatePicker } from "@svelte-plugins/datepicker";
     import { format } from "date-fns";
+    import { i18n } from "./i18n";
 
     let isOpenFrom = false;
     let isOpenTo = false;
@@ -27,7 +28,7 @@
 
         if (dateType === "from") {
             from = selectedDate.toISOString();
-            formattedFrom = format(selectedDate, "yyyy/MM/dd"); // Format for display
+            formattedFrom = format(selectedDate, "yyyy/MM/dd");
         }
         if (dateType === "to") {
             selectedDate.setHours(23);
@@ -35,7 +36,7 @@
             selectedDate.setSeconds(59);
             selectedDate.setMilliseconds(999);
             to = selectedDate.toISOString();
-            formattedTo = format(selectedDate, "yyyy/MM/dd"); // Format for display
+            formattedTo = format(selectedDate, "yyyy/MM/dd");
         }
 
         // Emit the updated date range with both dates as ISO strings
@@ -59,6 +60,8 @@
     <DatePicker
         bind:isOpen={isOpenFrom}
         startDate={from}
+        monthLabels={i18n("datePicker.months")}
+        dowLabels={i18n("datePicker.days")}
         align={"right"}
         onDateChange={(date) => handleDateChange(date, "from")}
     >
@@ -70,7 +73,7 @@
             {/if}
             <input
                 type="text"
-                placeholder="From"
+                placeholder={i18n("datePicker.from")}
                 bind:value={formattedFrom}
                 on:click={() => toggleDatePicker("from")}
                 readonly
@@ -83,6 +86,8 @@
         startDate={to}
         align={"right"}
         enableFutureDates={true}
+        monthLabels={i18n("datePicker.months")}
+        dowLabels={i18n("datePicker.days")}
         onDateChange={(date) => handleDateChange(date, "to")}
     >
         <div class="input-container">
@@ -93,7 +98,7 @@
             {/if}
             <input
                 type="text"
-                placeholder="To"
+                placeholder={i18n("datePicker.to")}
                 bind:value={formattedTo}
                 on:click={() => toggleDatePicker("to")}
                 readonly

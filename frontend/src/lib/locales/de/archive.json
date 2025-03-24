@@ -1,0 +1,29 @@
+{
+    "archive": {
+        "header": "Archiv",
+        "export": "Export",
+        "exportInfo": "Die Export-Funktion erstellt ein Excel-Dokument mit allen Informationen zu Kursen, Teilnehmern, deren Anwesenheitsverlauf und allen archivierten Einträgen.",
+        "navigation": {
+            "participants": "Zum Teilnehmerarchiv",
+            "courses": "Zum Kursarchiv"
+        },
+        "archivedParticipants": {
+            "header": "Archivierte Teilnehmer"
+        },
+        "archivedCourses": {
+            "header": "Archivierte Kurse"
+        },
+        "table": {
+            "columns": {
+                "name": "Name",
+                "archivedAt": "Archiviert am"
+            },
+            "actions": {
+                "unarchive": "Wiederherstellen",
+                "unarchivePrePrompt": "Bist du sicher, dass du",
+                "unarchivePostPrompt": "wiederherstellen möchtest?"
+            }
+        }
+    }
+
+}

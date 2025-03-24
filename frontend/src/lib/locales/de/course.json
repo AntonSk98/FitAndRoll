@@ -1,3 +1,18 @@
 {
-    
+    "courses": {
+        "table": {
+            "header": "Course Overview",
+            "columns": {
+                "course": "Course",
+                "schedule": "Schedule"
+            },
+            "actions": {
+                "newCourse": "New Course",
+                "details": "Details",
+                "participants": "Participants",
+                "history": "Participation History",
+                "archive": "Archive"
+            }
+        }
+    }
 }

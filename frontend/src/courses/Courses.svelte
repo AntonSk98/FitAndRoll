@@ -1,5 +1,5 @@
 <script>
-    import { t } from "svelte-i18n";
+    import { i18n } from "../common/i18n";
     import {
         FindCourses,
         ArchiveCourse,
@@ -70,17 +70,17 @@
 
 {#if componentControl.showCourseOverview}
     <TableComponent
-        tableHeader={$t("courses.table.header")}
+        tableHeader={i18n("courses.table.header")}
         total={coursePage?.total ?? 0}
         columns={[
             {
                 key: "name",
-                header: $t("courses.table.columns.course"),
+                header: i18n("courses.table.columns.course"),
                 filterbar: true,
             },
             {
                 key: "schedule",
-                header: $t("courses.table.columns.schedule"),
+                header: i18n("courses.table.columns.schedule"),
             },
         ]}
         rows={coursePage?.data?.map((course) => {
@@ -90,27 +90,27 @@
                     ? course.schedules.map(
                           (schedule) => `${schedule.day} (${schedule.time})`,
                       )
-                    : $t("course.test"),
+                    : i18n("course.test"),
             };
         })}
         actions={[
             {
-                title: $t("courses.table.actions.details"),
+                title: i18n("courses.table.actions.details"),
                 icon: "edit",
                 onClick: displayDetails,
             },
             {
-                title: $t("courses.table.actions.participants"),
+                title: i18n("courses.table.actions.participants"),
                 icon: "info",
                 onClick: displayCourseParticipants,
             },
             {
-                title: $t("courses.table.actions.history"),
+                title: i18n("courses.table.actions.history"),
                 icon: "calender",
                 onClick: displayParticipationHistory,
             },
             {
-                title: $t("courses.table.actions.archive"),
+                title: i18n("courses.table.actions.archive"),
                 icon: "trash",
                 requireConfirmation: true,
                 onClick: archiveCourse,
@@ -118,7 +118,7 @@
         ]}
         headerActions={[
             {
-                title: $t("courses.table.actions.newCourse"),
+                title: i18n("courses.table.actions.newCourse"),
                 icon: "plus",
                 onClick: () =>
                     (componentControl =

@@ -1,4 +1,5 @@
 <script>
+    import {i18n} from "../common/i18n"
     import { ExportData } from "../../wailsjs/go/archive/ExportDataHandler";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import ArchivedDataComponent from "./ArchivedDataComponent.svelte";
@@ -47,24 +48,24 @@
     <div class="outer-archive-container">
         <div class="archive-container">
             <h1 class="text-4xl text-[var(--text-color)] font-bold mb-3">
-                Archive
+                {i18n("archive.header")}
             </h1>
             <div class="flex flex-col items-start gap-2">
                 <button
                     class="archive-button"
                     on:click={() => (displayParticipantArchive = true)}
-                    >To participipant archive</button
+                    >{i18n("archive.navigation.participants")}</button
                 >
                 <button
                     class="archive-button"
                     on:click={() => (displayCourseArchive = true)}
-                    >To course archive</button
+                    >{i18n("archive.navigation.courses")}</button
                 >
                 <div class="flex flex-col items-start">
                     <button class="archive-button" on:click={exportExcel}
-                        >Export</button
+                        >{i18n("archive.export")}</button
                     >
-                    <span class="mt-1 text-justify text-[var(--text-color)]">
+                    <span class="mt-1 text-[var(--text-color)]">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -79,9 +80,7 @@
                                 d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
                             />
                         </svg>
-                        The export will generate a single Excel file containing all
-                        data, including participant and course details, member card
-                        history, and archived entries.
+                        {i18n("archive.exportInfo")}
                     </span>
                 </div>
             </div>
@@ -91,7 +90,7 @@
 
 {#if displayParticipantArchive}
     <ArchivedDataComponent
-        header="Archived participants overview"
+        header={i18n("archive.archivedParticipants.header")}
         loadArchivedDataPromise={archivedParticipantsSupplier}
         unarchiveEntryPromise={unarchiveParticipantSupplier}
         onComponentDestroyed={() => resetView()}
@@ -100,7 +99,7 @@
 
 {#if displayCourseArchive}
     <ArchivedDataComponent
-        header="Archived courses overview"
+        header="{i18n("archive.archivedCourses.header")}"
         loadArchivedDataPromise={archivedCoursesSupplier}
         unarchiveEntryPromise={unarchiveCourseSupplier}
         onComponentDestroyed={() => resetView()}

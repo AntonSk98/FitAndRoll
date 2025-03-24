@@ -6,7 +6,6 @@
         CourseStatistics,
     } from "../../wailsjs/go/statistics/StatisticsHandler";
     import TableComponent from "../common/TableComponent.svelte";
-    import Modal from "../common/Modal.svelte";
 
     let statisticsPage;
     let displayCourseStatistics = false;

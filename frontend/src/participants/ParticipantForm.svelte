@@ -6,6 +6,7 @@
         FindParticipantDetails,
     } from "../../wailsjs/go/participants/ParticipantsHandler";
     import { onMount } from "svelte";
+    import { i18n } from "../common/i18n";
 
     export let participantId = null;
     export let backToOverview;
@@ -24,36 +25,36 @@
 
     function initForm() {
         formGroup = {
-            header: !participant ? "New Participant" : "Update Participant ",
+            header: !participant ? i18n("participants.form.new") : i18n("participants.form.update"),
             fields: [
                 {
                     key: "name",
                     type: "text",
                     value: participant?.name,
-                    display: "Name",
+                    display: i18n("participants.name"),
                     validation: {
-                        message: "Must contain at least 2 characters",
-                        function: (value) => value.length >= 2,
+                        message: i18n("participants.form.notEmptyValidation"),
+                        function: (value) => value?.trim()?.length > 0,
                     },
                 },
                 {
                     key: "surname",
                     type: "text",
                     value: participant?.surname,
-                    display: "Surname",
+                    display: i18n("participants.surname"),
                     validation: {
-                        message: "Must contain at least 2 characters",
-                        function: (value) => value.length >= 2,
+                        message: i18n("participants.form.notEmptyValidation"),
+                        function: (value) => value?.trim()?.length > 0,
                     },
                 },
                 {
                     key: "group",
                     type: "text",
                     value: participant?.group,
-                    display: "Group",
+                    display: i18n("participants.group"),
                     validation: {
-                        message: "Must contain at least 2 characters",
-                        function: (value) => value?.length > 2,
+                        message: i18n("participants.form.notEmptyValidation"),
+                        function: (value) => value?.trim()?.length > 0,
                     },
                 },
             ],

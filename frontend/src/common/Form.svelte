@@ -98,10 +98,10 @@
                 {/each}
               </div>
               <DateTimePicker
-                datePrefix={i18n('form.dateTimePicker.datePrefix')}
-                timePrefix={i18n('form.dateTimePicker.timePrefix')}
+                datePrefix={i18n("form.dateTimePicker.datePrefix")}
+                timePrefix={i18n("form.dateTimePicker.timePrefix")}
                 setOnButton={true}
-                setButtonText={i18n('form.dateTimePicker.addEntryButtonText')}
+                setButtonText={i18n("form.dateTimePicker.addEntryButtonText")}
                 onDateTimeSet={(dateTime) => onDateTimeSet(field, dateTime)}
               />
             {/if}
@@ -116,7 +116,7 @@
         on:click={formConfig?.actions?.cancel}
         class="btn-cancel"
       >
-        Cancel
+        {i18n("form.cancel")}
       </button>
       <button
         type="button"
@@ -124,7 +124,7 @@
         on:click={submitForm}
         class="btn-submit {isFormValid ? '' : 'btn-disabled'}"
       >
-        Submit
+        {i18n("form.save")}
       </button>
     </div>
   </form>

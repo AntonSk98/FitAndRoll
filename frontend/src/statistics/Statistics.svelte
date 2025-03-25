@@ -1,11 +1,11 @@
 <script>
-    import { onMount } from "svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import {
         ParticipantStatistics,
         CourseStatistics,
     } from "../../wailsjs/go/statistics/StatisticsHandler";
     import TableComponent from "../common/TableComponent.svelte";
+    import { i18n } from "../common/i18n.js";
 
     let statisticsPage;
     let displayCourseStatistics = false;
@@ -53,18 +53,18 @@
 
 {#if !displayCourseStatistics}
     <TableComponent
-        tableHeader="Participants statistics"
+        tableHeader= {i18n("statistics.participants.header")}
         total={statisticsPage?.total ?? 0}
         mainFilters={[
             {
                 key: "attendedRange",
-                label: "Attended range",
+                label: i18n("statistics.attendedRange"),
                 type: "date",
             },
         ]}
         headerActions={[
             {
-                title: "Course statistics",
+                title: i18n("statistics.courses.header"),
                 icon: "calender",
                 onClick: () => displayCourseStatistics = true,
             },
@@ -72,20 +72,20 @@
         columns={[
             {
                 key: "name",
-                header: "Fullname",
+                header: i18n("statistics.participants.fullname"),
                 filterbar: true,
             },
             {
                 key: "withMemberCard",
-                header: "With member card",
+                header: i18n("statistics.participants.withMemberCard")
             },
             {
                 key: "trialAttendance",
-                header: "Trial attendance",
+                header: i18n("statistics.participants.trialAttendance"),
             },
             {
                 key: "withoutMemberCard",
-                header: "Without member card",
+                header: i18n("statistics.participants.withoutMemberCard"),
             },
         ]}
         rows={statisticsPage?.data}
@@ -100,18 +100,18 @@
 
 {#if displayCourseStatistics}
     <TableComponent
-        tableHeader="Course statistics"
+        tableHeader={i18n("statistics.courses.header")}
         total={statisticsPage?.total ?? 0}
         mainFilters={[
             {
                 key: "attendedRange",
-                label: "Attended range",
+                label: i18n("statistics.attendedRange"),
                 type: "date",
             },
         ]}
         headerActions={[
             {
-                title: "close",
+                title: i18n("statistics.close"),
                 icon: "xMark",
                 onClick: () => displayCourseStatistics = false,
             },
@@ -119,20 +119,20 @@
         columns={[
             {
                 key: "name",
-                header: "Course name",
+                header: i18n("statistics.courses.name"),
                 filterbar: true,
             },
             {
                 key: "withMemberCard",
-                header: "With member card",
+                header: i18n("statistics.courses.withMemberCard"),
             },
             {
                 key: "trialAttendance",
-                header: "Trial attendance",
+                header: i18n("statistics.courses.trialAttendance"),
             },
             {
                 key: "withoutMemberCard",
-                header: "Without member card",
+                header: i18n("statistics.courses.withoutMemberCard"),
             },
         ]}
         rows={statisticsPage?.data}

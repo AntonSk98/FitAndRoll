@@ -7,6 +7,7 @@
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import ParticipantForm from "./ParticipantForm.svelte";
     import MemberCard from "./MemberCard.svelte";
+    import { i18n } from "../common/i18n";
 
     const PARTICIPANTS_OVERVIEW = "participants_overview";
     const ADD_NEW_PARTICIPANT = "new_participant";
@@ -78,29 +79,29 @@
 
 {#if componentRender === PARTICIPANTS_OVERVIEW}
     <TableComponent
-        tableHeader={"Participants overview"}
+        tableHeader={i18n("participants.header")}
         total={participantsPage?.total ?? 0}
         mainFilters={[
             {
                 key: "withActiveCard",
-                label: "With active member cards",
+                label: i18n("participants.filters.withActiveCard"),
                 type: "checkbox",
             },
         ]}
         columns={[
             {
                 key: "name",
-                header: "name",
+                header: i18n("participants.name"),
                 filterbar: true,
             },
             {
                 key: "surname",
-                header: "surname",
+                header: i18n("participants.surname"),
                 filterbar: true,
             },
             {
                 key: "group",
-                header: "group",
+                header: i18n("participants.group"),
                 filterbar: true,
             },
         ]}
@@ -113,17 +114,17 @@
         })}
         actions={[
             {
-                title: "edit",
+                title: i18n("participants.actions.edit"),
                 icon: "edit",
                 onClick: displayDetails,
             },
             {
-                title: "card",
+                title: i18n("participants.actions.card"),
                 icon: "card",
                 onClick: displayMemberCardOverview,
             },
             {
-                title: "trash",
+                title: i18n("participants.actions.archive"),
                 icon: "trash",
                 requireConfirmation: true,
                 onClick: archiveParticipant,
@@ -131,7 +132,7 @@
         ]}
         headerActions={[
             {
-                title: "plus",
+                title: i18n("participants.actions.create"),
                 icon: "plus",
                 onClick: newParticipant,
             },

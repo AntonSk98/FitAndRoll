@@ -13,6 +13,8 @@
         }
     },
     "form": {
+        "save": "Speichern",
+        "cancel": "Abbrechen",
         "dateTimePicker": {
             "datePrefix": "Findet statt am",
             "timePrefix": "Um",

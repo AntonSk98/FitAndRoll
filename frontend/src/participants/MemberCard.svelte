@@ -8,10 +8,9 @@
         UndoIssueNewMemberCard,
     } from "../../wailsjs/go/participants/MemberCardHandler";
 
-    import {
-        LoadMemberCardCourseHistory
-    } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler"
+    import { LoadMemberCardCourseHistory } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
     import BackButton from "../common/BackButton.svelte";
+    import { i18n } from "../common/i18n";
 
     export let member;
     export let onBackButtonClicked;
@@ -86,7 +85,7 @@
     <button
         class="primary"
         on:click={() => (displayNewCardConfirmationDialog = true)}
-        >New Card</button
+        >{i18n("participants.memberCard.newCard")}</button
     >
 </div>
 
@@ -97,13 +96,17 @@
     >
         <div slot="body">
             <div>
-                A new member card is about to be issued to
-                <b>{member.name} {member.surname}</b>.
+                {i18n("participants.memberCard.issuePrefix")}
+                <b class="text-[var(--primary-color)]"
+                    >{member.name} {member.surname}</b
+                >.
+                {i18n("participants.memberCard.issuePostfix")}.
             </div>
-            <div>Please confirm.</div>
         </div>
-        <div slot="confirm">Issue new card</div>
-        <div slot="cancel">Cancel</div>
+        <div slot="confirm">
+            {i18n("participants.memberCard.issueConfirmed")}
+        </div>
+        <div slot="cancel">{i18n("participants.memberCard.issueCanceled")}</div>
     </Modal>
 {/if}
 
@@ -138,12 +141,10 @@
 
         <div slot="body" class="text-left">
             {#if memberCardParticipationHistory?.length > 0}
-                <div class="member-card-overview-header">History</div>
+                <div class="member-card-overview-header">{i18n("participants.memberCard.cardHistory")}</div>
                 <ul class="px-3 py-2 flex flex-col gap-3">
                     {#each memberCardParticipationHistory as memberCardParticipationEntry}
-                        <li
-                            class="p-2 bg-[var(--secondary-color)] rounded-xl"
-                        >
+                        <li class="p-2 bg-[var(--secondary-color)] rounded-xl">
                             <span class="text-[var(--primary-color)] text-lg"
                                 >📌</span
                             >
@@ -161,45 +162,46 @@
                     {/each}
                 </ul>
             {:else}
-                <div class="font-bold">Unused member card</div>
+                <div class="font-bold">
+                    {i18n("participants.memberCard.removeEmptyCardHeader")}
+                </div>
                 <div>
-                    Since this card has not been used yet you can remove this
-                    member card
+                    {i18n("participants.memberCard.removeEmptyCard")}.
                 </div>
             {/if}
         </div>
         <div slot="confirm">
             {#if memberCardParticipationHistory?.length > 0}
-                OK
+            {i18n("participants.memberCard.ok")}
             {:else}
-                Remove member card
+                {i18n("participants.memberCard.removeEmptyCardConfirm")}
             {/if}
         </div>
-        <div slot="cancel">Close</div>
+        <div slot="cancel">{i18n("participants.memberCard.close")}</div>
     </Modal>
 {/if}
 
 <TableComponent
-    tableHeader={"Member card history"}
+    tableHeader={i18n("participants.memberCard.header")}
     total="0"
     onRowClicked={onMemberCardClicked}
     columns={[
         {
             key: "index",
-            header: "card",
+            header: i18n("participants.memberCard.card"),
         },
         {
             key: "issued",
-            header: "issued",
+            header: i18n("participants.memberCard.issuedAt"),
         },
         {
             key: "expired",
-            header: "expired",
+            header: i18n("participants.memberCard.expiredAt"),
         },
     ]}
     rows={memberCards.map((card, index) => {
         return {
-            index: `#${index}`,
+            index: `#${index+1}`,
             issued: card.issuedAt,
             expired: card.expiredAt || "X",
         };
@@ -228,7 +230,7 @@
         font-weight: bold;
         border-radius: 8px;
         transition: all 0.3s ease-in-out;
-        padding: 0.5rem 6rem;
+        padding: 0.5rem 2rem;
         background-color: var(--primary-color);
         color: white;
         border: none;

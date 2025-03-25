@@ -1,0 +1,20 @@
+{
+    "statistics": {
+        "attendedRange": "Zeitraum",
+        "close": "Zurück",
+        "participants": {
+            "header": "Teilnehmerstatistiken",
+            "fullname": "Vollname",
+            "withMemberCard": "Mit Karte",
+            "trialAttendance": "Probestunde",
+            "withoutMemberCard": "Ohne Karte"
+        },
+        "courses": {
+            "header": "Kursstatistiken",
+            "name": "Kurs",
+            "withMemberCard": "Mit Karte",
+            "trialAttendance": "Probestunde",
+            "withoutMemberCard": "Ohne Karte"
+        }
+    }
+}

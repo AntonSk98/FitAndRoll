@@ -44,6 +44,7 @@
             .then(() => {
                 findAllMemberCards();
                 displayMemberCardParticipationHistory = false;
+                toastSuccess();
             })
             .catch((error) => {
                 console.error(error);
@@ -69,6 +70,7 @@
             .then(() => {
                 displayNewCardConfirmationDialog = false;
                 findAllMemberCards();
+                toastSuccess();
             })
             .catch((error) => {
                 console.error(error);

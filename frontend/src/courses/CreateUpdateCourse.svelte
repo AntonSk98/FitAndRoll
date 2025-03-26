@@ -9,6 +9,7 @@
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { onMount } from "svelte";
     import Form from "../common/Form.svelte";
+    import { i18n } from "../common/i18n";
 
     export let courseId = null;
     export let componentControl = new ComponentControl();
@@ -51,16 +52,16 @@
 
     function defineForm(course) {
         formConfig = {
-            header: !courseDetails ? "Create Course" : "Update Course",
+            header: !courseDetails ? i18n("courseForm.create") : i18n("courseForm.update"),
             fields: [
                 {
                     key: "name",
                     type: "text",
                     value: course?.name,
-                    display: "Name",
+                    display: i18n("courseForm.name"),
                     validation: {
-                        message: "Must contain at least 2 characters",
-                        function: (value) => value.length >= 2,
+                        message: i18n("courseForm.nameValidation"),
+                        function: (value) => value?.trim()?.length > 0,
                     },
                 },
                 {
@@ -74,9 +75,9 @@
                     type: "list",
                     value: course?.schedules,
                     subtype: "datetime",
-                    display: "Schedules",
+                    display: i18n("courseForm.schedule"),
                     validation: {
-                        message: "Must contain at least one schedule entry",
+                        message: i18n("courseForm.scheduleValidation"),
                         function: (values) => values?.length > 0,
                     },
                 },

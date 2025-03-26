@@ -125,7 +125,7 @@
                         componentControl.showDefineNewCourseComponent()),
             },
             {
-                title: "Course attendance history",
+                title: i18n("courses.table.actions.overallParticipationHistory"),
                 icon: "userGroup",
                 onClick: () =>
                     (componentControl =

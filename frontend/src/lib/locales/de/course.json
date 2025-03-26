@@ -1,18 +1,54 @@
 {
     "courses": {
         "table": {
-            "header": "Course Overview",
+            "header": "Kursübersicht",
             "columns": {
-                "course": "Course",
-                "schedule": "Schedule"
+                "course": "Kurs",
+                "schedule": "Zeitplan"
             },
             "actions": {
-                "newCourse": "New Course",
-                "details": "Details",
-                "participants": "Participants",
-                "history": "Participation History",
-                "archive": "Archive"
+                "newCourse": "Neuer Kurs",
+                "details": "Kursdetails",
+                "participants": "Teilnehmeranwesenheit",
+                "history": "Kursbeteiligungshistorie",
+                "archive": "Kurs archivieren",
+                "overallParticipationHistory": "Gesamte Kursbeteiligungshistorie"
             }
+        }
+    },
+    "courseForm": {
+        "create": "Neuer Kurs",
+        "update": "Kurs aktualisieren",
+        "name": "Kursname",
+        "nameValidation": "Der Kursname darf nicht leer sein",
+        "description": "Beschreibung",
+        "schedule": "Zeitplan",
+        "scheduleValidation": "Der Zeitplan darf nicht leer sein"
+    },
+    "courseParticipant": {
+        "close": "Zurück",
+        "name": "Vorname",
+        "surname": "Nachname",
+        "withMemberCard": "Mit Karte",
+        "trialAttendance": "Probestunde",
+        "withoutMemberCard": "Ohne Karte",
+        "modal": {
+            "card": "Karte",
+            "issuedFor": "Ausgestellt für",
+            "issuedOn": "Ausgestellt am",
+            "remainingSlots": "Verbleibende Einheiten",
+            "severalCards": "hat mehrere Karten",
+            "selectCardPrompt": "Bitte wähle eine Karte aus, um an diesem Kurs teilzunehmen",
+            "noActiveCard": "Der Teilnehmer hat keine Karte!",
+            "attendConfirm": "Mit dieser Karte teilnehmen",
+            "attendCancel": "Abbrechen",
+            "confirmTrial1": "Bitte bestätige, dass",
+            "confirmTrial2": "an einer Probestudende des Kurses",
+            "confirmTrial3": "teilnimmt",
+            "confirmTrial4": "am Kurs",
+            "confirmTrial5": "ohne Karte teilnimmt",
+            "trialConfirm": "Probestunde bestätigen",
+            "noCardConfirm": "Ohne Karte teilnehmen"
         }
     }
 }

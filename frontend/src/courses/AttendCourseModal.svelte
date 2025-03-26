@@ -2,7 +2,7 @@
     import Modal from "../common/Modal.svelte";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { AttendCourse } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
-
+    import { i18n } from "../common/i18n";
 
     export let attendanceType;
     export let selectedParticipant;
@@ -27,16 +27,18 @@
             memberCard: memberCard?.id ?? activeMemberCards[0]?.id,
             course: selectedCourse?.id,
             participant: selectedParticipant?.id,
-            attendanceType: attendanceType
+            attendanceType: attendanceType,
         };
 
-        AttendCourse(attendCourseCommand).then(__ => {
-            toastSuccess();
-            onDestroy()
-        }).catch(err => {
-            console.error(err);
-            toastError();
-        })
+        AttendCourse(attendCourseCommand)
+            .then((__) => {
+                toastSuccess();
+                onDestroy();
+            })
+            .catch((err) => {
+                console.error(err);
+                toastError();
+            });
     }
 </script>
 
@@ -66,22 +68,25 @@
             {#if activeMemberCards?.length === 1}
                 <div class="text-justify">
                     <div class="text-[var(--primary-color)] font-bold text-2xl">
-                        Member card
+                        {i18n("courseParticipant.modal.card")}
                     </div>
                     <div class="flex flex-col my-1">
                         <div>
-                            Issued for: <span class="font-semibold"
+                            {i18n("courseParticipant.modal.issuedFor")}:
+                            <span class="font-semibold"
                                 >{selectedParticipant.name}
                                 {selectedParticipant.surname}</span
                             >
                         </div>
                         <div>
-                            Issued on: <span class="font-semibold"
+                            {i18n("courseParticipant.modal.issuedOn")}:
+                            <span class="font-semibold"
                                 >{activeMemberCards[0].issuedAt}</span
                             >
                         </div>
                         <div>
-                            Remaining sessions: <span class="font-semibold"
+                            {i18n("courseParticipant.modal.remainingSlots")}:
+                            <span class="font-semibold"
                                 >{activeMemberCards[0].capacity}</span
                             >
                         </div>
@@ -95,10 +100,11 @@
                         >
                             {selectedParticipant.name}
                             {selectedParticipant.surname}
-                        </span> has multiple member cards.
+                        </span>
+                        {i18n("courseParticipant.modal.severalCards")}.
                     </div>
                     <div>
-                        Please select a member card to use for this course.
+                        {i18n("courseParticipant.modal.selectCardPrompt")}.
                     </div>
                     <div class="flex flex-col gap-4 my-2">
                         {#each activeMemberCards as activeMemberCard, index}
@@ -110,16 +116,20 @@
                                 class="text-sm flex flex-col cursor-pointer bg-[var(--primary-color)] hover:bg-[var(--primary-color-dark)] text-white p-2 rounded-md duration-700 ease-in-out transform hover:scale-[1.02]"
                             >
                                 <span class="text-lg font-bold"
-                                    >Card #{index + 1}</span
+                                    >{i18n("courseParticipant.modal.card")} #{index +
+                                        1}</span
                                 >
                                 <span
-                                    >Remaining sessions: <span
-                                        class="font-semibold"
+                                    >{i18n(
+                                        "courseParticipant.modal.remainingSlots",
+                                    )}:
+                                    <span class="font-semibold"
                                         >{activeMemberCard.capacity}</span
                                     ></span
                                 >
                                 <span
-                                    >Issued on: <span class="font-semibold"
+                                    >{i18n("courseParticipant.modal.issuedOn")}:
+                                    <span class="font-semibold"
                                         >{activeMemberCard.issuedAt}</span
                                     ></span
                                 >
@@ -128,29 +138,32 @@
                     </div>
                 </div>
             {:else}
-                User does not have any active member cards!
+                {i18n("courseParticipant.modal.noActiveCard")}
             {/if}
         </div>
 
-        <div slot="confirm">Attend with this member card</div>
-        <div slot="cancel">Cancel</div>
+        <div slot="confirm">
+            {i18n("courseParticipant.modal.attendConfirm")}
+        </div>
+        <div slot="cancel">{i18n("courseParticipant.modal.attendCancel")}</div>
     </Modal>
 {/if}
 
 {#if attendanceType === "TRIAL_ATTENDANCE"}
     <Modal onModalCanceled={onDestroy} onModalConfirmed={trialAttend}>
         <div slot="body">
-            Please confirm that
+            {i18n("courseParticipant.modal.confirmTrial1")}
             <span class="font-bold text-[var(--primary-color)]"
                 >{selectedParticipant.name} {selectedParticipant.surname}</span
             >
-            will attend a trial session of the
+            {i18n("courseParticipant.modal.confirmTrial2")}
             <span class="font-bold text-[var(--primary-color)]"
                 >{selectedCourse.name}</span
-            > course.
+            >
+            {i18n("courseParticipant.modal.confirmTrial3")}.
         </div>
-        <div slot="confirm">Confirm trial training</div>
-        <div slot="cancel">Cancel</div>
+        <div slot="confirm">{i18n("courseParticipant.modal.trialConfirm")}</div>
+        <div slot="cancel">{i18n("courseParticipant.modal.attendCancel")}</div>
     </Modal>
 {/if}
 
@@ -159,7 +172,8 @@
         onModalCanceled={onDestroy}
         onModalConfirmed={attendCourseWIthoutMemberCard}
     >
-        <svg slot="icon"
+        <svg
+            slot="icon"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -174,16 +188,19 @@
         </svg>
 
         <div slot="body">
-            Please confirm that
+            {i18n("courseParticipant.modal.confirmTrial1")}
             <span class="font-bold text-[var(--primary-color)]"
                 >{selectedParticipant.name} {selectedParticipant.surname}</span
             >
-            will attend the
+            {i18n("courseParticipant.modal.confirmTrial4")}
             <span class="font-bold text-[var(--primary-color)]"
                 >{selectedCourse.name}</span
-            > training without the member card.
+            >
+            {i18n("courseParticipant.modal.confirmTrial5")}.
         </div>
-        <div slot="confirm">Without Member Card</div>
-        <div slot="cancel">Cancel</div>
+        <div slot="confirm">
+            {i18n("courseParticipant.modal.noCardConfirm")}
+        </div>
+        <div slot="cancel">{i18n("courseParticipant.modal.attendCancel")}</div>
     </Modal>
 {/if}

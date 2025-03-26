@@ -18,7 +18,7 @@
         "dateTimePicker": {
             "datePrefix": "Findet statt am",
             "timePrefix": "Um",
-            "addEntryButtonText": "Eintrag hinzufügen"
+            "addEntryButtonText": "Hinzufügen"
         }
     },
     "modal": {
@@ -74,5 +74,9 @@
             "search": "Suchen"
         },
         "noData": "Keine Daten verfügbar..."
+    },
+    "toast": {
+        "success": "Erledigt",
+        "error": "Fehler aufgetreten"
     }
 }

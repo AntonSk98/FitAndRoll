@@ -1,3 +1,4 @@
+import { i18n } from '../common/i18n'
 import { writable } from 'svelte/store'
 
 export const toasts = writable([])
@@ -7,11 +8,11 @@ export const dismissToast = (id) => {
 }
 
 export const toastSuccess = (message) => {
-    addToast({ type: "success", message: message ?? 'Success!'});
+    addToast({ type: "success", message: message ?? `${i18n('toast.success')}!`});
 }
 
 export const toastError = (message) => {
-    addToast({type: 'error', message: message ?? 'Unexpected error occurred...'});
+    addToast({type: 'error', message: message ?? `${i18n('toast.error')}!`});
 }
 
 const addToast = (toast) => {

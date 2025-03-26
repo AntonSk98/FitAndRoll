@@ -6,6 +6,7 @@
     import TableComponent from "../common/TableComponent.svelte";
     import { FindActiveMemberCards } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
     import AttendCourseModal from "./AttendCourseModal.svelte";
+    import { i18n } from "../common/i18n";
 
     export let selectedCourse;
     export let returnToCourseOverview;
@@ -41,7 +42,7 @@
             .then((memberCards) => {
                 selectedParticipant = participants[index];
                 activeMemberCards = memberCards;
-                attendCourseType = 'WITH_MEMBER_CARD';
+                attendCourseType = "WITH_MEMBER_CARD";
             })
             .catch((err) => {
                 console.error(err);
@@ -51,12 +52,12 @@
 
     function trialAttend(index) {
         selectedParticipant = participants[index];
-        attendCourseType = 'TRIAL_ATTENDANCE';
+        attendCourseType = "TRIAL_ATTENDANCE";
     }
 
     function attendWithoutMemberCard(index) {
         selectedParticipant = participants[index];
-        attendCourseType = 'WITHOUT_MEMBER_CARD';
+        attendCourseType = "WITHOUT_MEMBER_CARD";
     }
 
     function onAttendCourseModalDestroyed() {
@@ -65,35 +66,18 @@
     }
 </script>
 
-<div class="header">
-    <div>
-        <div class="title">{selectedCourse.name}</div>
-        <div class="description">
-            Here should be some description. Here should be some description.
-            Here should be some description. Here should be some description.
-            Here should be some description. Here should be some description.
-            Here should be some description. Here should be some description.
-            Here should be some description. Here should be some
-            description.Here should be some description. Here should be some
-            description.Here should be some description. Here should be some
-            description.Here should be some description.Here should be some
-            description.Here should be some description.
-        </div>
-    </div>
-    <BackButton onBackButtonClicked={returnToCourseOverview} />
-</div>
-
 <TableComponent
+    tableHeader={selectedCourse?.name}
     total={total ?? 0}
     columns={[
         {
             key: "name",
-            header: "name",
+            header: i18n("courseParticipant.name"),
             filterbar: true,
         },
         {
             key: "surname",
-            header: "surname",
+            header: i18n("courseParticipant.surname"),
             filterbar: true,
         },
     ]}
@@ -105,19 +89,26 @@
     })}
     actions={[
         {
-            title: "attend with member card",
+            title: i18n("courseParticipant.withMemberCard"),
             icon: "checkCircle",
             onClick: attendWithMemberCard,
         },
         {
-            title: "trial attend",
+            title: i18n("courseParticipant.trialAttendance"),
             icon: "exclamationCircle",
             onClick: trialAttend,
         },
         {
-            title: "attend without member card",
+            title: i18n("courseParticipant.withoutMemberCard"),
             icon: "xCircle",
             onClick: attendWithoutMemberCard,
+        },
+    ]}
+     headerActions={[
+        {
+            title: i18n("courseParticipant.close"),
+            icon: "xMark",
+            onClick: () => returnToCourseOverview(),
         },
     ]}
     {onPaginationFilterChanged}
@@ -132,28 +123,3 @@
         onDestroy={onAttendCourseModalDestroyed}
     />
 {/if}
-
-<style>
-    .header {
-        display: flex;
-        align-items: end;
-        gap: 2vw;
-        justify-content: space-between;
-        max-width: var(--container-max-width);
-        margin: 0 auto;
-        cursor: default;
-    }
-
-    .title {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: var(--secondary-color-dark);
-    }
-
-    .description {
-        font-weight: bolder;
-        color: var(--text-color);
-        letter-spacing: 0.1rem;
-        text-align: justify;
-    }
-</style>

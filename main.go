@@ -42,7 +42,7 @@ func main() {
 	err := wails.Run(&options.App{
 		Title:     "PROTECT YOURSELF",
 		Width:     1024,
-		MinWidth:  500,
+		MinWidth:  769,
 		Height:    768,
 		MinHeight: 500,
 		AssetServer: &assetserver.Options{

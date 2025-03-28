@@ -21,13 +21,17 @@
     function getMainFilters() {
         const commonFilters = [
             {
-                key: "excludeTrialAttendance",
-                label: i18n("courseHistory.commonFilters.excludeTrialAttendance"),
+                key: "excludeArchivedCourse",
+                label: i18n(
+                    "courseHistory.commonFilters.excludeArchivedCourse",
+                ),
                 type: "checkbox",
             },
             {
                 key: "excludeWithMemberCard",
-                label: i18n("courseHistory.commonFilters.excludeWithMemberCard"),
+                label: i18n(
+                    "courseHistory.commonFilters.excludeWithMemberCard",
+                ),
                 type: "checkbox",
             },
             {
@@ -35,23 +39,26 @@
                 label: i18n("courseHistory.commonFilters.excludeNoMemberCard"),
                 type: "checkbox",
             },
+
             {
                 key: "attendedRange",
                 label: i18n("courseHistory.commonFilters.attendedRange"),
                 type: "date",
             },
+            {
+                key: "excludeTrialAttendance",
+                label: i18n(
+                    "courseHistory.commonFilters.excludeTrialAttendance",
+                ),
+                type: "checkbox",
+            },
         ];
 
         return courseId
-            ? commonFilters
-            : [
-                  {
-                      key: "excludeArchivedCourse",
-                      label: i18n("courseHistory.commonFilters.excludeArchivedCourse"),
-                      type: "checkbox",
-                  },
-                  ...commonFilters,
-              ];
+            ? commonFilters.filter(
+                  (filter) => filter.key !== "excludeArchivedCourse",
+              )
+            : commonFilters;
     }
 
     async function loadCourseAttendanceHistory(filter, pagination) {
@@ -186,7 +193,8 @@
                         {i18n("courseHistory.modal.withCard.bodyP1")}
                         <span class="font-bold text-[var(--primary-color)]"
                             >{selectedParticipationHistoryEntry.course}</span
-                        > {i18n("courseHistory.modal.withCard.bodyP2")}.
+                        >
+                        {i18n("courseHistory.modal.withCard.bodyP2")}.
                     </div>
                     <div>
                         {i18n("courseHistory.modal.withCard.footer")}.

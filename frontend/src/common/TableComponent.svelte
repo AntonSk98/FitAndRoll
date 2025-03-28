@@ -96,16 +96,14 @@
             {/each}
         </div>
     </div>
-    <div class="main-filters mb-3">
+    <div class="main-filters mb-2">
         <div class="flex gap-x-10 items-end justify-between flex-wrap"> 
             <!-- Left side (Checkboxes) -->
             <div class="flex flex-col">
                 {#each mainFilters as mainFilter}
                     {#if mainFilter.type === "checkbox"}
                         <div class="flex items-center gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide">
-                            <label>
-                                <span>{mainFilter.label}:</span>
-                            </label>
+                            
                             <input
                                 type="checkbox"
                                 class="w-5 h-5 cursor-pointer transition-all duration-300"
@@ -115,6 +113,9 @@
                                         event?.target?.checked,
                                     )}
                             />
+                            <label>
+                                <span>{mainFilter.label}</span>
+                            </label>
                         </div>
                     {/if}
                 {/each}

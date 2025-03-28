@@ -56,7 +56,7 @@
         "back": "Zurück",
         "removeHistoryEntry": "Teilnahmeverlaufseintrag löschen",
         "commonFilters": {
-            "excludeTrialAttendance": "Probestunden ausblenden",
+            "excludeTrialAttendance": "Probestundeteilnahmen ausblenden",
             "excludeWithMemberCard": "Teilnahmen mit Karte ausblenden",
             "excludeNoMemberCard": "Teilnahmen ohne Karte ausblenden",
             "attendedRange": "Teilnahmezeitraum",

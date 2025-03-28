@@ -7,6 +7,7 @@
     } from "../../wailsjs/go/courseattendance/CourseAttendanceHandler.js";
     import TableComponent from "../common/TableComponent.svelte";
     import Modal from "../common/Modal.svelte";
+    import { i18n } from "../common/i18n.js";
 
     export let courseId = null;
     export let onComponentDestroyed;
@@ -21,22 +22,22 @@
         const commonFilters = [
             {
                 key: "excludeTrialAttendance",
-                label: "Hide trial attendances",
+                label: i18n("courseHistory.commonFilters.excludeTrialAttendance"),
                 type: "checkbox",
             },
             {
                 key: "excludeWithMemberCard",
-                label: "Hide with member card attendances",
+                label: i18n("courseHistory.commonFilters.excludeWithMemberCard"),
                 type: "checkbox",
             },
             {
                 key: "excludeNoMemberCard",
-                label: "Hide without member card attendances",
+                label: i18n("courseHistory.commonFilters.excludeNoMemberCard"),
                 type: "checkbox",
             },
             {
                 key: "attendedRange",
-                label: "Attended range",
+                label: i18n("courseHistory.commonFilters.attendedRange"),
                 type: "date",
             },
         ];
@@ -46,7 +47,7 @@
             : [
                   {
                       key: "excludeArchivedCourse",
-                      label: "Hide archived courses",
+                      label: i18n("courseHistory.commonFilters.excludeArchivedCourse"),
                       type: "checkbox",
                   },
                   ...commonFilters,
@@ -94,53 +95,61 @@
         switch (attendanceType) {
             case "WITH_MEMBER_CARD":
                 return {
-                    html: `<span class='text-[var(--primary-color)] font-bold'>with member card</span>`,
+                    html: `<span class='text-[var(--primary-color)] font-bold'>${i18n("courseHistory.attendanceType.withCard")}</span>`,
                 };
             case "TRIAL_ATTENDANCE":
                 return {
-                    html: `<span class='text-[var(--warning-color)] font-bold'>trial attendance</span>`,
+                    html: `<span class='text-[var(--warning-color)] font-bold'>${i18n("courseHistory.attendanceType.trial")}</span>`,
                 };
             case "WITHOUT_MEMBER_CARD":
                 return {
-                    html: `<span class='text-[var(--error-color)] font-bold'>without member card</span>`,
+                    html: `<span class='text-[var(--error-color)] font-bold'>${i18n("courseHistory.attendanceType.noCard")}</span>`,
                 };
             default:
                 return "";
         }
     }
+
+    function getActions() {
+        if (courseId) {
+            return [];
+        }
+
+        return [
+            {
+                title: i18n("courseHistory.removeHistoryEntry"),
+                icon: "handRaised",
+                onClick: undoParticipation,
+            },
+        ];
+    }
 </script>
 
 <TableComponent
-    tableHeader="Course Attendance History Overview"
+    tableHeader={i18n("courseHistory.header")}
     total={courseAttendanceHistoryPage?.total ?? 0}
     mainFilters={getMainFilters()}
     columns={[
         {
             key: "fullname",
-            header: "Fullname",
+            header: i18n("courseHistory.columns.fullname"),
             filterbar: true,
         },
         {
             key: "course",
-            header: "Course",
+            header: i18n("courseHistory.columns.course"),
             filterbar: true,
         },
         {
             key: "attendedAt",
-            header: "Attended at",
+            header: i18n("courseHistory.columns.attendedAt"),
         },
         {
             key: "attendanceType",
-            header: "Attended as",
+            header: i18n("courseHistory.columns.attendedAs"),
         },
     ]}
-    actions={[
-        {
-            title: "undo participation",
-            icon: "handRaised",
-            onClick: undoParticipation,
-        },
-    ]}
+    actions={getActions()}
     rows={courseAttendanceHistoryPage?.data?.map((entry) => {
         return {
             fullname: entry.fullname,
@@ -151,7 +160,7 @@
     })}
     headerActions={[
         {
-            title: "close",
+            title: i18n("courseHistory.back"),
             icon: "xMark",
             onClick: () => onComponentDestroyed(),
         },
@@ -168,25 +177,24 @@
             {#if selectedParticipationHistoryEntry.attendanceType === "WITH_MEMBER_CARD"}
                 <div class="text-[var(--text-color)] text-justify">
                     <div class="font-bold">
-                        Are you sure you want to delete this attendance entry?
+                        {i18n("courseHistory.modal.withCard.header")}?
                     </div>
                     <div>
                         <span class="font-bold text-[var(--primary-color)]"
                             >{selectedParticipationHistoryEntry.fullname}</span
                         >
-                        attended
+                        {i18n("courseHistory.modal.withCard.bodyP1")}
                         <span class="font-bold text-[var(--primary-color)]"
                             >{selectedParticipationHistoryEntry.course}</span
-                        > using a member card.
+                        > {i18n("courseHistory.modal.withCard.bodyP2")}.
                     </div>
                     <div>
-                        Deleting this entry will restore one available slot to
-                        the member card.
+                        {i18n("courseHistory.modal.withCard.footer")}.
                     </div>
                 </div>
             {:else}
                 <div>
-                    Are you sure you want to remove this attendance entry?
+                    {i18n("courseHistory.modal.generic")}?
                 </div>
             {/if}
         </div>

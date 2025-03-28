@@ -1,8 +1,8 @@
 {
-    "close": "Schließen",
+    "close": "Zurück",
     "dateTimePicker": {
         "options": {
-            "none": "Wähle einen Tag",
+            "none": "den Tag wählen",
             "monday": "Montag",
             "tuesday": "Dienstag",
             "wednesday": "Mittwoch",

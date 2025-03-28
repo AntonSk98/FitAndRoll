@@ -50,5 +50,37 @@
             "trialConfirm": "Probestunde bestätigen",
             "noCardConfirm": "Ohne Karte teilnehmen"
         }
+    },
+    "courseHistory": {
+        "header": "Teilnahmeverlauf",
+        "back": "Zurück",
+        "removeHistoryEntry": "Teilnahmeverlaufseintrag löschen",
+        "commonFilters": {
+            "excludeTrialAttendance": "Probestunden ausblenden",
+            "excludeWithMemberCard": "Teilnahmen mit Karte ausblenden",
+            "excludeNoMemberCard": "Teilnahmen ohne Karte ausblenden",
+            "attendedRange": "Teilnahmezeitraum",
+            "excludeArchivedCourse": "Archivierte Kurse ausblenden"
+        },
+        "columns": {
+            "fullname": "Vollname",
+            "course": "Kurs",
+            "attendedAt": "Teilgenommen am",
+            "attendedAs": "Teilnahmeart"
+        },
+        "attendanceType": {
+            "withCard": "MIT KARTE",
+            "trial": "PROBESTUNDE",
+            "noCard": "OHNE KARTE"
+        },
+        "modal": {
+            "generic": "Bist du sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
+            "withCard": {
+                "header": "Bist du sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
+                "bodyP1": "hat",
+                "bodyP2": "mit einer Karte besucht",
+                "footer": "Das Löschen dieses Eintrags stellt einen verfügbaren Slot auf der Karte wieder her"
+            }
+        }
     }
 }

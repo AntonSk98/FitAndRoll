@@ -50,6 +50,10 @@
       ),
     );
   }
+
+  function resolveDay(day) {
+    return i18n(`dateTimePicker.options.${day}`);
+  }
 </script>
 
 <div class="form-container">
@@ -92,7 +96,7 @@
                       class="datetime-entry"
                       on:click={() => removeDateTimeEntry(field, dateTimeEntry)}
                     >
-                      {`${dateTimeEntry.day} | ${dateTimeEntry.time}`}
+                      {`${resolveDay(dateTimeEntry.day)} | ${dateTimeEntry.time}`}
                     </li>
                   </ul>
                 {/each}

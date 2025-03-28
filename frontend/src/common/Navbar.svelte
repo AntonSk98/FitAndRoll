@@ -1,17 +1,21 @@
 <script>
     import { i18n } from "./i18n";
+    import logo from "../assets/images/logo.png";
 
     const pageSection = {
-        'courses': i18n("navigation.courses"),
-        'participants': i18n("navigation.participants"),
-        'statistics': i18n("navigation.statistics"),
-        'archive': i18n("navigation.archive"),
-    }
+        courses: i18n("navigation.courses"),
+        participants: i18n("navigation.participants"),
+        statistics: i18n("navigation.statistics"),
+        archive: i18n("navigation.archive"),
+    };
 
     export let activePage;
 </script>
 
-<nav class="mb-4">
+<nav class="mb-4 flex gap-3 flex-wrap items-center">
+    <div class="logo">
+        <img src={logo} alt="" />
+    </div>
     <ul class="flex justify-start gap-2 flex-wrap">
         {#each Object.keys(pageSection) as page}
             <li>
@@ -41,4 +45,10 @@
 </nav>
 
 <style>
+    .logo img {
+        width: 6rem;
+        height: auto;
+        max-width: 100%;
+        -webkit-user-drag: none;
+    }
 </style>

@@ -102,8 +102,7 @@
             <div class="flex flex-col">
                 {#each mainFilters as mainFilter}
                     {#if mainFilter.type === "checkbox"}
-                        <div class="flex items-center gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide">
-                            
+                        <div class="flex items-center gap-1 text-[var(--secondary-color-dark)] font-semibold tracking-wide text-base">
                             <input
                                 type="checkbox"
                                 class="w-5 h-5 cursor-pointer transition-all duration-300"

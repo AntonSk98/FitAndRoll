@@ -101,7 +101,7 @@
                 {i18n("participants.memberCard.issuePrefix")}
                 <b class="text-[var(--primary-color)]"
                     >{member.name} {member.surname}</b
-                >.
+                >
                 {i18n("participants.memberCard.issuePostfix")}.
             </div>
         </div>

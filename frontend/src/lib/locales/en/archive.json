@@ -1,0 +1,28 @@
+{
+    "archive": {
+        "header": "Archive",
+        "export": "Export",
+        "exportInfo": "The export function creates an Excel document with all information about courses, participants, their attendance history, and all archived entries.",
+        "navigation": {
+            "participants": "Go to participant archive",
+            "courses": "Go to course archive"
+        },
+        "archivedParticipants": {
+            "header": "Archived Participants"
+        },
+        "archivedCourses": {
+            "header": "Archived Courses"
+        },
+        "table": {
+            "columns": {
+                "name": "Name",
+                "archivedAt": "Archived on"
+            },
+            "actions": {
+                "unarchive": "Restore",
+                "unarchivePrePrompt": "Are you sure that",
+                "unarchivePostPrompt": "shall be restored?"
+            }
+        }
+    }
+}

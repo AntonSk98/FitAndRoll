@@ -1,0 +1,20 @@
+{
+    "statistics": {
+        "attendedRange": "Period",
+        "close": "Back",
+        "participants": {
+            "header": "Participant Statistics",
+            "fullname": "Full Name",
+            "withMemberCard": "With Card",
+            "trialAttendance": "Trial Lesson",
+            "withoutMemberCard": "Without Card"
+        },
+        "courses": {
+            "header": "Course Statistics",
+            "name": "Course",
+            "withMemberCard": "With Card",
+            "trialAttendance": "Trial Lesson",
+            "withoutMemberCard": "Without Card"
+        }
+    }
+}

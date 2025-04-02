@@ -68,7 +68,7 @@
                     key: "description",
                     type: "text",
                     value: course?.description,
-                    display: "Beschreibung",
+                    display: i18n("courseForm.description"),
                 },
                 {
                     key: "schedules",

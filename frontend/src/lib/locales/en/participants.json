@@ -1,0 +1,39 @@
+{
+    "participants": {
+        "header": "Participant Overview",
+        "name": "First Name",
+        "surname": "Last Name",
+        "group": "Group",
+        "filters": {
+            "withActiveCard": "With valid card"
+        },
+        "actions": {
+            "edit": "Edit participant details",
+            "card": "Go to participant card overview",
+            "archive": "Archive participant",
+            "create": "New participant"
+        },
+        "form": {
+            "new": "New participant",
+            "update": "Update participant",
+            "notEmptyValidation": "Field cannot be empty"
+        },
+        "memberCard": {
+            "newCard": "Issue new card",
+            "header": "Card History",
+            "card": "Card",
+            "issuedAt": "Issued on",
+            "expiredAt": "Expired on",
+            "issuePrefix": "Please confirm that ",
+            "issuePostfix": "will be issued a new card",
+            "issueConfirmed": "Issue new card",
+            "issueCanceled": "Cancel",
+            "removeEmptyCardHeader": "Unused card",
+            "removeEmptyCard": "Since this card has not been used, you can remove it",
+            "removeEmptyCardConfirm": "Remove card",
+            "cardHistory": "Card history",
+            "ok": "OK",
+            "close": "Back"
+        }
+    }
+}

@@ -26,6 +26,7 @@
         "scheduleValidation": "Der Zeitplan darf nicht leer sein"
     },
     "courseParticipant": {
+        "header": "Kurs",
         "close": "Zurück",
         "name": "Vorname",
         "surname": "Nachname",

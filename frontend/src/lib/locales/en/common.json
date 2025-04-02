@@ -1,0 +1,82 @@
+{
+    "close": "Back",
+    "dateTimePicker": {
+        "options": {
+            "none": "Choose a day",
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+        }
+    },
+    "form": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "dateTimePicker": {
+            "datePrefix": "Takes place on",
+            "timePrefix": "At",
+            "addEntryButtonText": "Add"
+        }
+    },
+    "modal": {
+        "body": "Are you sure you want to perform this action?",
+        "actions": {
+            "confirm": "Yes, I'm sure",
+            "cancel": "Cancel"
+        }
+    },
+    "navigation": {
+        "courses": "Courses",
+        "participants": "Participants",
+        "archive": "Archive",
+        "statistics": "Statistics"
+    },
+    "pagination": {
+        "of": "of",
+        "size": "Page size",
+        "total": "Total"
+    },
+    "datePicker": {
+        "from": "from",
+        "to": "to",
+        "months": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "days": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ]
+    },
+    "table": {
+        "columns": {
+            "action": "Action"
+        },
+        "filter": {
+            "search": "Search"
+        },
+        "noData": "No data available..."
+    },
+    "toast": {
+        "success": "Done",
+        "error": "An error occurred"
+    }
+}

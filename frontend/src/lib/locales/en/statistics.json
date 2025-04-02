@@ -1,6 +1,6 @@
 {
     "statistics": {
-        "attendedRange": "Period",
+        "attendedRange": "Range",
         "close": "Back",
         "participants": {
             "header": "Participant Statistics",

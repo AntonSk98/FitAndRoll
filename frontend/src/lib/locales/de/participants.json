@@ -20,7 +20,7 @@
         },
         "memberCard": {
             "newCard": "Neue Karte ausstellen",
-            "header": "Kartenverlauf",
+            "header": "Kartenhistorie",
             "card": "Karte",
             "issuedAt": "Ausgestellt am",
             "expiredAt": "Abgelaufen am",
@@ -31,7 +31,7 @@
             "removeEmptyCardHeader": "Ungenutzte Karte",
             "removeEmptyCard": "Da diese Karte noch nicht verwendet wurde, kannst du sie entfernen",
             "removeEmptyCardConfirm": "Karte entfernen",
-            "cardHistory": "Kartenverlauf",
+            "cardHistory": "Kartenhistorie",
             "ok": "OK",
             "close": "Zurück"
         }

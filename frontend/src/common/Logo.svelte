@@ -76,7 +76,7 @@
         color: white;
         opacity: 0;
         transform: rotateY(180deg);
-        font-size: 1.5rem;
+        font-size: 1.7rem;
     }
 
     /* Toggle effect */

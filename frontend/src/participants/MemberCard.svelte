@@ -80,7 +80,7 @@
 </script>
 
 <div class="member-card-header">
-    <div class="flex justify-between items-center gap-3">
+    <div class="flex items-center gap-3">
         <span class="holder">{member.name} {member.surname}</span>
         <BackButton {onBackButtonClicked} />
     </div>
@@ -214,6 +214,7 @@
     .member-card-header {
         max-width: var(--container-max-width);
         margin: 0 auto;
+        margin-bottom: -1rem;
     }
 
     .holder {

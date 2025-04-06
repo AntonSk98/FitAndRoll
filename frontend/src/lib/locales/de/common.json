@@ -22,9 +22,9 @@
         }
     },
     "modal": {
-        "body": "Bist du sicher, dass du diese Aktion ausführen möchtest?",
+        "body": "Bist du dir sicher, dass du diesen Vorgang abschließen möchtest?",
         "actions": {
-            "confirm": "Ja, ich bin sicher",
+            "confirm": "Ja, ich bin mir sicher",
             "cancel": "Abbrechen"
         }
     },
@@ -68,7 +68,7 @@
     },
     "table": {
         "columns": {
-            "action": "Aktion"
+            "action": "Verwaltung"
         },
         "filter": {
             "search": "Suchen"

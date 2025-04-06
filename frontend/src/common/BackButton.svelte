@@ -9,7 +9,7 @@
         viewBox="0 0 24 24"
         stroke-width="2.5"
         stroke="currentColor"
-        class="w-6 h-6"
+        class="w-5 h-5"
     >
         <path
             stroke-linecap="round"
@@ -21,7 +21,7 @@
 
 <style>
     .back {
-        transition: all 0.3s ease-in-out;
+        transition: all 0.5s ease-in-out;
         background-color: var(--primary-color);
         padding: 0.8rem;
         border-radius: 1rem;

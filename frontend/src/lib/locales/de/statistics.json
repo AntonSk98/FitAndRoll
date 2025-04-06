@@ -4,7 +4,7 @@
         "close": "Zurück",
         "participants": {
             "header": "Teilnehmerstatistiken",
-            "fullname": "Vollname",
+            "fullname": "Vor-und Nachname",
             "withMemberCard": "Mit Karte",
             "trialAttendance": "Probestunde",
             "withoutMemberCard": "Ohne Karte"

@@ -68,7 +68,7 @@
     },
     "table": {
         "columns": {
-            "action": "Action"
+            "action": "Management"
         },
         "filter": {
             "search": "Search"

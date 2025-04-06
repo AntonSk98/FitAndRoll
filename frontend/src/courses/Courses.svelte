@@ -66,6 +66,20 @@
     function toSelectedCourse(index) {
         return coursePage.data[index];
     }
+
+    function mapDay(day) {
+        const days = {
+            monday: "courses.table.days.monday",
+            tuesday: "courses.table.days.tuesday",
+            wednesday: "courses.table.days.wednesday",
+            thursday: "courses.table.days.thursday",
+            friday: "courses.table.days.friday",
+            saturday: "courses.table.days.saturday",
+            sunday: "courses.table.days.sunday",
+        };
+
+        return i18n(days[day]);
+    }
 </script>
 
 {#if componentControl.showCourseOverview}
@@ -88,7 +102,8 @@
                 name: course.name,
                 schedules: course?.schedules?.length
                     ? course.schedules.map(
-                          (schedule) => `${schedule.day} (${schedule.time})`,
+                          (schedule) =>
+                              `${mapDay(schedule.day)} (${schedule.time})`,
                       )
                     : i18n("course.test"),
             };
@@ -125,7 +140,9 @@
                         componentControl.showDefineNewCourseComponent()),
             },
             {
-                title: i18n("courses.table.actions.overallParticipationHistory"),
+                title: i18n(
+                    "courses.table.actions.overallParticipationHistory",
+                ),
                 icon: "userGroup",
                 onClick: () =>
                     (componentControl =

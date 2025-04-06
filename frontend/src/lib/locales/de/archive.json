@@ -2,7 +2,7 @@
     "archive": {
         "header": "Archiv",
         "export": "Export",
-        "exportInfo": "Die Export-Funktion erstellt ein Excel-Dokument mit allen Informationen zu Kursen, Teilnehmern, deren Anwesenheitsverlauf und allen archivierten Einträgen.",
+        "exportInfo": "Mit der Export-Funktion wird ein Dokument in Excel erstellt, mit allen Informationen zu den Kursen, Teilnehmern, deren Anwesenheitsverlauf sowie allen archivierten Einträgen.",
         "navigation": {
             "participants": "Zum Teilnehmerarchiv",
             "courses": "Zum Kursarchiv"
@@ -20,7 +20,7 @@
             },
             "actions": {
                 "unarchive": "Wiederherstellen",
-                "unarchivePrePrompt": "Bist du sicher, dass du",
+                "unarchivePrePrompt": "Bist du dir sicher, dass du",
                 "unarchivePostPrompt": "wiederherstellen möchtest?"
             }
         }

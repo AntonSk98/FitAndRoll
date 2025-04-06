@@ -13,6 +13,15 @@
                 "history": "Kursbeteiligungshistorie",
                 "archive": "Kurs archivieren",
                 "overallParticipationHistory": "Gesamte Kursbeteiligungshistorie"
+            },
+            "days": {
+                "monday": "Montag",
+                "tuesday": "Dienstag",
+                "wednesday": "Mittwoch",
+                "thursday": "Donnerstag",
+                "friday": "Freitag",
+                "saturday": "Samstag",
+                "sunday": "Sonntag"
             }
         }
     },
@@ -48,7 +57,7 @@
             "confirmTrial3": "teilnimmt",
             "confirmTrial4": "am Kurs",
             "confirmTrial5": "ohne Karte teilnimmt",
-            "trialConfirm": "Probestunde bestätigen",
+            "trialConfirm": "Teilnahme bestätigen",
             "noCardConfirm": "Ohne Karte teilnehmen"
         }
     },
@@ -64,7 +73,7 @@
             "excludeArchivedCourse": "Archivierte Kurse ausblenden"
         },
         "columns": {
-            "fullname": "Vollname",
+            "fullname": "Vor-und Nachname",
             "course": "Kurs",
             "attendedAt": "Teilgenommen am",
             "attendedAs": "Teilnahmeart"
@@ -75,9 +84,9 @@
             "noCard": "OHNE KARTE"
         },
         "modal": {
-            "generic": "Bist du sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
+            "generic": "Bist du dir sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
             "withCard": {
-                "header": "Bist du sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
+                "header": "Bist du dir sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
                 "bodyP1": "hat",
                 "bodyP2": "mit einer Karte besucht",
                 "footer": "Das Löschen dieses Eintrags stellt einen verfügbaren Slot auf der Karte wieder her"

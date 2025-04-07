@@ -153,7 +153,7 @@
             </div>
         </div>
     </div>
-    <div class="table-container">
+    <div class="table-container shadow-lg">
         <table>
             <thead>
                 <tr>

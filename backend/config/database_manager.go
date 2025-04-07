@@ -16,7 +16,7 @@ type DatabaseManager struct {
 // It logs a fatal error if the connection cannot be established.
 func NewDatabaseManager() *DatabaseManager {
 	// Open the SQLite database connection
-	db, err := gorm.Open(sqlite.Open("fit_and_roll.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("protect_yourself_database.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Error opening database connection: %v", err)
 	}

@@ -53,9 +53,9 @@
             "attendConfirm": "Attend with this card",
             "attendCancel": "Cancel",
             "confirmTrial1": "Please confirm that",
-            "confirmTrial2": "is attending a trial lesson of the course",
-            "confirmTrial3": "attending",
-            "confirmTrial4": "the course",
+            "confirmTrial2": "is going to take a trial session in the",
+            "confirmTrial3": "course",
+            "confirmTrial4": "is goind to attend the course",
             "confirmTrial5": "without a card",
             "trialConfirm": "Confirm Trial Lesson",
             "noCardConfirm": "Attend without a card"
@@ -75,7 +75,7 @@
         "columns": {
             "fullname": "Full Name",
             "course": "Course",
-            "attendedAt": "Attended on",
+            "attendedAt": "Attended at",
             "attendedAs": "Attendance Type"
         },
         "attendanceType": {

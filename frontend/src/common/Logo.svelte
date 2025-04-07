@@ -1,5 +1,5 @@
 <script>
-    import logo from "../assets/images/logo.png";
+    import logo from "../assets/images/logo.jpg";
 
     import { onMount } from "svelte";
     import { getLocale, setLocale } from "./i18n";

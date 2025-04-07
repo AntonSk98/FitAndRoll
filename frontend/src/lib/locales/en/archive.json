@@ -2,10 +2,10 @@
     "archive": {
         "header": "Archive",
         "export": "Export",
-        "exportInfo": "The export function creates a document in Excel containing all information about the courses, participants, their attendance history, as well as all archived entries.",
+        "exportInfo": "The export function creates an Excel document containing all information about the courses, participants, their attendance history, as well as all archived entries.",
         "navigation": {
-            "participants": "Go to participant archive",
-            "courses": "Go to course archive"
+            "participants": "To participant archive",
+            "courses": "To course archive"
         },
         "archivedParticipants": {
             "header": "Archived Participants"

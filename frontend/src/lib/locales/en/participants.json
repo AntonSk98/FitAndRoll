@@ -8,8 +8,8 @@
             "withActiveCard": "With valid card"
         },
         "actions": {
-            "edit": "Edit participant details",
-            "card": "Go to participant card overview",
+            "edit": "Participant details",
+            "card": "To participant card overview",
             "archive": "Archive participant",
             "create": "New participant"
         },

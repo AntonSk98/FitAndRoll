@@ -63,6 +63,7 @@
         monthLabels={i18n("datePicker.months")}
         dowLabels={i18n("datePicker.days")}
         align={"right"}
+        includeFont={false}
         onDateChange={(date) => handleDateChange(date, "from")}
     >
         <div class="input-container">
@@ -85,6 +86,7 @@
         bind:isOpen={isOpenTo}
         startDate={to}
         align={"right"}
+        includeFont={false}
         enableFutureDates={true}
         monthLabels={i18n("datePicker.months")}
         dowLabels={i18n("datePicker.days")}

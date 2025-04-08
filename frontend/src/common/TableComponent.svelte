@@ -315,24 +315,21 @@
         color: white;
         background-color: var(--primary-color);
         border-radius: 1rem;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         transition:
-            background-color 0.3s ease,
-            transform 0.2s ease,
-            box-shadow 0.3s ease;
+            background-color 0.5s ease,
+            transform 0.5s ease,
+            box-shadow 0.5s ease;
     }
 
     .header-action-button:hover {
         background-color: var(--primary-color-dark);
         transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 6px 16px rgba(4, 120, 87, 0.4);
     }
 
     table {
         width: 100%;
         font-size: 0.875rem;
         color: var(--text-color-darker);
-        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
     }
 
     thead {
@@ -416,7 +413,6 @@
     .searchable-column .search-input:focus {
         outline: none;
         border-color: var(--primary-color-dark);
-        box-shadow: 0 0 0 2px rgba(4, 120, 87, 0.3);
     }
 
     .searchable-column .search-input::placeholder {

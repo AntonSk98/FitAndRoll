@@ -67,7 +67,7 @@
 </script>
 
 <TableComponent
-    tableHeader = {`${i18n('courseParticipant.header')} '${selectedCourse?.name}'`}
+    tableHeader = {`${i18n('courseParticipant.header')} ${selectedCourse?.name}`}
     total={total ?? 0}
     columns={[
         {

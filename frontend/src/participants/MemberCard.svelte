@@ -143,7 +143,9 @@
 
         <div slot="body" class="text-left">
             {#if memberCardParticipationHistory?.length > 0}
-                <div class="member-card-overview-header">{i18n("participants.memberCard.cardHistory")}</div>
+                <div class="member-card-overview-header">
+                    {i18n("participants.memberCard.cardHistory")}
+                </div>
                 <ul class="px-3 py-2 flex flex-col gap-3">
                     {#each memberCardParticipationHistory as memberCardParticipationEntry}
                         <li class="p-2 bg-[var(--secondary-color)] rounded-xl">
@@ -174,7 +176,7 @@
         </div>
         <div slot="confirm">
             {#if memberCardParticipationHistory?.length > 0}
-            {i18n("participants.memberCard.ok")}
+                {i18n("participants.memberCard.ok")}
             {:else}
                 {i18n("participants.memberCard.removeEmptyCardConfirm")}
             {/if}
@@ -203,7 +205,7 @@
     ]}
     rows={memberCards.map((card, index) => {
         return {
-            index: `#${index+1}`,
+            index: `#${index + 1}`,
             issued: card.issuedAt,
             expired: card.expiredAt || "X",
         };
@@ -231,18 +233,16 @@
 
     .primary {
         font-weight: bold;
-        border-radius: 8px;
-        transition: all 0.3s ease-in-out;
+        border-radius: 1rem;
+        transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out ;
         padding: 0.5rem 2rem;
         background-color: var(--primary-color);
         color: white;
-        border: none;
     }
 
     .primary:hover {
+        transform: scale(1.02);
         background-color: var(--primary-color-dark);
-        transform: scale(1.05);
-        box-shadow: 0px 4px 10px rgba(16, 185, 129, 0.5);
     }
 
     .member-card-overview-header {

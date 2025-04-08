@@ -54,7 +54,7 @@
     function archiveCourse(index) {
         ArchiveCourse(coursePage.data[index]?.id)
             .then(() => {
-                toastSuccess("Course was successfully archived");
+                toastSuccess();
                 loadCourses();
             })
             .catch((err) => {

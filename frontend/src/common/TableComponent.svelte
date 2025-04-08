@@ -68,19 +68,18 @@
     }
 
     function setOnlyDateMainFilter() {
-        onlyDateMainFilter = mainFilters?.every((filter) => filter.type === "date");
+        onlyDateMainFilter = mainFilters?.every(
+            (filter) => filter.type === "date",
+        );
     }
 
-    // Reset scroll to the left on resizing
-    window.addEventListener("resize", function () {
-        resizeTableresetTableScrollIfNeeded();
-    });
+    window.onresize = () => resizeTableresetTableScrollIfNeeded()
 
     function resizeTableresetTableScrollIfNeeded() {
         const tableContainer = document.querySelector(".table-container");
         if (
             tableContainer &&
-            tableContainer.scrollWidth > tableContainer.clientWidth
+            tableContainer.scrollWidth >= tableContainer.clientWidth
         ) {
             tableContainer.scrollLeft = 0;
         }
@@ -255,7 +254,13 @@
                         </tr>
                     {/each}
                 {:else}
-                    <div class="no-data">{i18n("table.noData")}</div>
+                    <tr
+                        ><td
+                            colspan={columns?.length + 1}
+                            class="no-data text-left!"
+                            >{i18n("table.noData")}</td
+                        ></tr
+                    >
                 {/if}
             </tbody>
         </table>

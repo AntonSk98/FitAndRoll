@@ -1,5 +1,7 @@
 <script>
     import logo from "../assets/images/logo.jpg";
+    import de from "../assets/images/de.png";
+    import en from "../assets/images/en.png";
 
     import { onMount } from "svelte";
     import { getLocale, setLocale } from "./i18n";
@@ -31,15 +33,15 @@
     on:click={() => (isActive ? changeLocale() : (isActive = !isActive))}
     on:mouseover={() => clearTimeout(closeDelay)}
     on:mouseleave={() =>
-        (closeDelay = setTimeout(() => (isActive = false), 600))}
+        (closeDelay = setTimeout(() => (isActive = false), 1000))}
 >
     <img class="front-logo shadow-2xl" src={logo} class:is-active={isActive} />
     <div class="back-logo" class:is-active={isActive}>
         {#if currentLocale === "de"}
-            🇩🇪
+            <img class="w-14 h-14" src={de} />
         {/if}
         {#if currentLocale === "en"}
-            🇺🇸
+            <img class="w-14 h-14" src={en} />
         {/if}
     </div>
 </div>

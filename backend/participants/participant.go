@@ -31,7 +31,7 @@ func NewParticipant(command ParticipantCommand) *Participant {
 func (participant *Participant) Update(command ParticipantCommand) {
 	participant.Name = command.Name
 	participant.Surname = command.Surname
-	participant.Group = command.Surname
+	participant.Group = command.Group
 }
 
 // Unarchives an archived participant

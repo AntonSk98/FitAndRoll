@@ -29,6 +29,7 @@
                 <button
                     on:click={() => activePage.set(page)}
                     class="p-3
+                    navigation
                     text-md
                     font-semibold
                     text-[var(--text-color-darker)]
@@ -37,8 +38,6 @@
                     border-transparent
                     transition
                     duration-700
-                    hover:scale-[1.08]
-                    hover:bg-[var(--primary-color-light)] hover:text-white
                     cursor-pointer
                 {$activePage === page
                         ? 'bg-[var(--primary-color-dark)] text-white shadow-xl shadow-[var(--primary-color-dark)]'
@@ -50,3 +49,11 @@
         {/each}
     </ul>
 </nav>
+
+<style>
+    .navigation:hover {
+        background-color: var(--primary-color-light);
+        color: white;
+        scale: 1.08;
+    }
+</style>

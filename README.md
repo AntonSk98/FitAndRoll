@@ -13,7 +13,8 @@ A cross-platform desktop application for managing courses and tracking participa
 - [🗃️ Archive](#🗃️-archive)
 - [📤 Export](#📤-export)
 - [🖼️ Application Gallery](#🖼️-application-gallery)
-- [For developers](#for-developers)
+- [👨‍💻 For developers](#👨‍💻-for-developers)
+- [📑 License](#📑-license)
 
 
 ## ⚙️ Starting the Application
@@ -166,7 +167,7 @@ Here’s a preview of the **Member Card** component in action:
 ![Archived courses](documentation/images/archived_courses.png)
 ![Archived participants](documentation/images/archived_participants.png)
 
-## For developers
+## 👨‍💻 For developers
 
 ### 🚀 Local Development
 
@@ -187,3 +188,6 @@ wails build
 ```
 For more details and advanced options, visit the official Wails documentation.
 
+## 📑 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE) file for details.

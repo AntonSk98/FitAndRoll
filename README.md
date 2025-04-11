@@ -12,6 +12,7 @@ A cross-platform desktop application for managing courses and tracking participa
 - [📊 Statistics](#📊-statistics)
 - [🗃️ Archive](#🗃️-archive)
 - [📤 Export](#📤-export)
+- [🖼️ Application Gallery](#🖼️-application-gallery)
 - [For developers](#for-developers)
 
 
@@ -127,6 +128,43 @@ Here’s a preview of the **Member Card** component in action:
 - For advanced analysis, you can **export all current database data** to an **Excel file**.
 
 ![Export](documentation/export.gif)
+
+## 🖼️ Application Gallery
+
+### Course Overview
+![All Courses](documentation/images/all_courses.png)
+![Add Course](documentation/images/new_course.png)
+![Update Course](documentation/images/update_course.png)
+![Archive Course](documentation/images/archive_course.png)
+
+### Participants Overview
+![All Participants](documentation/images/all_participants.png)
+![New Participant](documentation/images/new_participant.png)
+![Update Participant](documentation/images/update_participant.png)
+![Archive Participant](documentation/images/archive_participant.png)
+
+
+### Cards Overview
+![Cards Overview](documentation/images/cards.png)
+![Card Participation History](documentation/images/card_history.png)
+![Remove Unused Card](documentation/images/unused_card.png)
+
+
+### Attending Courses
+![Attending Courses Overview](documentation/images/attend_course.png)
+![Confirmation Modal](documentation/images/attend_course_confirm.png)
+
+### Course Participation History
+![Course Participation History](documentation/images/participation_history.png)
+
+### Statistics
+![Participant statistics](documentation/images/participants_statistics.png)
+![Course statistics](documentation/images/course_statistics.png)
+
+### Archive
+![Overall](documentation/images/archive.png)
+![Archived courses](documentation/images/archived_courses.png)
+![Archived participants](documentation/images/archived_participants.png)
 
 ## For developers
 

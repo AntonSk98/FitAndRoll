@@ -40,11 +40,10 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:     "PROTECT YOURSELF",
-		Width:     1024,
-		MinWidth:  769,
-		Height:    768,
-		MinHeight: 500,
+		Title:            "PROTECT YOURSELF",
+		MinWidth:         769,
+		MinHeight:        500,
+		WindowStartState: options.Maximised,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

@@ -197,6 +197,12 @@ func (handler *ExportDataHandler) selectExportPath() (string, error) {
 	return runtime.SaveFileDialog(handler.ctx, runtime.SaveDialogOptions{
 		Title:           "Save File",
 		DefaultFilename: filename,
+		Filters: []runtime.FileFilter{
+			{
+				DisplayName: "Excel File (*.xlsx)",
+				Pattern:     "*.xlsx",
+			},
+		},
 	})
 }
 

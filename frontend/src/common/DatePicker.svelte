@@ -4,6 +4,8 @@
     import { format } from "date-fns";
     import { i18n } from "./i18n";
 
+    export let align = 'right';
+
     let isOpenFrom = false;
     let isOpenTo = false;
 
@@ -62,7 +64,7 @@
         startDate={from}
         monthLabels={i18n("datePicker.months")}
         dowLabels={i18n("datePicker.days")}
-        align={"right"}
+        align={align}
         includeFont={false}
         onDateChange={(date) => handleDateChange(date, "from")}
     >
@@ -85,7 +87,7 @@
     <DatePicker
         bind:isOpen={isOpenTo}
         startDate={to}
-        align={"right"}
+        align={align}
         includeFont={false}
         enableFutureDates={true}
         monthLabels={i18n("datePicker.months")}

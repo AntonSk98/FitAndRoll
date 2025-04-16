@@ -15,7 +15,7 @@
 
 <style>
     section {
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
     }

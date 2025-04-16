@@ -9,6 +9,7 @@
   import Archive from "./archive/Archive.svelte";
   import Statistics from "./statistics/Statistics.svelte";
   import Logo from "./common/Logo.svelte";
+  import Scaler from "./common/Scaler.svelte";
 
   let activePage = writable("courses");
 
@@ -41,4 +42,5 @@
   </div>
 
   <Toasts />
+  <Scaler />
 {/if}

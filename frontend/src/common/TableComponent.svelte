@@ -1,6 +1,6 @@
 <script>
     import { i18n } from "./i18n";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
 
     import Modal from "./Modal.svelte";
     import PaginationComponent from "./PaginationComponent.svelte";
@@ -73,8 +73,6 @@
         );
     }
 
-    window.onresize = () => resizeTableresetTableScrollIfNeeded()
-
     function resizeTableresetTableScrollIfNeeded() {
         const tableContainer = document.querySelector(".table-container");
         if (
@@ -85,7 +83,23 @@
         }
     }
 
-    onMount(() => setOnlyDateMainFilter());
+    onMount(() => {
+        setOnlyDateMainFilter();
+        window.onresize = () => resizeTableresetTableScrollIfNeeded();
+        window.addEventListener("keydown", ($event) => {
+            if ($event.key === "+" || $event.key === "-") {
+                resizeTableresetTableScrollIfNeeded();
+            }
+        });
+    });
+
+    onDestroy(() => {
+        window.onresize = null;
+        window.removeEventListener(
+            "keydown",
+            resizeTableresetTableScrollIfNeeded,
+        );
+    });
 </script>
 
 <div class="table-outer-container">
@@ -143,6 +157,7 @@
                         >
                             <span>{mainFilter.label}:</span>
                             <DatePicker
+                                align={!onlyDateMainFilter ? "right" : "left"}
                                 onDateRangePicked={(date) =>
                                     onFilter(mainFilter.key, date)}
                             />

@@ -191,7 +191,7 @@ func (handler *ExportDataHandler) withParticipationHistorySheet(file *excelize.F
 }
 
 func (handler *ExportDataHandler) selectExportPath() (string, error) {
-	timestamp := time.Now().Format(time.DateTime) // YYYY-MM-DD_HH-MM
+	timestamp := time.Now().Format(time.DateOnly)
 	filename := fmt.Sprintf("protect_yourself_export_%s.xlsx", timestamp)
 
 	return runtime.SaveFileDialog(handler.ctx, runtime.SaveDialogOptions{

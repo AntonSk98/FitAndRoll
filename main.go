@@ -9,6 +9,7 @@ import (
 	"fit_and_roll/backend/courses"
 	"fit_and_roll/backend/membercardattendance"
 	"fit_and_roll/backend/participants"
+	"fit_and_roll/backend/scaler"
 	"fit_and_roll/backend/statistics"
 
 	"github.com/wailsapp/wails/v2"
@@ -27,6 +28,7 @@ func main() {
 		&participants.Participant{},
 		&participants.MemberCard{},
 		&membercardattendance.MemberCardAttendance{},
+		&scaler.Scaler{},
 	)
 
 	courseHandler := courses.NewCourseHandler(dbManager)
@@ -37,6 +39,7 @@ func main() {
 	exportDataHandler := archive.NewExportDataHandler(dbManager)
 	archiveDataHandler := archive.NewArchivedDataHandler(dbManager)
 	statisticsHandler := statistics.NewStatisticsHandler(dbManager)
+	scaler := scaler.NewScalerHandler(dbManager)
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -59,6 +62,7 @@ func main() {
 			exportDataHandler,
 			archiveDataHandler,
 			statisticsHandler,
+			scaler,
 		},
 	})
 

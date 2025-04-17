@@ -22,6 +22,10 @@
   }
 </script>
 
+
+<Scaler />
+<Toasts />
+
 {#if !$isLoading}
   <div class="my-5 mx-[3rem]">
     <div class="flex gap-3">
@@ -40,7 +44,4 @@
       {/if}
     {/key}
   </div>
-
-  <Toasts />
-  <Scaler />
 {/if}

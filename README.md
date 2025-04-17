@@ -14,7 +14,7 @@ A cross-platform desktop application for managing courses and tracking participa
 - [📤 Export](#📤-export)
 - [🖼️ Application Gallery](#🖼️-application-gallery)
 - [👨‍💻 For developers](#👨‍💻-for-developers)
-- [📑 License](#📑-license)
+- [📑 License](#-license)
 
 
 ## ⚙️ Starting the Application

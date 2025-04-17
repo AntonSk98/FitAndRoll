@@ -4,15 +4,16 @@ A cross-platform desktop application for managing courses and tracking participa
 ## Table of Contents
 - [⚙️ Starting the application](#️-starting-the-application)
 - [🌍 Changing locale](#-changing-locale)
+- [🔍 Scaling the Application](#-scaling-the-application)
 - [📚 Managing Courses: Create, Update & Archive](#-managing-courses-create-update--archive)
-- [🗂️ Managing Participants: Create, Update & Archive](#-managing-participants-create-update--archive)
+- [🗂️ Managing Participants: Create, Update & Archive](#️-managing-participants-create-update--archive)
 - [🏅 Member card overview](#-member-card-overview)
 - [🧾 Attending courses](#-attending-courses)
 - [📈 Course Participation History](#-course-participation-history)
 - [📊 Statistics](#-statistics)
-- [🗃️ Archive](#-archive)
+- [🗃️ Archive](#️-archive)
 - [📤 Export](#-export)
-- [🖼️ Application Gallery](#-application-gallery)
+- [🖼️ Application Gallery](#️-application-gallery)
 - [👨‍💻 For developers](#-for-developers)
 - [📑 License](#-license)
 
@@ -20,9 +21,9 @@ A cross-platform desktop application for managing courses and tracking participa
 ## ⚙️ Starting the Application
 
 - The compiled executables are located in the `release` directory.
-- On **Linux**, download and use the provided binary file.
+- On **Linux**, download the `binary` file to run the application.
 - On **Windows**, download the `.exe` file to run the application.
-- Create a new folder on your machine and download the application into this folder.
+- Create a new folder on your machine and transfer the application file into this folder.
 - When the application is started for the first time, a new file with the `.db` extension will be generated inside the folder.
 - The `.db` file is a local database that stores all the application's data.
 - **⚠️ Caution**: Deleting or renaming the `.db` file will erase all the application data.
@@ -37,6 +38,13 @@ A cross-platform desktop application for managing courses and tracking participa
 Here’s a preview of the language selection process:
 
 ![Change Locale](documentation/change_locale.gif)
+
+## 🔍 Scaling the Application
+
+- You can easily adjust the zoom level of the application to your preference.
+- To **zoom in**, press `Ctrl` + `+`.
+- To **zoom out**, press `Ctrl` + `-`.
+- The scaling setting is **persistent** — your preferred zoom level is saved and will be automatically applied the next time you open the application.
 
 ## 📚 Managing Courses: Create, Update & Archive
 
@@ -66,8 +74,8 @@ Here’s a preview of how to manage participants:
 
 ## 🏅 Member Card Overview
 
-- To participate in courses, a participant must first purchase a **member card**.
-- A participant can own **multiple member cards**.
+- To participate in courses, a participant shall first purchase a **member card**.
+- A participant can own **several member cards**.
 - If a member card was issued by mistake and the cardholder hasn't attended any courses, the card can be **returned**.
 - Clicking on a member card will display the **history of attended courses**.
 
@@ -111,16 +119,16 @@ Here’s a preview of the **Member Card** component in action:
   - **How often** it was attended.
   - **The attendance method** used by participants.
 
-- All statistics views include a **date range filter** to help you narrow down and focus your analysis.
-- All statistics also include archived entries.
+- All statistics components include a **date range filter** to help you narrow down and focus your analysis.
+- All statistics components also include archived entries.
 
 ![Statistics](documentation/statistics.gif)
 
 ## 🗃️ Archive
 
 - View all **archived participants** and **restore** them when needed.
-- Access **archived courses** and bring them back into the active view.
-- Both archive views include **filtering options** to help you quickly find specific archived entries.
+- View all **archived courses** and bring them back into the active view.
+- Both archive components include **filtering options** to help you quickly find specific archived entries.
 
 ![Archive](documentation/archive.gif)
 

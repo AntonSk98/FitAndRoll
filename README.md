@@ -2,18 +2,18 @@
 A cross-platform desktop application for managing courses and tracking participant engagement.
 
 ## Table of Contents
-- [⚙️ Starting the application](#⚙️-starting-the-application)
-- [🌍 Changing locale](#🌍-changing-locale)
-- [📚 Managing Courses: Create, Update & Archive](#📚-managing-courses-create-update--archive)
-- [🗂️ Managing Participants: Create, Update & Archive](#🗂️-managing-participants-create-update--archive)
-- [🏅 Member card overview](#🏅-member-card-overview)
-- [🧾 Attending courses](#🧾-attending-courses)
-- [📈 Course Participation History](#📈-course-participation-history)
-- [📊 Statistics](#📊-statistics)
-- [🗃️ Archive](#🗃️-archive)
-- [📤 Export](#📤-export)
-- [🖼️ Application Gallery](#🖼️-application-gallery)
-- [👨‍💻 For developers](#👨‍💻-for-developers)
+- [⚙️ Starting the application](#-starting-the-application)
+- [🌍 Changing locale](#-changing-locale)
+- [📚 Managing Courses: Create, Update & Archive](#-managing-courses-create-update--archive)
+- [🗂️ Managing Participants: Create, Update & Archive](#-managing-participants-create-update--archive)
+- [🏅 Member card overview](#-member-card-overview)
+- [🧾 Attending courses](#-attending-courses)
+- [📈 Course Participation History](#-course-participation-history)
+- [📊 Statistics](#-statistics)
+- [🗃️ Archive](#-archive)
+- [📤 Export](#-export)
+- [🖼️ Application Gallery](#-application-gallery)
+- [👨‍💻 For developers](#-for-developers)
 - [📑 License](#-license)
 
 

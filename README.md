@@ -1,5 +1,12 @@
 # Fit&Roll
-A cross-platform desktop application for managing courses and tracking participant engagement.
+**Fit&Roll** is a cross-platform desktop application for **managing courses** and tracking **participant engagement**. It allows you to:
+
+- **Create, update, and archive courses**
+- **Manage participant records**
+- Track **attendance** and **participation** history
+- View **statistics** and export data for advanced analysis
+
+Fit&Roll simplifies the process of course management, making it more efficient and user-friendly.
 
 ## Table of Contents
 - [⚙️ Starting the application](#️-starting-the-application)

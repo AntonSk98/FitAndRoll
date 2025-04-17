@@ -2,7 +2,7 @@
 A cross-platform desktop application for managing courses and tracking participant engagement.
 
 ## Table of Contents
-- [⚙️ Starting the application](#-starting-the-application)
+- [⚙️ Starting the application](#️-starting-the-application)
 - [🌍 Changing locale](#-changing-locale)
 - [📚 Managing Courses: Create, Update & Archive](#-managing-courses-create-update--archive)
 - [🗂️ Managing Participants: Create, Update & Archive](#-managing-participants-create-update--archive)

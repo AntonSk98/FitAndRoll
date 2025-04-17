@@ -220,7 +220,7 @@ func withHeaderStyle(file *excelize.File) error {
 		Fill: excelize.Fill{
 			Type:    "pattern",
 			Pattern: 1,
-			Color:   []string{"#10B981"},
+			Color:   []string{"#2da3c9"},
 		},
 	})
 

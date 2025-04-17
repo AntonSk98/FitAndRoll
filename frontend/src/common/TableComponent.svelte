@@ -6,6 +6,8 @@
     import PaginationComponent from "./PaginationComponent.svelte";
     import DatePicker from "./DatePicker.svelte";
 
+    import {IS_HOTKEY_DOWN_FUNCTION, IS_HOTKEY_UP_FUNCTION} from "./scale_hotkeys";
+
     export let tableHeader = null;
     export let total;
 
@@ -87,7 +89,10 @@
         setOnlyDateMainFilter();
         window.onresize = () => resizeTableresetTableScrollIfNeeded();
         window.addEventListener("keydown", ($event) => {
-            if ($event.key === "+" || $event.key === "-") {
+            if (
+                IS_HOTKEY_UP_FUNCTION($event) ||
+                IS_HOTKEY_DOWN_FUNCTION($event)
+            ) {
                 resizeTableresetTableScrollIfNeeded();
             }
         });

@@ -1,6 +1,8 @@
 <script>
     import { toastSuccess } from "../toast/toastStore";
     import { onDestroy, onMount } from "svelte";
+    import {IS_HOTKEY_DOWN_FUNCTION, IS_HOTKEY_UP_FUNCTION} from "./scale_hotkeys";
+
 
     const defaultFontSizePx = 16;
     const stepPercent = 5;
@@ -18,11 +20,11 @@
 
     function handleKeyDown($event) {
         let currentSize = getCurrentRootFontSize();
-        if ($event.key === "+") {
+        if (IS_HOTKEY_UP_FUNCTION($event)) {
             $event.preventDefault();
             const newSize = Math.min(currentSize + baseFontStep, maxFontSize);
             setRootFontSizeIfChanged(currentSize, newSize);
-        } else if ($event.key === "-") {
+        } else if (IS_HOTKEY_DOWN_FUNCTION($event)) {
             $event.preventDefault();
             const newSize = Math.max(currentSize - baseFontStep, minFontSize);
             setRootFontSizeIfChanged(currentSize, newSize);

@@ -25,7 +25,7 @@
             .then((page) => (statisticsPage = page))
             .catch((err) => {
                 console.error(err);
-                toastError();
+                toastError(err);
             });
     }
 

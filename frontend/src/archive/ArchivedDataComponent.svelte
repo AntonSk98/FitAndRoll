@@ -13,6 +13,7 @@
 
     let archivedDataPage;
     let selectedArchivedEntry;
+    let tableRef;
 
     onMount(() => loadArchivedData());
 
@@ -40,7 +41,7 @@
 
         unarchiveEntryPromise(selectedArchivedEntry?.id)
             .then(() => {
-                loadArchivedData();
+                loadArchivedData(tableRef?.getFilter());
                 selectedArchivedEntry = null;
                 toastSuccess();
             })
@@ -52,6 +53,7 @@
 </script>
 
 <TableComponent
+    bind:this={tableRef}
     tableHeader={header}
     total={archivedDataPage?.total ?? 0}
     columns={[
@@ -67,10 +69,10 @@
     ]}
     actions={[
         {
-                title: i18n("archive.table.actions.unarchive"),
-                icon: "lockOpen",
-                onClick: unarchiveEntry
-            },
+            title: i18n("archive.table.actions.unarchive"),
+            icon: "lockOpen",
+            onClick: unarchiveEntry,
+        },
     ]}
     rows={archivedDataPage?.data?.map((entry) => {
         return {
@@ -93,8 +95,14 @@
         onModalCanceled={() => (selectedArchivedEntry = null)}
         onModalConfirmed={unarchiveEntry}
     >
-    <div slot="body">
-        <div>{i18n("archive.table.actions.unarchivePrePrompt")} <span class="font-bold text-[var(--primary-color)]">{selectedArchivedEntry?.name}</span> {i18n("archive.table.actions.unarchivePostPrompt")}</div>
-    </div>
-</Modal>
+        <div slot="body">
+            <div>
+                {i18n("archive.table.actions.unarchivePrePrompt")}
+                <span class="font-bold text-[var(--primary-color)]"
+                    >{selectedArchivedEntry?.name}</span
+                >
+                {i18n("archive.table.actions.unarchivePostPrompt")}
+            </div>
+        </div>
+    </Modal>
 {/if}

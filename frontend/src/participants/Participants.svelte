@@ -18,12 +18,14 @@
 
     let participantsPage;
     let selectedParticipant;
+    let tableRef;
 
     $: if (componentRender === PARTICIPANTS_OVERVIEW) {
         findParticipants();
     }
 
     function findParticipants(filter, pagination) {
+        console.log(filter);
         FindParticipants(filter, pagination ?? { currentPage: 1, pageSize: 5 })
             .then((page) => (participantsPage = page))
             .catch((err) => {
@@ -51,7 +53,7 @@
         ArchiveParticipant(selectedParticipant?.id)
             .then(() => {
                 toastSuccess();
-                findParticipants();
+                findParticipants(tableRef?.getFilter());
             })
             .catch((error) => {
                 console.error(error.message);
@@ -79,6 +81,7 @@
 
 {#if componentRender === PARTICIPANTS_OVERVIEW}
     <TableComponent
+        bind:this={tableRef}
         tableHeader={i18n("participants.header")}
         total={participantsPage?.total ?? 0}
         mainFilters={[

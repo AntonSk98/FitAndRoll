@@ -85,6 +85,10 @@
         }
     }
 
+    export function getFilter() {
+        return filter;
+    }
+
     onMount(() => {
         setOnlyDateMainFilter();
         window.onresize = () => resizeTableresetTableScrollIfNeeded();

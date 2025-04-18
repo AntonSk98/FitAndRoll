@@ -15,6 +15,7 @@
     let courseAttendanceHistoryPage;
     let showUndoParticipationConfirmationModal = false;
     let selectedParticipationHistoryEntry;
+    let tableRef;
 
     onMount(() => loadCourseAttendanceHistory());
 
@@ -88,7 +89,7 @@
         UndoCourseAttendance(selectedParticipationHistoryEntry?.id)
             .then(() => {
                 toastSuccess();
-                loadCourseAttendanceHistory();
+                loadCourseAttendanceHistory(tableRef?.getFilter());
             })
             .catch((err) => {
                 console.error(err);
@@ -133,6 +134,7 @@
 </script>
 
 <TableComponent
+    bind:this={tableRef}
     tableHeader={i18n("courseHistory.header")}
     total={courseAttendanceHistoryPage?.total ?? 0}
     mainFilters={getMainFilters()}

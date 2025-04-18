@@ -18,11 +18,12 @@
             return;
         }
         let currentSize = getCurrentRootFontSize();
-        $event.preventDefault();
         if (IS_HOTKEY_UP_FUNCTION($event)) {
+            $event.preventDefault();
             const newSize = Math.min(currentSize + baseFontStep, maxFontSize);
             setRootFontSizeIfChanged(currentSize, newSize);
         } else if (IS_HOTKEY_DOWN_FUNCTION($event)) {
+            $event.preventDefault();
             const newSize = Math.max(currentSize - baseFontStep, minFontSize);
             setRootFontSizeIfChanged(currentSize, newSize);
         }

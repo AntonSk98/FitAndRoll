@@ -15,6 +15,7 @@
 
     let componentControl = new ComponentControl();
     let selectedCourse;
+    let tableRef;
 
     $: if (componentControl?.showCourseOverview) {
         loadCourses();
@@ -55,7 +56,7 @@
         ArchiveCourse(coursePage.data[index]?.id)
             .then(() => {
                 toastSuccess();
-                loadCourses();
+                loadCourses(tableRef?.getFilter());
             })
             .catch((err) => {
                 console.error("Error while archiving a course: ", err);
@@ -84,6 +85,7 @@
 
 {#if componentControl.showCourseOverview}
     <TableComponent
+        bind:this={tableRef}
         tableHeader={i18n("courses.table.header")}
         total={coursePage?.total ?? 0}
         columns={[

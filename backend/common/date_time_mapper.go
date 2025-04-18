@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	_ "time/tzdata"
+
 	"gorm.io/gorm"
 )
 

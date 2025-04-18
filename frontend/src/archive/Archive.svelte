@@ -9,6 +9,7 @@
         UnarchiveCourse,
         UnarchiveParticipant,
     } from "../../wailsjs/go/archive/ArchivedDataHandler";
+    import {LogError} from "../../wailsjs/runtime/runtime"
 
     let displayParticipantArchive = false;
     let displayCourseArchive = false;
@@ -22,7 +23,7 @@
         ExportData()
             .then(() => toastSuccess())
             .catch((err) => {
-                console.error(err);
+                LogError(`Export failed: ${err}`);
                 toastError();
             });
     }

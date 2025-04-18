@@ -13,6 +13,7 @@ import (
 	"fit_and_roll/backend/statistics"
 
 	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 )
@@ -41,6 +42,8 @@ func main() {
 	statisticsHandler := statistics.NewStatisticsHandler(dbManager)
 	scaler := scaler.NewScalerHandler(dbManager)
 
+	fileLogs := logger.NewFileLogger("logs.log")
+
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:            "PROTECT YOURSELF",
@@ -53,6 +56,7 @@ func main() {
 		OnStartup: func(ctx context.Context) {
 			exportDataHandler.SetContext(ctx)
 		},
+		Logger: fileLogs,
 		Bind: []interface{}{
 			courseHandler,
 			participantsHandler,

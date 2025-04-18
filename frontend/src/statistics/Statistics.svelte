@@ -7,6 +7,8 @@
     import TableComponent from "../common/TableComponent.svelte";
     import { i18n } from "../common/i18n.js";
 
+    import {LogError} from "../../wailsjs/runtime/runtime"
+
     let statisticsPage;
     let displayCourseStatistics = false;
 
@@ -20,12 +22,11 @@
     }
 
     function loadCourseStatistics(filter, pagination) {
-        alert(JSON.stringify({...filter, ...pagination}));
         CourseStatistics(filter, pagination ?? { currentPage: 1, pageSize: 5 })
             .then((page) => (statisticsPage = page))
             .catch((err) => {
-                console.error(err);
-                toastError(err);
+                LogError(`Error while loading course statistics. Filter: ${filter}. Pagination: ${pagination}. Error: ${err}`);
+                toastError();
             });
     }
 
@@ -36,7 +37,7 @@
         )
             .then((page) => (statisticsPage = page))
             .catch((err) => {
-                console.error(err);
+                LogError(`Error while loading participant statistics. Filter: ${filter}. Pagination: ${pagination}. Error: ${err}`);
                 toastError();
             });
     }

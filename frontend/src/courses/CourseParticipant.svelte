@@ -7,6 +7,7 @@
     import { FindActiveMemberCards } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
     import AttendCourseModal from "./AttendCourseModal.svelte";
     import { i18n } from "../common/i18n";
+    import { LogError } from "../../wailsjs/runtime/runtime.js";
 
     export let selectedCourse;
     export let returnToCourseOverview;
@@ -28,7 +29,7 @@
                 total = page.total;
             })
             .catch((err) => {
-                console.error(err);
+                LogError(`Failed to load the participants of a course. Filter: ${filter}. Pagination: ${pagination}. Error: ${err}`);
                 toastError();
             });
     }
@@ -45,7 +46,7 @@
                 attendCourseType = "WITH_MEMBER_CARD";
             })
             .catch((err) => {
-                console.error(err);
+                LogError(`Failed to load active cards. Participant details: ${participants[index]}. Error: ${err}`);
                 toastError();
             });
     }

@@ -10,6 +10,7 @@
     import CreateUpdateCourse from "./CreateUpdateCourse.svelte";
     import CourseParticipant from "./CourseParticipant.svelte";
     import CourseAttendanceHistory from "./CourseAttendanceHistory.svelte";
+    import { LogError } from "../../wailsjs/runtime/runtime";
 
     let coursePage;
 
@@ -28,7 +29,7 @@
                 pagination ?? { currentPage: 1, pageSize: 5 },
             );
         } catch (error) {
-            console.error("Error loading courses:", error);
+            LogError(`Error loading courses. Filter: ${filter}. Pagination: ${pagination}. Error: ${error}`);
             toastError();
         }
     }
@@ -59,7 +60,7 @@
                 loadCourses(tableRef?.getFilter());
             })
             .catch((err) => {
-                console.error("Error while archiving a course: ", err);
+                LogError(`Error while archiving a course. Course details: ${coursePage.data[index]}. Error: ${err}`);
                 toastError();
             });
     }

@@ -8,6 +8,8 @@
     import { onMount } from "svelte";
     import { i18n } from "../common/i18n";
 
+    import {LogError} from "../../wailsjs/runtime/runtime"
+
     export let participantId = null;
     export let backToOverview;
 
@@ -77,7 +79,7 @@
             .then(details => participant = details)
             .then(() => initForm())
             .catch(error => {
-                console.error(`Error while fetching participant details. Error ${error.message}`)
+                LogError(`Error while fetching participant details by id ${id}. Error: ${error}`);
                 toastError();
             });
     }
@@ -89,7 +91,7 @@
             backToOverview();
         })
         .catch(err => {
-            console.error('Error while registering a customer', err);
+            LogError(`Error while persisting course details. Form: ${form}. Error: ${err}`);
             toastError();
         })
     }

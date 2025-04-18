@@ -3,6 +3,7 @@
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import { AttendCourse } from "../../wailsjs/go/membercardattendance/MemberCardAttendanceHandler";
     import { i18n } from "../common/i18n";
+    import { LogError } from "../../wailsjs/runtime/runtime";
 
     export let attendanceType;
     export let selectedParticipant;
@@ -36,7 +37,7 @@
                 onDestroy();
             })
             .catch((err) => {
-                console.error(err);
+                LogError(`Failed to mark a course as attended. Attend Course Command: ${attendCourseCommand}. Error: ${err}`);
                 toastError();
             });
     }

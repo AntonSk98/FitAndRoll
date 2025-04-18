@@ -9,6 +9,8 @@
     import MemberCard from "./MemberCard.svelte";
     import { i18n } from "../common/i18n";
 
+    import {LogError} from "../../wailsjs/runtime/runtime"
+
     const PARTICIPANTS_OVERVIEW = "participants_overview";
     const ADD_NEW_PARTICIPANT = "new_participant";
     const UPDATE_PARTICIPANT = "update_participant";
@@ -28,7 +30,7 @@
         FindParticipants(filter, pagination ?? { currentPage: 1, pageSize: 5 })
             .then((page) => (participantsPage = page))
             .catch((err) => {
-                console.error(err);
+                LogError(`Error while fetching courses. Filter: ${filter}. Pagination: ${pagination}. Error: ${err}`);
                 toastError();
             });
     }
@@ -55,7 +57,7 @@
                 findParticipants(tableRef?.getFilter());
             })
             .catch((error) => {
-                console.error(error.message);
+                LogError(`Error while archiving a participant. Participant details: ${selectedParticipant}. Error: ${error}`);
                 toastError();
             });
     }

@@ -12,6 +12,8 @@
     import BackButton from "../common/BackButton.svelte";
     import { i18n } from "../common/i18n";
 
+    import {LogError} from "../../wailsjs/runtime/runtime"
+
     export let member;
     export let onBackButtonClicked;
 
@@ -34,7 +36,7 @@
         FindAllMemberCards(member.id)
             .then((cards) => (memberCards = cards || []))
             .catch((error) => {
-                console.error(error);
+                LogError(`Error occurred while fetching all member cards: ${error}`)
                 toastError();
             });
     }
@@ -47,7 +49,7 @@
                 toastSuccess();
             })
             .catch((error) => {
-                console.error(error);
+                LogError(`Failed to delete an empty member card. Member: ${member}. Card id: ${selectedMemberCardId}. Error: ${error}`)
                 toastError();
             });
     }
@@ -60,7 +62,7 @@
                 displayMemberCardParticipationHistory = true;
             })
             .catch((err) => {
-                console.error(err);
+                LogError(`Failed to fetch member card participation history. Member: ${member}. Card id: ${selectedMemberCardId}. Error: ${err}`)
                 toastError();
             });
     }
@@ -73,7 +75,7 @@
                 toastSuccess();
             })
             .catch((error) => {
-                console.error(error);
+                LogError(`Failed to issue a new member card: Member: ${member}. Error: ${error}`)
                 toastError();
             });
     }

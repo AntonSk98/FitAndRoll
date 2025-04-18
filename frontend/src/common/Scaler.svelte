@@ -1,8 +1,15 @@
 <script>
     import { toastError, toastSuccess } from "../toast/toastStore";
     import { onDestroy, onMount } from "svelte";
-    import { IS_HOTKEY_DOWN_FUNCTION, IS_HOTKEY_UP_FUNCTION } from "./scale_hotkeys";
-    import { FetchRootFontSize, PersistRootFontSize } from "../../wailsjs/go/scaler/ScalerHandler";
+    import {
+        IS_HOTKEY_DOWN_FUNCTION,
+        IS_HOTKEY_UP_FUNCTION,
+    } from "./scale_hotkeys";
+    import {
+        FetchRootFontSize,
+        PersistRootFontSize,
+    } from "../../wailsjs/go/scaler/ScalerHandler";
+    import { LogError } from "../../wailsjs/runtime/runtime";
 
     const defaultFontSizePx = 16;
     const stepPercent = 5;
@@ -33,31 +40,47 @@
         return parseFloat(getComputedStyle(document.documentElement).fontSize);
     }
 
-    function setRootFontSizeIfChanged(currentPx, newPx, notify=true) {
+    function setRootFontSizeIfChanged(currentPx, newPx, notify = true) {
         if (currentPx === newPx) {
             return;
         }
 
         const effectiveRootFontSize = Math.round(newPx * 100) / 100;
         document.documentElement.style.fontSize = `${effectiveRootFontSize}px`;
-        PersistRootFontSize(effectiveRootFontSize)
-        .catch(err => {
+        PersistRootFontSize(effectiveRootFontSize).catch((err) => {
             toastError();
-            console.error(err);
+            LogError(`Failed to change the scale of the application: ${err}`);
         });
 
         if (notify) {
-            const scalePercentage = ((effectiveRootFontSize / defaultFontSizePx) * 100).toFixed(0);
+            const scalePercentage = (
+                (effectiveRootFontSize / defaultFontSizePx) *
+                100
+            ).toFixed(0);
             toastSuccess(`${scalePercentage}%`);
         }
     }
 
     onMount(async () => {
-        FetchRootFontSize().then(fetchedSize => {
-            rootFontSize = fetchedSize > 0 ? fetchedSize : defaultFontSizePx;
-            setRootFontSizeIfChanged(parseFloat(getComputedStyle(document.documentElement).fontSize), rootFontSize, false);
-            initialized = true;
-        })
+        FetchRootFontSize()
+            .then((fetchedSize) => {
+                rootFontSize =
+                    fetchedSize > 0 ? fetchedSize : defaultFontSizePx;
+                setRootFontSizeIfChanged(
+                    parseFloat(
+                        getComputedStyle(document.documentElement).fontSize,
+                    ),
+                    rootFontSize,
+                    false,
+                );
+                initialized = true;
+            })
+            .catch((err) => {
+                LogError(
+                    `Error while loading current application scale. Error: ${err}`,
+                );
+                toastError();
+            });
         window.addEventListener("keydown", scaleApplication);
     });
 

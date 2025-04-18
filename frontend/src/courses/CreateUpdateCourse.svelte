@@ -10,6 +10,7 @@
     import { onMount } from "svelte";
     import Form from "../common/Form.svelte";
     import { i18n } from "../common/i18n";
+    import {LogError} from "../../wailsjs/runtime/runtime"
 
     export let courseId = null;
     export let componentControl = new ComponentControl();
@@ -30,7 +31,7 @@
             courseDetails = await FindCourseDetails(courseId);
             defineForm(courseDetails);
         } catch (error) {
-            console.error("Error loading course details:", error);
+            LogError(`Error loading course details by id ${courseId}. Error: ${error}`)
             toastError();
         }
     }
@@ -45,7 +46,7 @@
             toastSuccess()
             componentControl = componentControl.resetComponentControl();
         } catch(error) {
-            console.error("Error occurred while updating|saving the course details:", error);
+            LogError(`Error occurred while updating|saving the course details. Form: ${form}. Error: ${error}`)
             toastError();
         }
     }

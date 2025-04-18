@@ -8,6 +8,7 @@
     import TableComponent from "../common/TableComponent.svelte";
     import Modal from "../common/Modal.svelte";
     import { i18n } from "../common/i18n.js";
+    import { LogError } from "../../wailsjs/runtime/runtime.js";
 
     export let courseId = null;
     export let onComponentDestroyed;
@@ -69,7 +70,7 @@
                 pagination ?? { currentPage: 1, pageSize: 5 },
             );
         } catch (error) {
-            console.error("Error loading course attendance history:", error);
+            LogError(`Error loading course attendance history. Filter: ${filter}. Pagination: ${pagination}. Error: ${error}`);
             toastError();
         }
     }
@@ -92,7 +93,7 @@
                 loadCourseAttendanceHistory(tableRef?.getFilter());
             })
             .catch((err) => {
-                console.error(err);
+                LogError(`Failed to undo the participation history entry. Entry details: ${selectedParticipationHistoryEntry}. Error: ${err}`);
                 toastError();
             });
         showUndoParticipationConfirmationModal =

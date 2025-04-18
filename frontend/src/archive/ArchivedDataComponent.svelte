@@ -4,6 +4,7 @@
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import Modal from "../common/Modal.svelte";
     import { i18n } from "../common/i18n";
+    import {LogError} from "../../wailsjs/runtime/runtime"
 
     export let header;
     export let loadArchivedDataPromise;
@@ -24,7 +25,7 @@
         )
             .then((page) => (archivedDataPage = page))
             .catch((err) => {
-                console.error("Error loading archived data:", err);
+                LogError(`Error loading archived data. Filters: ${filter}. Pagination: ${pagination}. Error: ${err}`);
                 toastError();
             });
     }
@@ -46,7 +47,7 @@
                 toastSuccess();
             })
             .catch((err) => {
-                console.error(err);
+                LogError(`Failed to unarchive an entry. Entry details: ${selectedArchivedEntry}. Error: ${err}`);
                 toastError();
             });
     }

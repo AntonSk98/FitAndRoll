@@ -203,6 +203,13 @@ wails build
 ```
 For more details and advanced options, visit the official Wails documentation.
 
+### 🧾 Logs
+
+If any errors occur during runtime, a file named `logs.log` is automatically generated.  
+This log file contains detailed information about the error, helping you to quickly identify issues.
+
+You can find the `logs.log` file in the application's root directory.
+
 ## 📑 License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE) file for details.

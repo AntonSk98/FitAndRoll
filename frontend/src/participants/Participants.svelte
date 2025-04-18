@@ -25,7 +25,6 @@
     }
 
     function findParticipants(filter, pagination) {
-        console.log(filter);
         FindParticipants(filter, pagination ?? { currentPage: 1, pageSize: 5 })
             .then((page) => (participantsPage = page))
             .catch((err) => {

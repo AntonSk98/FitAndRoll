@@ -20,6 +20,7 @@
     }
 
     function loadCourseStatistics(filter, pagination) {
+        alert(JSON.stringify({...filter, ...pagination}));
         CourseStatistics(filter, pagination ?? { currentPage: 1, pageSize: 5 })
             .then((page) => (statisticsPage = page))
             .catch((err) => {

@@ -15,7 +15,7 @@
         },
         "form": {
             "new": "New participant",
-            "update": "Update participant",
+            "update": "Update Participant",
             "notEmptyValidation": "Field cannot be empty"
         },
         "memberCard": {

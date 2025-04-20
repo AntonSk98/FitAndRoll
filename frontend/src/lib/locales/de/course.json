@@ -89,7 +89,7 @@
                 "header": "Bist du dir sicher, dass du diesen Teilnahmeeintrag löschen möchtest",
                 "bodyP1": "hat",
                 "bodyP2": "mit einer Karte besucht",
-                "footer": "Das Löschen dieses Eintrags stellt einen verfügbaren Slot auf der Karte wieder her"
+                "footer": "Wenn du diesen Eintrag löscht, wird ein bereits vergebener Kurseintrag auf der Karte des Teilnehmenrs wieder hergestellt"
             }
         }
     }

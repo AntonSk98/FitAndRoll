@@ -4,6 +4,14 @@
         "name": "Vorname",
         "surname": "Name",
         "group": "Gruppe",
+        "phone": "Telefon",
+        "email": "E-Mail",
+        "address": "Adresse",
+        "parents": "Eltern",
+        "privacyPolicy": "Datenschutzerklärung",
+        "notes": "Sonstiges",
+        "birthday": "Geburtsdatum",
+        "createdAt": "Trainingsbeginn",
         "filters": {
             "withActiveCard": "Mit gültiger Karte"
         },

@@ -1,5 +1,6 @@
 <script>
-  import DateTimePicker from "../common/DateTimePicker.svelte";
+  import DateTimePicker from "./DateTimePicker.svelte";
+  import DatePicker from "./DatePicker.svelte";
   import { i18n } from "./i18n";
 
   export let formConfig;
@@ -9,7 +10,7 @@
   $: if (formConfig) {
     formConfig.fields.forEach((field) => {
       const formField = {
-        value: field?.value ?? "",
+        value: field?.value ?? null,
         valid: field?.validation?.function(field?.value ?? "") ?? true,
       };
       form[field.key] = formField;
@@ -54,6 +55,9 @@
   function resolveDay(day) {
     return i18n(`dateTimePicker.options.${day}`);
   }
+  function textFieldPlaceholder(field) {
+    return `${field.display}${field.validation ? " *" : ""}`;
+  }
 </script>
 
 <div class="form-container">
@@ -62,25 +66,62 @@
   <form class="form-content">
     {#each formConfig?.fields || [] as field}
       <div class="form-group">
-        {#if field.type !== "list"}
+        <label class="pl-1 text-sm text-[var(--text-color)] font-bold"
+          >{field.display}</label
+        >
+        {#if field.readonly}
+          <span class="pt-1 pl-2 w-fit text-[var(--text-color)] cursor-not-allowed">{form?.[field.key]?.value}</span>
+        {:else if field.type === "text" || field.type === "textarea"}
+          {#if field.type === "text"}
+            <input
+              id={field.key}
+              type={field.type}
+              value={form?.[field.key]?.value}
+              class={`form-input ${
+                field.validation
+                  ? form?.[field.key]?.["valid"]
+                    ? "input-valid"
+                    : "input-invalid"
+                  : ""
+              }`}
+              readonly={field?.readonly}
+              placeholder={textFieldPlaceholder(field)}
+              on:input={(event) => onInput(field, event.target.value)}
+            />
+          {:else if field.type === "textarea"}
+            <textarea
+              id={field.key}
+              value={form?.[field.key]?.value}
+              class={`form-input ${
+                field.validation
+                  ? form?.[field.key]?.["valid"]
+                    ? "input-valid"
+                    : "input-invalid"
+                  : ""
+              }`}
+              rows="3"
+              placeholder={textFieldPlaceholder(field)}
+              on:input={(event) => onInput(field, event.target.value)}
+            />
+          {/if}
+          {#if !form?.[field.key]?.["valid"]}
+            <p class="error-message">{field?.validation?.message}</p>
+          {/if}
+        {:else if field.type === "checkbox"}
           <input
             id={field.key}
-            type={field.type}
-            value={form?.[field.key]?.value}
-            class={`form-input ${
+            type="checkbox"
+            checked={form?.[field.key]?.value}
+            class={`ml-2 mt-1 w-6 h-6 cursor-pointer transition-all duration-300 ${
               field.validation
                 ? form?.[field.key]?.["valid"]
                   ? "input-valid"
                   : "input-invalid"
                 : ""
             }`}
-            placeholder={`${field.display}${field.validation ? " *" : ""}`}
-            on:input={(event) => onInput(field, event.target.value)}
+            on:change={(event) => onInput(field, event.target.checked)}
           />
-          {#if !form?.[field.key]?.["valid"]}
-            <p class="error-message">{field?.validation?.message}</p>
-          {/if}
-        {:else}
+        {:else if field.type === "list"}
           <div class="list-input">
             <div>
               <div class="list-input-header">{field.display}</div>
@@ -110,6 +151,13 @@
               />
             {/if}
           </div>
+        {:else if field.type === "date"}
+          <DatePicker
+            selectedDateValue={form?.[field.key]?.value}
+            placeholder={field.display}
+            selectorClass="pt-1 pl-1 w-fit text-[var(--text-color)]"
+            onDatePicked={(date) => onInput(field, date)}
+          />
         {/if}
       </div>
     {/each}
@@ -167,11 +215,19 @@
     width: 100%;
     padding: 0.7rem;
     border-radius: 1rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--secondary-color-darker);
     transition:
       border-color 0.3s,
       box-shadow 0.3s;
     outline: none;
+  }
+
+  .read-only {
+    padding-left: 0.7rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    cursor: not-allowed;
+    width: fit-content;
   }
 
   .input-valid {

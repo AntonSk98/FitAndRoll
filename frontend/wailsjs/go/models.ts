@@ -602,6 +602,14 @@ export namespace participants {
 	    name: string;
 	    surname: string;
 	    group: string;
+	    phone?: string;
+	    email?: string;
+	    address?: string;
+	    parents?: string;
+	    privacyPolicy: boolean;
+	    notes?: string;
+	    // Go type: time
+	    birthday?: any;
 	
 	    static createFrom(source: any = {}) {
 	        return new ParticipantCommand(source);
@@ -613,13 +621,48 @@ export namespace participants {
 	        this.name = source["name"];
 	        this.surname = source["surname"];
 	        this.group = source["group"];
+	        this.phone = source["phone"];
+	        this.email = source["email"];
+	        this.address = source["address"];
+	        this.parents = source["parents"];
+	        this.privacyPolicy = source["privacyPolicy"];
+	        this.notes = source["notes"];
+	        this.birthday = this.convertValues(source["birthday"], null);
 	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 	export class ParticipantDto {
 	    id?: number;
 	    name: string;
 	    surname: string;
 	    group: string;
+	    phone?: string;
+	    email?: string;
+	    address?: string;
+	    parents?: string;
+	    privacyPolicy: boolean;
+	    notes?: string;
+	    // Go type: time
+	    birthday?: any;
+	    createdAt: string;
+	    privacyPolicyAcceptedAt?: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new ParticipantDto(source);
@@ -631,7 +674,34 @@ export namespace participants {
 	        this.name = source["name"];
 	        this.surname = source["surname"];
 	        this.group = source["group"];
+	        this.phone = source["phone"];
+	        this.email = source["email"];
+	        this.address = source["address"];
+	        this.parents = source["parents"];
+	        this.privacyPolicy = source["privacyPolicy"];
+	        this.notes = source["notes"];
+	        this.birthday = this.convertValues(source["birthday"], null);
+	        this.createdAt = source["createdAt"];
+	        this.privacyPolicyAcceptedAt = source["privacyPolicyAcceptedAt"];
 	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 
 }

@@ -4,7 +4,7 @@
 
     import Modal from "./Modal.svelte";
     import PaginationComponent from "./PaginationComponent.svelte";
-    import DatePicker from "./DatePicker.svelte";
+    import DateRangePicker from "./DateRangePicker.svelte";
 
     import {IS_HOTKEY_DOWN_FUNCTION, IS_HOTKEY_UP_FUNCTION} from "./scale_hotkeys";
 
@@ -165,7 +165,7 @@
                             class="flex items-end gap-2 text-[var(--secondary-color-dark)] italic font-semibold tracking-wide"
                         >
                             <span>{mainFilter.label}:</span>
-                            <DatePicker
+                            <DateRangePicker
                                 align={!onlyDateMainFilter ? "right" : "left"}
                                 onDateRangePicked={(date) =>
                                     onFilter(mainFilter.key, date)}

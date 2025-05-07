@@ -4,6 +4,14 @@
         "name": "First Name",
         "surname": "Last Name",
         "group": "Group",
+        "phone": "Phone",
+        "email": "E-Mail",
+        "address": "Address",
+        "parents": "Parents",
+        "privacyPolicy": "Privacy Policy",
+        "notes": "Notes",
+        "birthday": "Birthday",
+        "createdAt": "Member since",
         "filters": {
             "withActiveCard": "With valid card"
         },

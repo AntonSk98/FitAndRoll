@@ -1,150 +1,69 @@
 <script>
-    export let onDateRangePicked;
     import { DatePicker } from "@svelte-plugins/datepicker";
     import { format } from "date-fns";
     import { i18n } from "./i18n";
 
-    export let align = 'right';
+    let isDatePickerOpen = false;
+    let selectedDateDisplay = "";
 
-    let isOpenFrom = false;
-    let isOpenTo = false;
+    export let onDatePicked;
+    export let placeholder;
+    export let selectorClass;
+    export let selectedDateValue = undefined;
 
-    let from;
-    let to;
 
-    let formattedFrom = "";
-    let formattedTo = "";
+    $: if (selectedDateValue) {
+        const selectedDate = new Date(selectedDateValue);
+        selectedDateDisplay = format(selectedDate, "yyyy-MM-dd");
+        onDatePicked(selectedDateValue);
+    }
 
-    const toggleDatePicker = (dateType) => {
-        if (dateType === "from") {
-            isOpenFrom = !isOpenFrom;
-        } else if (dateType === "to") {
-            isOpenTo = !isOpenTo;
-        }
-    };
-
-    const handleDateChange = (date, dateType) => {
+    function onDateChange(date) {
         if (!date) return "";
 
         const selectedDate = new Date(date.startDate);
 
-        if (dateType === "from") {
-            from = selectedDate.toISOString();
-            formattedFrom = format(selectedDate, "yyyy/MM/dd");
-        }
-        if (dateType === "to") {
-            selectedDate.setHours(23);
-            selectedDate.setMinutes(59);
-            selectedDate.setSeconds(59);
-            selectedDate.setMilliseconds(999);
-            to = selectedDate.toISOString();
-            formattedTo = format(selectedDate, "yyyy/MM/dd");
-        }
-
-        // Emit the updated date range with both dates as ISO strings
-        onDateRangePicked({ from, to });
-    };
-
-    const clearDate = (dateType) => {
-        if (dateType === "from") {
-            from = null;
-            formattedFrom = "";
-        } else if (dateType === "to") {
-            to = null;
-            formattedTo = "";
-        }
-
-        onDateRangePicked({ from, to });
-    };
+        selectedDateValue = selectedDate.toISOString();
+    }
 </script>
 
-<div class="flex gap-1 w-fit">
+<div class="w-fit">
     <DatePicker
-        bind:isOpen={isOpenFrom}
-        startDate={from}
+        bind:isOpen={isDatePickerOpen}
+        startDate={selectedDateValue}
         monthLabels={i18n("datePicker.months")}
         dowLabels={i18n("datePicker.days")}
-        align={align}
+        align={"left"}
+        defaultYear={1998}
+        defaultMonth={2}
         includeFont={false}
-        onDateChange={(date) => handleDateChange(date, "from")}
+        onDateChange={(date) => onDateChange(date)}
     >
-        <div class="input-container">
-            {#if formattedFrom}
-                <button class="clear-btn" on:click={() => clearDate("from")}
-                    >&times;</button
+        <div
+            class={`${selectorClass} cursor-pointer transition-all duration-500 hover:scale-105 text-base`}
+            on:click={() => {
+                isDatePickerOpen = !isDatePickerOpen;
+            }}
+        >
+            {#if selectedDateDisplay}
+                {selectedDateDisplay}
+            {:else}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-6 h-6 text-[var(--text-color-darker)]"
                 >
+                    <path
+                        d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
             {/if}
-            <input
-                type="text"
-                placeholder={i18n("datePicker.from")}
-                bind:value={formattedFrom}
-                on:click={() => toggleDatePicker("from")}
-                readonly
-            />
-        </div>
-    </DatePicker>
-
-    <DatePicker
-        bind:isOpen={isOpenTo}
-        startDate={to}
-        align={align}
-        includeFont={false}
-        enableFutureDates={true}
-        monthLabels={i18n("datePicker.months")}
-        dowLabels={i18n("datePicker.days")}
-        onDateChange={(date) => handleDateChange(date, "to")}
-    >
-        <div class="input-container">
-            {#if formattedTo}
-                <button class="clear-btn" on:click={() => clearDate("to")}
-                    >&times;</button
-                >
-            {/if}
-            <input
-                type="text"
-                placeholder={i18n("datePicker.to")}
-                bind:value={formattedTo}
-                on:click={() => toggleDatePicker("to")}
-                readonly
-            />
         </div>
     </DatePicker>
 </div>
-
-<style>
-    .input-container {
-        cursor: pointer;
-        display: inline-block;
-        padding: 0.2rem;
-        font-size: 0.875rem;
-        border: 2px solid var(--secondary-color-darker);
-        border-radius: 0.4rem;
-        transition:
-            border-color 0.3s ease-in-out,
-            box-shadow 0.2s ease-in-out;
-    }
-
-    input {
-        cursor: pointer;
-        border: none;
-        outline: none;
-        font-weight: bold;
-        color: var(--text-color);
-        max-width: 5.2rem;
-        min-height: 1.5rem;
-    }
-
-    .clear-btn {
-        cursor: pointer;
-        background: var(--primary-color);
-        border: none;
-        color: white;
-        padding: 2px 8px;
-        border-radius: 50%;
-        transition: background 0.2s ease-in-out;
-    }
-
-    .clear-btn:hover {
-        background: var(--primary-color-dark);
-    }
-</style>

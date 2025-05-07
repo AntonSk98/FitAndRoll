@@ -65,7 +65,7 @@
 
   <form class="form-content">
     {#each formConfig?.fields || [] as field}
-      <div class="form-group">
+      <div class="{field.type === 'checkbox' ? 'form-group-inline' : 'form-group'}">
         <label class="pl-1 text-sm text-[var(--text-color)] font-bold"
           >{field.display}</label
         >
@@ -112,7 +112,7 @@
             id={field.key}
             type="checkbox"
             checked={form?.[field.key]?.value}
-            class={`ml-2 mt-1 w-6 h-6 cursor-pointer transition-all duration-300 ${
+            class={`w-5 h-5 cursor-pointer transition-all duration-300 ${
               field.validation
                 ? form?.[field.key]?.["valid"]
                   ? "input-valid"
@@ -209,6 +209,12 @@
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
+  }
+
+  .form-group-inline {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 
   .form-input {

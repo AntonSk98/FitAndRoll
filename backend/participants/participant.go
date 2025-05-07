@@ -28,17 +28,26 @@ type Participant struct {
 
 // Creates a new participant instance
 func NewParticipant(command ParticipantCommand) *Participant {
+	now := time.Now()
+
+	var privacyPolicyAcceptedAt *time.Time
+
+	if command.PrivacyPolicy {
+		privacyPolicyAcceptedAt = &now
+	}
+
 	return &Participant{
-		Name:          command.Name,
-		Surname:       command.Surname,
-		Group:         command.Group,
-		Phone:         command.Phone,
-		Email:         command.Email,
-		Address:       command.Address,
-		Parents:       command.Parents,
-		PrivacyPolicy: command.PrivacyPolicy,
-		Notes:         command.Notes,
-		Birthday:      command.Birthday,
+		Name:                    command.Name,
+		Surname:                 command.Surname,
+		Group:                   command.Group,
+		Phone:                   command.Phone,
+		Email:                   command.Email,
+		Address:                 command.Address,
+		Parents:                 command.Parents,
+		PrivacyPolicy:           command.PrivacyPolicy,
+		Notes:                   command.Notes,
+		Birthday:                command.Birthday,
+		PrivacyPolicyAcceptedAt: privacyPolicyAcceptedAt,
 	}
 }
 

@@ -30,7 +30,7 @@ func (controller *ParticipantsHandler) FindParticipants(filter FindParticipantsP
 	}
 
 	var participants []Participant
-	if err := findAllParticipantsTemplateQuery.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).Order("`group` desc").Find(&participants).Error; err != nil {
+	if err := findAllParticipantsTemplateQuery.Scopes(controller.dbManager.Paginate(pageParams.Page, pageParams.Size)).Order("`created_at` desc").Find(&participants).Error; err != nil {
 		return nil, fmt.Errorf("error fetching participants: %v", err)
 	}
 

@@ -28,27 +28,38 @@ type Participant struct {
 
 // Creates a new participant instance
 func NewParticipant(command ParticipantCommand) *Participant {
-	now := time.Now()
-
-	var privacyPolicyAcceptedAt *time.Time
+	participant := &Participant{
+		Name:          command.Name,
+		Surname:       command.Surname,
+		Group:         command.Group,
+		Phone:         command.Phone,
+		Email:         command.Email,
+		Address:       command.Address,
+		Parents:       command.Parents,
+		PrivacyPolicy: command.PrivacyPolicy,
+		Notes:         command.Notes,
+		Birthday:      command.Birthday,
+	}
 
 	if command.PrivacyPolicy {
-		privacyPolicyAcceptedAt = &now
+		if command.PrivacyPolicyAcceptedAt != nil {
+			participant.PrivacyPolicyAcceptedAt = command.PrivacyPolicyAcceptedAt
+		} else {
+			now := time.Now()
+			participant.PrivacyPolicyAcceptedAt = &now
+
+		}
 	}
 
-	return &Participant{
-		Name:                    command.Name,
-		Surname:                 command.Surname,
-		Group:                   command.Group,
-		Phone:                   command.Phone,
-		Email:                   command.Email,
-		Address:                 command.Address,
-		Parents:                 command.Parents,
-		PrivacyPolicy:           command.PrivacyPolicy,
-		Notes:                   command.Notes,
-		Birthday:                command.Birthday,
-		PrivacyPolicyAcceptedAt: privacyPolicyAcceptedAt,
+	if command.CreatedAt != nil {
+		participant.CreatedAt = *command.CreatedAt
 	}
+
+	if command.PrivacyPolicyAcceptedAt != nil {
+		participant.PrivacyPolicyAcceptedAt = command.PrivacyPolicyAcceptedAt
+	}
+
+	return participant
 }
 
 // Updates participant details
@@ -63,7 +74,19 @@ func (participant *Participant) Update(command ParticipantCommand) {
 	participant.Address = command.Address
 	participant.Parents = command.Parents
 	participant.PrivacyPolicy = command.PrivacyPolicy
+
+	if command.CreatedAt != nil {
+		participant.CreatedAt = *command.CreatedAt
+	}
+
 	if command.PrivacyPolicy {
+		if command.PrivacyPolicyAcceptedAt != nil {
+			participant.PrivacyPolicyAcceptedAt = command.PrivacyPolicyAcceptedAt
+		} else {
+			now := time.Now()
+			participant.PrivacyPolicyAcceptedAt = &now
+
+		}
 		now := time.Now()
 		participant.PrivacyPolicyAcceptedAt = &now
 	} else {

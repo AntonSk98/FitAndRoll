@@ -117,3 +117,28 @@ func (controller *ParticipantsHandler) findParticipantsFilterQuery(filter FindPa
 
 	return query
 }
+
+// Finds a participant by required attributes (name, surname).
+// The method returns the participant identifier projection.
+// If the participant is not found, it returns nil.
+func (handler *ParticipantsHandler) FindIdentifierByRequiredAttributes(name string, surname string) (*ParticipantIdentifierProjection, error) {
+	var participantIdentifierProjection ParticipantIdentifierProjection
+
+	tx := handler.dbManager.DB.
+		Model(&Participant{}).
+		Select("id").
+		Where("LOWER(name) = LOWER(?)", name).
+		Where("LOWER(surname) = LOWER(?)", surname).
+		Limit(1).
+		Scan(&participantIdentifierProjection)
+
+	if tx.Error != nil {
+		return nil, fmt.Errorf("failed to find a participant by name: %s, surname: %s, group: %s. Error: %v", name, surname, tx.Error)
+	}
+
+	if tx.RowsAffected == 0 {
+		return nil, nil
+	}
+
+	return &participantIdentifierProjection, nil
+}

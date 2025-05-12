@@ -55,6 +55,17 @@ func ToWeekDayString(input time.Weekday) string {
 	return dayStr
 }
 
+// ToDateOnly parses a string in "YYYY-MM-DD" format and returns a time.Time object
+// Returns an error if the format is invalid
+func ToDateOnly(input string) (time.Time, error) {
+	mappedTime, err := time.Parse(time.DateOnly, input)
+	if err != nil {
+		return time.Time{}, fmt.Errorf("invalid time format: %s", input)
+	}
+
+	return mappedTime, nil
+}
+
 // ToTimeOnly parses a string in "HH:MM" format and returns a time.Time object.
 // Returns an error if the format is invalid.
 func ToTimeOnly(input string) (time.Time, error) {

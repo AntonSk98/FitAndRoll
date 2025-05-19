@@ -1,6 +1,9 @@
 package courses
 
-import "fit_and_roll/backend/common"
+import (
+	"fit_and_roll/backend/common"
+	"time"
+)
 
 // CourseDto represents the DTO for a course. It contains only the necessary fields for oveview.
 type CourseDto struct {
@@ -55,7 +58,7 @@ func NewCourseDetailsDto(course Course) *CourseDetailsDto {
 
 func toScheduleDto(schedule ScheduleEntry) ScheduleDto {
 	return ScheduleDto{
-		Day:  common.ToWeekDayString(schedule.Day),
+		Day:  common.ToWeekDayString(schedule.Day, time.Monday),
 		Time: common.ToTimeString(schedule.Time),
 	}
 }

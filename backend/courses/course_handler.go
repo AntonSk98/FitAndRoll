@@ -4,7 +4,6 @@ import (
 	"fit_and_roll/backend/common"
 	"fit_and_roll/backend/config"
 	"fmt"
-	"log"
 
 	"gorm.io/gorm"
 )
@@ -103,7 +102,6 @@ func (controller *CourseHandler) NewCourse(request CourseRequest) error {
 		result := tx.Create(&course)
 
 		if result.Error != nil {
-			log.Println("Failed to create a course", result.Error)
 			return result.Error
 		}
 

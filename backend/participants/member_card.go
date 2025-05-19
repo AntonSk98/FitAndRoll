@@ -33,31 +33,32 @@ func (memberCard *MemberCard) isValid() bool {
 // Use the member card to visit a course
 // It reduces the capacity of the card
 // If the member card is used then it will be soft deleted
-func (memberCard *MemberCard) VisitCourse() {
+func (memberCard *MemberCard) VisitCourse() error {
 	if !memberCard.isValid() {
-		fmt.Println("Participant must buy a new card!")
+		return fmt.Errorf("Participant %v must buy a new card", memberCard.ParticipantID)
 	}
 	memberCard.Capacity -= 1
 	if !memberCard.isValid() {
 		memberCard.markAsUsed()
 	}
+	return nil
 }
 
 // UndoAttendance restores attendance for a member card by performing the following actions:
 // - If the member card was fully used, it will be restored.
 // - If the member card has available capacity below the defined limit, it will increment the capacity by 1.
 // - If the member card's capacity has already reached the limit, a message will be printed indicating that the capacity cannot be increased while undoing the course attendance.
-func (memberCard *MemberCard) UndoAttendance() {
+func (memberCard *MemberCard) UndoAttendance() error {
 	if memberCard.Deleted.Valid {
 		memberCard.Deleted = gorm.DeletedAt{}
 	}
 
 	if memberCard.Capacity < capacityLimit {
 		memberCard.Capacity += 1
-		return
+		return nil
 	}
 
-	fmt.Println("Cannot increase capacity while undoing the course attendance: Member card is already full.")
+	return fmt.Errorf("Cannot increase capacity while undoing the course attendance: Member card is already full")
 }
 
 func (memberCard *MemberCard) markAsUsed() {

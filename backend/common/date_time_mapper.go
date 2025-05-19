@@ -45,12 +45,11 @@ func ToTimeString(input time.Time) string {
 }
 
 // ToWeekDayString converts a time.Weekday value to its string representation.
-// If the provided weekday is invalid, it falls back to "Monday".
-func ToWeekDayString(input time.Weekday) string {
+// If the provided weekday is invalid, it falls back to the passed fallback parameter.
+func ToWeekDayString(input time.Weekday, fallback time.Weekday) string {
 	dayStr, ok := weekdayToString[input]
 	if !ok {
-		fmt.Printf("Warning: invalid weekday '%v', falling back to 'Monday'\n", input)
-		return weekdayToString[time.Monday]
+		return weekdayToString[fallback]
 	}
 	return dayStr
 }

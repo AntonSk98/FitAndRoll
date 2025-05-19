@@ -106,7 +106,10 @@ func (controller *MemberCardAttendanceHandler) attendWithMemberCard(tx *gorm.DB,
 	}
 
 	// Handle course visit logic based on the capacity
-	memberCard.VisitCourse()
+	err := memberCard.VisitCourse()
+	if err != nil {
+		return err
+	}
 
 	// Save updated member card state
 	if err := tx.Save(&memberCard).Error; err != nil {

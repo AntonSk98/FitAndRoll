@@ -21,8 +21,6 @@ func NewDatabaseManager() *DatabaseManager {
 		log.Fatalf("Error opening database connection: %v", err)
 	}
 
-	log.Println("Database connection established")
-
 	return &DatabaseManager{DB: db}
 }
 

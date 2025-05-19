@@ -96,7 +96,11 @@ func (handler *CourseAttendanceHandler) UndoCourseAttendance(id *uint) error {
 			if err := tx.Unscoped().First(&memberCard, *memberCardAttendance.MemberCardID).Error; err != nil {
 				return err
 			}
-			memberCard.UndoAttendance()
+			err := memberCard.UndoAttendance()
+			if err != nil {
+				return err
+			}
+
 			tx.Save(&memberCard)
 		}
 

@@ -703,6 +703,18 @@ export namespace participants {
 		    return a;
 		}
 	}
+	export class ParticipantIdentifierProjection {
+	    ID?: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new ParticipantIdentifierProjection(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.ID = source["ID"];
+	    }
+	}
 
 }
 

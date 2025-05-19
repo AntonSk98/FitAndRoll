@@ -4,12 +4,14 @@
         FindParticipants,
         ArchiveParticipant,
     } from "../../wailsjs/go/participants/ParticipantsHandler";
+    import { ImportParticipants } from "../../wailsjs/go/import_/ImportParticipantsHandler";
     import { toastError, toastSuccess } from "../toast/toastStore.js";
     import ParticipantForm from "./ParticipantForm.svelte";
     import MemberCard from "./MemberCard.svelte";
     import { i18n } from "../common/i18n";
 
     import {LogError} from "../../wailsjs/runtime/runtime"
+    import { json } from "svelte-i18n";
 
     const PARTICIPANTS_OVERVIEW = "participants_overview";
     const ADD_NEW_PARTICIPANT = "new_participant";
@@ -78,6 +80,33 @@
 
         return participant;
     }
+
+    function importParticipants() {
+        const CODE_TO_MESSAGE = {
+            SELECT_FILE_ERROR: i18n("participants.import.selectFileError"),
+            OPEN_FILE_ERROR: i18n("participants.import.openFileError"),
+            NO_SHEET_ERROR: i18n("participants.import.noSheetError"),
+            GET_ROWS_ERROR: i18n("participants.import.getRowsError"),
+            REQUIRED_COLUMNS_ERROR: i18n("participants.import.requiredColumnsError"),
+            REQUIRED_PARAMETER_MISSING_ERROR: i18n("participants.import.requiredParameterMissingError"),
+            TRAINING_START_PARSE_ERROR: i18n("participants.import.trainingStartParseError"),
+            BIRTHDAY_PARSE_ERROR: i18n("participants.import.birthdayParseError"),
+            PRIVACY_POLICY_ACCEPTED_AT_PARSE_ERROR: i18n("participants.import.privacyPolicyAcceptedAtParseError"),
+            PRIVACY_POLICY_ACCEPTED_AT_REQUIRED_ERROR: i18n("participants.import.privacyPolicyAcceptedAtRequiredError"),
+            DEFAULT_ERROR: i18n("participants.import.defaultError"),
+        };
+
+        ImportParticipants()
+            .then(() => {
+                toastSuccess();
+                findParticipants(tableRef?.getFilter());
+            })
+            .catch((error) => {
+                LogError(`Error while importing participants. Error: ${error}`);
+                const jsonError = JSON.parse(error);
+                toastError(`${jsonError?.id ? `${jsonError.id}: ` : ''}${CODE_TO_MESSAGE[jsonError?.code] ?? CODE_TO_MESSAGE.DEFAULT_ERROR}`);
+            });
+    }
 </script>
 
 {#if componentRender === PARTICIPANTS_OVERVIEW}
@@ -139,6 +168,11 @@
                 title: i18n("participants.actions.create"),
                 icon: "plus",
                 onClick: newParticipant,
+            },
+            {
+                title: i18n("participants.actions.import"),
+                icon: "documentArrowUp",
+                onClick: importParticipants,
             },
         ]}
         {onPaginationFilterChanged}

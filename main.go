@@ -7,6 +7,7 @@ import (
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/courseattendance"
 	"fit_and_roll/backend/courses"
+	"fit_and_roll/backend/import_"
 	"fit_and_roll/backend/membercardattendance"
 	"fit_and_roll/backend/participants"
 	"fit_and_roll/backend/scaler"
@@ -34,6 +35,7 @@ func main() {
 
 	courseHandler := courses.NewCourseHandler(dbManager)
 	participantsHandler := participants.NewParticipantsHandler(dbManager)
+	importParticipantsHandler := import_.NewImportParticipantsHandler(dbManager, participantsHandler)
 	memberCardHandler := participants.NewMemberCardHandler(dbManager)
 	memberCardAttendanceHandler := membercardattendance.NewMemberCardAttendanceHandler(dbManager)
 	courseAttendanceHandler := courseattendance.NewCourseAttendanceHandler(dbManager)
@@ -55,6 +57,7 @@ func main() {
 		},
 		OnStartup: func(ctx context.Context) {
 			exportDataHandler.SetContext(ctx)
+			importParticipantsHandler.SetContext(ctx)
 		},
 		Logger: fileLogs,
 		Bind: []interface{}{
@@ -66,6 +69,7 @@ func main() {
 			exportDataHandler,
 			archiveDataHandler,
 			statisticsHandler,
+			importParticipantsHandler,
 			scaler,
 		},
 	})

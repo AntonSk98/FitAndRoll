@@ -19,7 +19,8 @@
             "edit": "Participant details",
             "card": "To participant card overview",
             "archive": "Archive participant",
-            "create": "New participant"
+            "create": "New participant",
+            "import": "Import participants"
         },
         "form": {
             "new": "New participant",
@@ -42,6 +43,19 @@
             "cardHistory": "Card history",
             "ok": "OK",
             "close": "Back"
+        },
+        "import": {
+            "selectFileError": "Please select a file to import.",
+            "openFileError": "The selected file could not be opened.",
+            "noSheetError": "No worksheet was found in the uploaded file.",
+            "getRowsError": "Unable to read data from the worksheet.",
+            "requiredColumnsError": "The file must contain exactly 12 columns.",
+            "requiredParameterMissingError": "Missing one or more required fields: name, surname, or group.",
+            "trainingStartParseError": "The training start date could not be parsed. Please check the format.",
+            "birthdayParseError": "The birthday could not be parsed. Please check the format.",
+            "privacyPolicyAcceptedAtParseError": "The privacy policy acceptance date could not be parsed.",
+            "privacyPolicyAcceptedAtRequiredError": "Privacy policy acceptance date is required when the policy is marked as accepted.",
+            "defaultError": "An unexpected error occurred during file import. Please check your data and try again."
         }
     }
 }

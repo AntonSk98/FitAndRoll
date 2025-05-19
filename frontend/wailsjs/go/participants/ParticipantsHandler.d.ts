@@ -7,6 +7,8 @@ export function ArchiveParticipant(arg1:number):Promise<void>;
 
 export function CreateUpdateParticipant(arg1:participants.ParticipantCommand):Promise<void>;
 
+export function FindIdentifierByRequiredAttributes(arg1:string,arg2:string):Promise<participants.ParticipantIdentifierProjection>;
+
 export function FindParticipantDetails(arg1:number):Promise<participants.ParticipantDto>;
 
 export function FindParticipants(arg1:participants.FindParticipantsParams,arg2:common.PageParams):Promise<common.Page[fit_and_roll/backend/participants>;

@@ -7,6 +7,8 @@ export function FindArchivedCourses(arg1:archive.FindArchivedEntryParams,arg2:co
 
 export function FindArchivedParticipants(arg1:archive.FindArchivedEntryParams,arg2:common.PageParams):Promise<common.Page[fit_and_roll/backend/archive>;
 
+export function PurgeParticipant(arg1:any):Promise<void>;
+
 export function UnarchiveCourse(arg1:any):Promise<void>;
 
 export function UnarchiveParticipant(arg1:any):Promise<void>;

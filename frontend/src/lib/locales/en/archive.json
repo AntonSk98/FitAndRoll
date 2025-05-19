@@ -21,7 +21,10 @@
             "actions": {
                 "unarchive": "Restore",
                 "unarchivePrePrompt": "Are you sure that",
-                "unarchivePostPrompt": "shall be restored?"
+                "unarchivePostPrompt": "shall be restored?",
+                "purgePrePrompt": "Are you sure you want to permanently delete",
+                "purgePostPrompt": "? This will also remove all related data.",
+                "purgeBoldPrompt": "This action cannot be undone!"
             }
         }
     }

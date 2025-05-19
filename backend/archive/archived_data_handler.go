@@ -4,6 +4,7 @@ import (
 	"fit_and_roll/backend/common"
 	"fit_and_roll/backend/config"
 	"fit_and_roll/backend/courses"
+	"fit_and_roll/backend/membercardattendance"
 	"fit_and_roll/backend/participants"
 	"fmt"
 
@@ -149,6 +150,30 @@ func (handler *ArchivedDataHandler) UnarchiveCourse(id *uint) error {
 		}
 
 		tx.Save(&archivedCourse)
+
+		return nil
+	})
+}
+
+// Purges a participant by identifier
+// This permanently deletes the participant and their associated data
+func (handler *ArchivedDataHandler) PurgeParticipant(id *uint) error {
+	if err := assertIdNotNull(id); err != nil {
+		return err
+	}
+
+	return handler.dbManager.Transactional(func(tx *gorm.DB) error {
+		if err := tx.Unscoped().Where("participant_id = ?", id).Delete(&membercardattendance.MemberCardAttendance{}).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Unscoped().Where("participant_id = ?", id).Delete(&participants.MemberCard{}).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Unscoped().Delete(&participants.Participant{}, id).Error; err != nil {
+			return err
+		}
 
 		return nil
 	})

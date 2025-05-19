@@ -21,7 +21,10 @@
             "actions": {
                 "unarchive": "Wiederherstellen",
                 "unarchivePrePrompt": "Bist du dir sicher, dass du",
-                "unarchivePostPrompt": "wiederherstellen möchtest?"
+                "unarchivePostPrompt": "wiederherstellen möchtest?",
+                "purgePrePrompt": "Bist du dir sicher, dass du",
+                "purgePostPrompt": " dauerhaft löschen willst? Dabei werden auch alle zugehörigen Daten gelöscht.",
+                "purgeBoldPrompt": "Das kann nicht rückgängig gemacht werden!"
             }
         }
     }

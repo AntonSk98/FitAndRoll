@@ -10,8 +10,7 @@
     import MemberCard from "./MemberCard.svelte";
     import { i18n } from "../common/i18n";
 
-    import {LogError} from "../../wailsjs/runtime/runtime"
-    import { json } from "svelte-i18n";
+    import { LogError } from "../../wailsjs/runtime/runtime";
 
     const PARTICIPANTS_OVERVIEW = "participants_overview";
     const ADD_NEW_PARTICIPANT = "new_participant";
@@ -32,7 +31,9 @@
         FindParticipants(filter, pagination ?? { currentPage: 1, pageSize: 5 })
             .then((page) => (participantsPage = page))
             .catch((err) => {
-                LogError(`Error while fetching courses. Filter: ${filter}. Pagination: ${pagination}. Error: ${err}`);
+                LogError(
+                    `Error while fetching courses. Filter: ${filter}. Pagination: ${pagination}. Error: ${err}`,
+                );
                 toastError();
             });
     }
@@ -59,7 +60,9 @@
                 findParticipants(tableRef?.getFilter());
             })
             .catch((error) => {
-                LogError(`Error while archiving a participant. Participant details: ${selectedParticipant}. Error: ${error}`);
+                LogError(
+                    `Error while archiving a participant. Participant details: ${selectedParticipant}. Error: ${error}`,
+                );
                 toastError();
             });
     }
@@ -87,12 +90,24 @@
             OPEN_FILE_ERROR: i18n("participants.import.openFileError"),
             NO_SHEET_ERROR: i18n("participants.import.noSheetError"),
             GET_ROWS_ERROR: i18n("participants.import.getRowsError"),
-            REQUIRED_COLUMNS_ERROR: i18n("participants.import.requiredColumnsError"),
-            REQUIRED_PARAMETER_MISSING_ERROR: i18n("participants.import.requiredParameterMissingError"),
-            TRAINING_START_PARSE_ERROR: i18n("participants.import.trainingStartParseError"),
-            BIRTHDAY_PARSE_ERROR: i18n("participants.import.birthdayParseError"),
-            PRIVACY_POLICY_ACCEPTED_AT_PARSE_ERROR: i18n("participants.import.privacyPolicyAcceptedAtParseError"),
-            PRIVACY_POLICY_ACCEPTED_AT_REQUIRED_ERROR: i18n("participants.import.privacyPolicyAcceptedAtRequiredError"),
+            REQUIRED_COLUMNS_ERROR: i18n(
+                "participants.import.requiredColumnsError",
+            ),
+            REQUIRED_PARAMETER_MISSING_ERROR: i18n(
+                "participants.import.requiredParameterMissingError",
+            ),
+            TRAINING_START_PARSE_ERROR: i18n(
+                "participants.import.trainingStartParseError",
+            ),
+            BIRTHDAY_PARSE_ERROR: i18n(
+                "participants.import.birthdayParseError",
+            ),
+            PRIVACY_POLICY_ACCEPTED_AT_PARSE_ERROR: i18n(
+                "participants.import.privacyPolicyAcceptedAtParseError",
+            ),
+            PRIVACY_POLICY_ACCEPTED_AT_REQUIRED_ERROR: i18n(
+                "participants.import.privacyPolicyAcceptedAtRequiredError",
+            ),
             DEFAULT_ERROR: i18n("participants.import.defaultError"),
         };
 
@@ -104,7 +119,9 @@
             .catch((error) => {
                 LogError(`Error while importing participants. Error: ${error}`);
                 const jsonError = JSON.parse(error);
-                toastError(`${jsonError?.id ? `${jsonError.id}: ` : ''}${CODE_TO_MESSAGE[jsonError?.code] ?? CODE_TO_MESSAGE.DEFAULT_ERROR}`);
+                toastError(
+                    `${jsonError?.id ? `${jsonError.id}: ` : ""}${CODE_TO_MESSAGE[jsonError?.code] ?? CODE_TO_MESSAGE.DEFAULT_ERROR}`,
+                );
             });
     }
 </script>

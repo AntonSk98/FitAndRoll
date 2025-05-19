@@ -10,6 +10,10 @@ export function FindArchivedParticipants(arg1, arg2) {
   return window['go']['archive']['ArchivedDataHandler']['FindArchivedParticipants'](arg1, arg2);
 }
 
+export function PurgeParticipant(arg1) {
+  return window['go']['archive']['ArchivedDataHandler']['PurgeParticipant'](arg1);
+}
+
 export function UnarchiveCourse(arg1) {
   return window['go']['archive']['ArchivedDataHandler']['UnarchiveCourse'](arg1);
 }

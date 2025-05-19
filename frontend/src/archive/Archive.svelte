@@ -8,6 +8,7 @@
         FindArchivedParticipants,
         UnarchiveCourse,
         UnarchiveParticipant,
+        PurgeParticipant
     } from "../../wailsjs/go/archive/ArchivedDataHandler";
     import {LogError} from "../../wailsjs/runtime/runtime"
 
@@ -42,6 +43,10 @@
 
     function unarchiveCourseSupplier(courseId) {
         return UnarchiveCourse(courseId);
+    }
+
+    function purgeParticipantSupplier(participantId) {
+        return PurgeParticipant(participantId);
     }
 </script>
 
@@ -94,6 +99,7 @@
         header={i18n("archive.archivedParticipants.header")}
         loadArchivedDataPromise={archivedParticipantsSupplier}
         unarchiveEntryPromise={unarchiveParticipantSupplier}
+        purgeEntryPromise={purgeParticipantSupplier}
         onComponentDestroyed={() => resetView()}
     />
 {/if}

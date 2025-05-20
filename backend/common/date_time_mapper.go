@@ -90,6 +90,26 @@ func ToDateString(dateTime time.Time) string {
 	return dateTime.Format(time.DateOnly)
 }
 
+// ToDateStringOrEmpty converts a time.Time value to astring in "YYYY-MM-DD" format.
+// If the passed time is empty the empty string is returned.
+func ToDateStringOrEmpty(dateTime *time.Time) string {
+	if dateTime == nil {
+		return ""
+	}
+
+	return ToDateString(*dateTime)
+}
+
+// Returns a string if it is not nil.
+// Otherwise an empty string is returned.
+func EmptyIfNil(str *string) string {
+	if str == nil {
+		return ""
+	}
+
+	return *str
+}
+
 // ToDateTimeString converts an RFC3339Nano formatted string to "YYYY-MM-DD HH:MM" format.
 // Returns an error if parsing fails.
 func ToDateTimeString(dateWithTimezoneString string) (string, error) {
@@ -112,6 +132,15 @@ func FormatDeletedAt(optionalTimestamp gorm.DeletedAt) string {
 		return ToDateTime(optionalTimestamp.Time) // Assuming ToDateTime is already in common
 	}
 	return ""
+}
+
+// BoolToString returns "1" is the passed boolean is true, "0" otherwise.
+func BoolToString(boolean bool) string {
+	if boolean {
+		return "1"
+	}
+
+	return "0"
 }
 
 func ConvertUTCToBerlin(utcTime time.Time) (time.Time, error) {

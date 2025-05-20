@@ -86,18 +86,43 @@ func (handler *ExportDataHandler) withParticipantsSheet(file *excelize.File) err
 		return err
 	}
 	sheetName := "Participants"
-	headers := []string{"Name", "Surname", "Group", "Joined_At", "Archived_At"}
+	headers := []string{
+		"Vorname",
+		"Nachname",
+		"Gruppe",
+		"Telefon",
+		"E-Mail",
+		"Geburtsdatum",
+		"Trainingsbeginn",
+		"Archiviert Datum",
+		"Dateschutzerklärung",
+		"Datenschutzerklärung Datum",
+		"Adresse",
+		"Eltern",
+		"Sonstiges",
+	}
 	createSheet(headers, sheetName, file)
 
 	for i, participant := range participants {
+		row := []interface{}{
+			participant.Name,
+			participant.Surname,
+			participant.Group,
+			common.EmptyIfNil(participant.Phone),
+			common.EmptyIfNil(participant.Email),
+			common.ToDateStringOrEmpty(participant.Birthday),
+			common.ToDateString(participant.CreatedAt),
+			common.FormatDeletedAt(participant.Deleted),
+			common.BoolToString(participant.PrivacyPolicy),
+			common.ToDateStringOrEmpty(participant.PrivacyPolicyAcceptedAt),
+			common.EmptyIfNil(participant.Address),
+			common.EmptyIfNil(participant.Parents),
+			common.EmptyIfNil(participant.Notes),
+		}
 		file.SetSheetRow(
 			sheetName,
 			toCell(i),
-			&[]any{participant.Name,
-				participant.Surname,
-				participant.Group,
-				common.ToDateTime(participant.CreatedAt),
-				common.FormatDeletedAt(participant.Deleted)},
+			&row,
 		)
 	}
 

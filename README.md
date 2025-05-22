@@ -40,6 +40,7 @@ Fit&Roll simplifies the process of course management, making it more efficient a
 - **⚠️ Caution**: Deleting or renaming the `.db` file will erase all the application data.
 - You are encouraged to make copies of the `.db` file for backup purposes.
 
+# 🚀 Release 1.X
 ## 🌍 Changing Locale
 
 - The application supports two languages: **German** (default) and **English**.
@@ -232,6 +233,7 @@ Fit&Roll simplifies the process of course management, making it more efficient a
   <p><strong>Figure 1:</strong> Export</p>
 </div>
 
+# 🛸 Release 2.X
 ## 🧾 Extended Participant Data Model
 
 The **Participant** model has been extended to include more comprehensive personal and training-related information. The following fields have been added:

@@ -55,6 +55,7 @@
             "birthdayParseError": "Das Geburtsdatum konnte nicht gelesen werden. Bitte prüfe das Format.",
             "privacyPolicyAcceptedAtParseError": "Das Datum der Zustimmung zur Datenschutzrichtlinie konnte nicht gelesen werden.",
             "privacyPolicyAcceptedAtRequiredError": "In der Datei ist die Datenschutz-Zustimmung gesetzt, aber das Datum fehlt.",
+            "noDataError": "Keine Daten in der Datei vorhanden.",
             "defaultError": "Beim Importieren der Datei ist ein Fehler passiert. Bitte prüfe die Daten und versuch es nochmal."
         }
     }

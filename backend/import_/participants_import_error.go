@@ -13,6 +13,7 @@ const (
 	BIRTHDAY_PARSE_ERROR                      = "BIRTHDAY_PARSE_ERROR"
 	PRIVACY_POLICY_ACCEPTED_AT_PARSE_ERROR    = "PRIVACY_POLICY_ACCEPTED_AT_PARSE_ERROR"
 	PRIVACY_POLICY_ACCEPTED_AT_REQUIRED_ERROR = "PRIVACY_POLICY_ACCEPTED_AT_REQUIRED_ERROR"
+	NO_DATA_ERROR                             = "NO_DATA_ERROR"
 )
 
 // ParticipantsImportError represents an error that occurred during the import of participants.

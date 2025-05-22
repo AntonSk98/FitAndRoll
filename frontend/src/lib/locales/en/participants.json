@@ -55,6 +55,7 @@
             "birthdayParseError": "The birthday could not be parsed. Please check the format.",
             "privacyPolicyAcceptedAtParseError": "The privacy policy acceptance date could not be parsed.",
             "privacyPolicyAcceptedAtRequiredError": "Privacy policy acceptance date is required when the policy is marked as accepted.",
+            "noDataError": "No data present the file.",
             "defaultError": "An unexpected error occurred during file import. Please check your data and try again."
         }
     }

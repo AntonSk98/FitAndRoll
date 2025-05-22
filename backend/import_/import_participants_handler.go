@@ -110,29 +110,47 @@ func (handler *ImportParticipantsHandler) selectImportParticipantsFile() (string
 
 func (handler *ImportParticipantsHandler) extractParticipantRows(importParticipantsFilePath string) ([][]string, error) {
 	importParticipantsFile, err := excelize.OpenFile(importParticipantsFilePath)
-
 	if err != nil {
-		return nil, &ParticipantsImportError{
-			Code: OPEN_FILE_ERROR,
-		}
+		return nil, &ParticipantsImportError{Code: OPEN_FILE_ERROR}
 	}
-
 	defer importParticipantsFile.Close()
 
 	sheetName := importParticipantsFile.GetSheetName(0)
 	if sheetName == "" {
-		return nil, &ParticipantsImportError{
-			Code: NO_SHEET_ERROR,
-		}
+		return nil, &ParticipantsImportError{Code: NO_SHEET_ERROR}
 	}
 
-	rows, err := importParticipantsFile.GetRows(sheetName)
-
+	rowsRaw, err := importParticipantsFile.GetRows(sheetName)
 	if err != nil {
-		return nil, &ParticipantsImportError{
-			Code: GET_ROWS_ERROR,
-		}
+		return nil, &ParticipantsImportError{Code: GET_ROWS_ERROR}
 	}
 
-	return rows, nil
+	if len(rowsRaw) == 0 {
+		return nil, &ParticipantsImportError{Code: NO_DATA_ERROR}
+	}
+
+	// Expected number of columns from header row
+	expectedColumns := len(rowsRaw[0])
+	var normalizedRows [][]string
+
+	// Iterate starting from the first row (including header)
+	for rowIndex := 1; rowIndex <= len(rowsRaw); rowIndex++ {
+		normalizedRow := make([]string, expectedColumns)
+
+		for colIndex := 1; colIndex <= expectedColumns; colIndex++ {
+			cellName, err := excelize.CoordinatesToCellName(colIndex, rowIndex)
+			if err != nil {
+				return nil, &ParticipantsImportError{Code: GET_ROWS_ERROR}
+			}
+			val, err := importParticipantsFile.GetCellValue(sheetName, cellName)
+			if err != nil {
+				return nil, &ParticipantsImportError{Code: GET_ROWS_ERROR}
+			}
+			normalizedRow[colIndex-1] = val
+		}
+
+		normalizedRows = append(normalizedRows, normalizedRow)
+	}
+
+	return normalizedRows, nil
 }

@@ -108,6 +108,7 @@
             PRIVACY_POLICY_ACCEPTED_AT_REQUIRED_ERROR: i18n(
                 "participants.import.privacyPolicyAcceptedAtRequiredError",
             ),
+            NO_DATA_ERROR: i18n("participants.import.noDataError"),
             DEFAULT_ERROR: i18n("participants.import.defaultError"),
         };
 

@@ -9,7 +9,11 @@
 Fit&Roll simplifies the process of course management, making it more efficient and user-friendly.
 
 ## Table of Contents
+### 🧑‍🏫 Common
 - [⚙️ Starting the application](#️-starting-the-application)
+- [👨‍💻 For developers](#-for-developers)
+- [📑 License](#-license)
+### 🚀 Release 1.X
 - [🌍 Changing locale](#-changing-locale)
 - [🔍 Scaling the Application](#-scaling-the-application)
 - [📚 Managing Courses: Create, Update & Archive](#-managing-courses-create-update--archive)
@@ -20,10 +24,10 @@ Fit&Roll simplifies the process of course management, making it more efficient a
 - [📊 Statistics](#-statistics)
 - [🗃️ Archive](#️-archive)
 - [📤 Export](#-export)
-- [🖼️ Application Gallery](#️-application-gallery)
-- [👨‍💻 For developers](#-for-developers)
-- [📑 License](#-license)
-
+### 🛸 Release 2.X
+- [🧾 Extended Participant Data Model](#-extended-participant-data-model)
+- [📥 Participant Import](#-participant-import)
+- [🧹 Purging Participants](#-purging-participants)
 
 ## ⚙️ Starting the Application
 
@@ -42,9 +46,14 @@ Fit&Roll simplifies the process of course management, making it more efficient a
 - To access the language selector, simply click on the **logo** in the top bar.
 - To change the language, click on the **language selector** and choose your preferred language.
 
-Here’s a preview of the language selection process:
-
-![Change Locale](documentation/change_locale.gif)
+<div>
+  <img src="documentation/locale_de.png" alt="German Locale" />
+  <p><strong>Figure 1:</strong> German Language Selected</p>
+</div>
+<div>
+  <img src="documentation/locale_en.png" alt="English Locale" />
+  <p><strong>Figure 2:</strong> English Language Selected</p>
+</div>
 
 ## 🔍 Scaling the Application
 
@@ -62,9 +71,22 @@ Here’s a preview of the language selection process:
 - If a course is no longer active, you can **archive** it.
 - All currently active courses are listed in the **Course Overview** table.
 
-Here’s a preview of how to manage your courses:
-
-![Manage Courses](documentation/manage_courses.gif)
+<div>
+  <img src="documentation/course_overview.png" alt="Manage Courses" />
+  <p><strong>Figure 1:</strong> Course Overview</p>
+</div>
+<div>
+  <img src="documentation/create_course.png" alt="Create a Course" />
+  <p><strong>Figure 2:</strong> Create a Course</p>
+</div>
+<div>
+  <img src="documentation/update_course.png" alt="Update a Course" />
+  <p><strong>Figure 3:</strong> Update a Course</p>
+</div>
+<div>
+  <img src="documentation/archive_course.png" alt="Archive a Course" />
+  <p><strong>Figure 4:</strong> Archive a Course</p>
+</div>
 
 ## 🗂️ Managing Participants: Create, Update & Archive
 
@@ -75,9 +97,18 @@ Here’s a preview of how to manage your courses:
 - If a participant no longer attends any trainings, you can **archive** them.
 - All active participants are displayed in the **Participants Overview** table.
 
-Here’s a preview of how to manage participants:
-
-![Manage Participants](documentation/manage_participants.gif)
+<div>
+  <img src="documentation/participants_overview.png" alt="Participants overview" />
+  <p><strong>Figure 1:</strong> Participants Overview</p>
+</div>
+<div>
+  <img src="documentation/new_participant.png" alt="Create a Participant" />
+  <p><strong>Figure 2:</strong> Create a Participant</p>
+</div>
+<div>
+  <img src="documentation/update_participant.png" alt="Update a Participant" />
+  <p><strong>Figure 3:</strong> Update a Participant</p>
+</div>
 
 ## 🏅 Member Card Overview
 
@@ -86,9 +117,14 @@ Here’s a preview of how to manage participants:
 - If a member card was issued by mistake and the cardholder hasn't attended any courses, the card can be **returned**.
 - Clicking on a member card will display the **history of attended courses**.
 
-Here’s a preview of the **Member Card** component in action:
-
-![Member Card](documentation/member_card.gif)
+<div>
+  <img src="documentation/unused_card.png" alt="Unused member card" />
+  <p><strong>Figure 1:</strong> Unused member card</p>
+</div>
+<div>
+  <img src="documentation/card_history.png" alt="Card history" />
+  <p><strong>Figure 2:</strong> Card history</p>
+</div>
 
 ## 🧾 Attending Courses
 
@@ -102,7 +138,26 @@ Here’s a preview of the **Member Card** component in action:
 - ⚠️ **Important:**  
   Removing an attendance that used a **member card** will **restore one available slot** on that card.
 
-![Attending Courses](documentation/attending_courses.gif)
+<div>
+  <img src="documentation/participate_with_card.png" alt="Attending a course with a member card" />
+  <p><strong>Figure 1:</strong> Attending a course with a member card</p>
+</div>
+<div>
+  <img src="documentation/cannot_attend_without_card.png" alt="No valid member card" />
+  <p><strong>Figure 2:</strong> No valid member card</p>
+</div>
+<div>
+  <img src="documentation/participate_with_several_cards.png" alt="Several valid member cards" />
+  <p><strong>Figure 3:</strong> Several valid member cards</p>
+</div>
+<div>
+  <img src="documentation/trial_attendance.png" alt="Trial session" />
+  <p><strong>Figure 4:</strong> Trial session</p>
+</div>
+<div>
+  <img src="documentation/participate_without_card.png" alt="Attending without a member card" />
+  <p><strong>Figure 5:</strong> Attending without a member card</p>
+</div>
 
 ## 📈 Course Participation History
 
@@ -114,7 +169,18 @@ Here’s a preview of the **Member Card** component in action:
 
 - Each participation history view offers **advanced filtering options** to help you quickly find relevant data.
 
-![Participation History](documentation/participation_history.gif)
+<div>
+  <img src="documentation/course_participation_history.png" alt="Course Participation History" />
+  <p><strong>Figure 1:</strong> Course Participation History</p>
+</div>
+<div>
+  <img src="documentation/overall_participation_history.png" alt="Overall Participation History" />
+  <p><strong>Figure 2:</strong> Overall Participation History</p>
+</div>
+<div>
+  <img src="documentation/delete_participation_entry.png" alt="Delete participation entry" />
+  <p><strong>Figure 3:</strong> Delete participation entry</p>
+</div>
 
 ## 📊 Statistics
 
@@ -129,7 +195,14 @@ Here’s a preview of the **Member Card** component in action:
 - All statistics components include a **date range filter** to help you narrow down and focus your analysis.
 - All statistics components also include archived entries.
 
-![Statistics](documentation/statistics.gif)
+<div>
+  <img src="documentation/participant_statistics.png" alt="Participant Statistics" />
+  <p><strong>Figure 1:</strong> Participant Statistics</p>
+</div>
+<div>
+  <img src="documentation/course_statistics.png" alt="Course Statistics" />
+  <p><strong>Figure 2:</strong> Course Statistics</p>
+</div>
 
 ## 🗃️ Archive
 
@@ -137,50 +210,99 @@ Here’s a preview of the **Member Card** component in action:
 - View all **archived courses** and bring them back into the active view.
 - Both archive components include **filtering options** to help you quickly find specific archived entries.
 
-![Archive](documentation/archive.gif)
+<div>
+  <img src="documentation/archive_overview.png" alt="Archive Overview" />
+  <p><strong>Figure 1:</strong> Archive Overview</p>
+</div>
+<div>
+  <img src="documentation/archived_participants.png" alt="Archived Participants" />
+  <p><strong>Figure 2:</strong> Archived Participants</p>
+</div>
+<div>
+  <img src="documentation/archived_courses.png" alt="Archived Courses" />
+  <p><strong>Figure 3:</strong> Archived Courses</p>
+</div>
 
 ## 📤 Export
 
 - For advanced analysis, you can **export all current database data** to an **Excel file**.
 
-![Export](documentation/export.gif)
+<div>
+  <img src="documentation/export.png" alt="Export" />
+  <p><strong>Figure 1:</strong> Export</p>
+</div>
 
-## 🖼️ Application Gallery
+## 🧾 Extended Participant Data Model
 
-### Course Overview
-![All Courses](documentation/images/all_courses.png)
-![Add Course](documentation/images/new_course.png)
-![Update Course](documentation/images/update_course.png)
-![Archive Course](documentation/images/archive_course.png)
+The **Participant** model has been extended to include more comprehensive personal and training-related information. The following fields have been added:
+- **Phone number**  
+- **Email address**  
+- **Date of birth**  
+- **Start of training date**  
+- **Privacy policy accepted** *(yes/no)*  
+- **Privacy policy accepted date**  
+- **Address**  
+- **Parent or guardian information** *(for underage participants)*  
+- **Additional notes**
 
-### Participants Overview
-![All Participants](documentation/images/all_participants.png)
-![New Participant](documentation/images/new_participant.png)
-![Update Participant](documentation/images/update_participant.png)
-![Archive Participant](documentation/images/archive_participant.png)
+> **Note:** When exporting participant data, these new fields are included to provide a more comprehensive dataset.
+<div>
+  <img src="documentation/participant_model_v2.png" alt="Extended Participant Form" />
+  <p><strong>Figure 1:</strong> Extended Participant Form</p>
+</div>
 
+## 📥 Participant Import
 
-### Cards Overview
-![Cards Overview](documentation/images/cards.png)
-![Card Participation History](documentation/images/card_history.png)
-![Remove Unused Card](documentation/images/unused_card.png)
+You can now import participants directly from an Excel file.
 
+### 📄 File Format Requirements
 
-### Attending Courses
-![Attending Courses Overview](documentation/images/attend_course.png)
-![Confirmation Modal](documentation/images/attend_course_confirm.png)
+The Excel file **must contain exactly 12 columns** in the following order, each following specific rules:
 
-### Course Participation History
-![Course Participation History](documentation/images/participation_history.png)
+1. **Name** – *Required*  
+2. **Surname** – *Required*  
+3. **Group** – *Required*  
+4. **Phone** – *Optional* — No strict format  
+5. **Email** – *Optional* — No strict format  
+6. **Date of Birth** – *Optional* — Must be in `YYYY-MM-DD` format  
+7. **Start of Training Date** – *Optional* — If missing, the current date is used. If provided, must be in `YYYY-MM-DD` format  
+8. **Privacy Policy** – *Optional* — Defaults to `false`. Accepted values: `1` (accepted), `0` (not accepted)  
+9. **Privacy Policy Accepted Date** – *Required if privacy policy is accepted* — Must be in `YYYY-MM-DD` format  
+10. **Address** – *Optional* — No strict format  
+11. **Parents** – *Optional* — No strict format  
+12. **Notes** – *Optional* — For any additional information; no strict format
 
-### Statistics
-![Participant statistics](documentation/images/participants_statistics.png)
-![Course statistics](documentation/images/course_statistics.png)
+⚠️ **Important:** The combination of **Name** and **Surname** acts as a unique identifier for participants.
 
-### Archive
-![Overall](documentation/images/archive.png)
-![Archived courses](documentation/images/archived_courses.png)
-![Archived participants](documentation/images/archived_participants.png)
+> If either attribute changes, the system will treat it as a new participant and add a new entry.
+
+> If the **Name** and **Surname** remain the same but other attributes change, the existing participant’s record will be updated accordingly.
+
+📥 [Download Sample Excel File with Participant Data](documentation/import_participants_sample.xlsx)
+
+<div>
+  <img src="documentation/import_participants.png" alt="Import Participants Button" />
+  <p><strong>Figure 1:</strong> Import Participants Button</p>
+</div>
+
+## 🧹 Purging Participants
+
+You can now **permanently remove** a participant from the application. 
+
+This feature might be useful in the following cases:
+
+- A participant was created by mistake.
+- A participant requests deletion of all their data from the application.
+
+⚠️ **Warning:** This action **cannot be undone!**  
+Deleting a participant will also remove **all associated member cards** and **participation history** permanently.
+
+Purging a participant is accessible via the **Archived Participants** component.
+
+<div>
+  <img src="documentation/purge_participant.png" alt="Purge Participant Button" />
+  <p><strong>Figure 1:</strong> Purge Participant Button</p>
+</div>
 
 ## 👨‍💻 For developers
 

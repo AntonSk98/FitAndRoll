@@ -48,15 +48,15 @@
             "selectFileError": "Bitte wähle eine Datei aus.",
             "openFileError": "Die Datei konnte nicht geöffnet werden.",
             "noSheetError": "Es wurde kein Tabellenblatt in der Datei gefunden.",
-            "getRowsError": "Die Zeilen konnten nicht aus dem Blatt gelesen werden.",
-            "requiredColumnsError": "Die Datei muss genau 12 Spalten haben.",
+            "getRowsError": "Die Zeilen konnten nicht aus dem Tabellenblatt gelesen werden.",
+            "requiredColumnsError": "Die Datei muss genau 12 Spalten enthalten.",
             "requiredParameterMissingError": "Vorname, Nachname oder Gruppe fehlt.",
-            "trainingStartParseError": "Das Trainingsstart-Datum konnte nicht gelesen werden. Bitte prüfe das Format.",
-            "birthdayParseError": "Das Geburtsdatum konnte nicht gelesen werden. Bitte prüfe das Format.",
-            "privacyPolicyAcceptedAtParseError": "Das Datum der Zustimmung zur Datenschutzrichtlinie konnte nicht gelesen werden.",
-            "privacyPolicyAcceptedAtRequiredError": "In der Datei ist die Datenschutz-Zustimmung gesetzt, aber das Datum fehlt.",
-            "noDataError": "Keine Daten in der Datei vorhanden.",
-            "defaultError": "Beim Importieren der Datei ist ein Fehler passiert. Bitte prüfe die Daten und versuch es nochmal."
+            "trainingStartParseError": "Das Startdatum des Trainings konnte nicht gelesen werden. Bitte überprüfe das Datumsformat.",
+            "birthdayParseError": "Das Geburtsdatum konnte nicht gelesen werden. Bitte überprüfe das Datumsformat.",
+            "privacyPolicyAcceptedAtParseError": "Das Datum der Zustimmung zur Datenschutzerklärung konnte nicht gelesen werden. Bitte überprüfe das Datumsformat.",
+            "privacyPolicyAcceptedAtRequiredError": "Die Datenschutzerklärung wurde akzeptiert, aber das Zustimmungsdatum fehlt.",
+            "noDataError": "Die Datei enthält keine Daten.",
+            "defaultError": "Beim Importieren der Datei ist ein Fehler aufgetreten. Bitte überprüfe die Daten und versuche es erneut."
         }
     }
 }

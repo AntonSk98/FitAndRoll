@@ -80,15 +80,10 @@ func (participant *Participant) Update(command ParticipantCommand) {
 	}
 
 	if command.PrivacyPolicy {
-		if command.PrivacyPolicyAcceptedAt != nil {
-			participant.PrivacyPolicyAcceptedAt = command.PrivacyPolicyAcceptedAt
-		} else {
+		if participant.PrivacyPolicyAcceptedAt == nil {
 			now := time.Now()
 			participant.PrivacyPolicyAcceptedAt = &now
-
 		}
-		now := time.Now()
-		participant.PrivacyPolicyAcceptedAt = &now
 	} else {
 		participant.PrivacyPolicyAcceptedAt = nil
 	}

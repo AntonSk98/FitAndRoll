@@ -31,7 +31,7 @@ Fit&Roll simplifies the process of course management, making it more efficient a
 
 ## ⚙️ Starting the Application
 
-- The compiled executables are located in the `release` directory.
+- The compiled executables are located in the [`release`](./release) directory.
 - On **Linux**, download the `binary` file to run the application.
 - On **Windows**, download the `.exe` file to run the application.
 - Create a new folder on your machine and transfer the application file into this folder.

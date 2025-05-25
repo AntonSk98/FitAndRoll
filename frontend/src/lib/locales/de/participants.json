@@ -2,7 +2,7 @@
     "participants": {
         "header": "Teilnehmerübersicht",
         "name": "Vorname",
-        "surname": "Name",
+        "surname": "Nachname",
         "group": "Gruppe",
         "phone": "Telefon",
         "email": "E-Mail",
@@ -47,8 +47,8 @@
         "import": {
             "selectFileError": "Bitte wähle eine Datei aus.",
             "openFileError": "Die Datei konnte nicht geöffnet werden.",
-            "noSheetError": "Es wurde kein Tabellenblatt in der Datei gefunden.",
-            "getRowsError": "Die Zeilen konnten nicht aus dem Tabellenblatt gelesen werden.",
+            "noSheetError": "Es wurde kein Reiter in der Datei gefunden.",
+            "getRowsError": "Die Zeilen in der Exceldatei konnten nicht gelesen werden.",
             "requiredColumnsError": "Die Datei muss genau 12 Spalten enthalten.",
             "requiredParameterMissingError": "Vorname, Nachname oder Gruppe fehlt.",
             "trainingStartParseError": "Das Startdatum des Trainings konnte nicht gelesen werden. Bitte überprüfe das Datumsformat.",
